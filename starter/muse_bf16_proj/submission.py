@@ -4,11 +4,10 @@
 prepare() packs weights once (untimed). kernel_fn is captured as a CUDA graph:
 branching on shapes/config only, no host syncs.
 
-Official H200 check 84e26dd270dc4051: 4509.4 µs (1.071x vs SGLang).
-This revision floors the two largest gaps:
-- router: BF16 x, one FP32 weight pass, in-kernel split-K reduce (M<=32);
-  fused hi+lo tensor-core GEMM for M>32 (one launch, no extra reduce)
-- pooler M=2..16: SGLang dsv3 fused-A GEMM (cp.async + MMA)
+Router (floor target ~1.8 µs): BF16 x streamed against FP32 W in one kernel,
+in-kernel split-K reduce, no host cast. Used for M<=16. Above that, hi+lo mm.
+Pooler (floor target ~14 µs): Hopper-style streaming GEMV with x in smem
+(kRows=2) for M<=8. Larger M stays on NN torch.mm.
 """
 
 from typing import Optional, TypedDict
@@ -44,11 +43,13 @@ BF16_LAYERS = ("qkv_gate", "o", "pooler", "unpooler")
 WARMUP_MS = (1, 5, 7, 8, 9, 16, 32, 33, 128, 130, 256, 512, 1000)
 TINY_N_MAX = 1024
 TINY_M_MAX = 32
-ROUTER_CUDA_MAX_M = 32
+ROUTER_CUDA_MAX_M = 16
 ROUTER_K = 8192
 ROUTER_SPLIT_K = 32
 ROUTER_N_TILE = 64
-FUSED_A_MAX_M = 16
+POOLER_N = 4096
+POOLER_K = 8192
+POOLER_CUDA_MAX_M = 8
 
 _hopper_gemv = None
 _use_hopper_gemv = None
@@ -56,15 +57,13 @@ _tiny_gemm = None
 _can_use_tiny = None
 _router_gemm = None
 _router_gemm_ok = None
-_fused_a = None
-_router_mod = None
-_hilo_kernel = None
+_cuda_mod = None
+_pooler_cuda_ok = True
 
 
-_ROUTER_CU = r"""
+_CUDA = r"""
 #include <torch/extension.h>
 #include <ATen/cuda/CUDAContext.h>
-#include <c10/cuda/CUDAStream.h>
 #include <cuda_bf16.h>
 #include <cuda_runtime.h>
 #include <cstdint>
@@ -82,7 +81,7 @@ constexpr int kRows = kHidden / kSplitK;
 constexpr int kIters = kRows / kPhases;
 constexpr int kRedPhases = kPhases / 2;
 
-struct Params {
+struct RouterParams {
   const __nv_bfloat16* __restrict__ x;
   const float* __restrict__ w;
   float* __restrict__ out;
@@ -94,7 +93,7 @@ struct Params {
 };
 
 __global__ void __launch_bounds__(kThreads)
-router_kernel(const Params params) {
+router_kernel(const RouterParams params) {
   const int split = blockIdx.x;
   const int n_tile = blockIdx.y;
   const int group = threadIdx.x % kColGroups;
@@ -216,6 +215,98 @@ router_kernel(const Params params) {
   }
 }
 
+__device__ __forceinline__ float dot8(const float4 wv, const float4 xv) {
+  const __nv_bfloat16* w2 = reinterpret_cast<const __nv_bfloat16*>(&wv);
+  const __nv_bfloat16* x2 = reinterpret_cast<const __nv_bfloat16*>(&xv);
+  float acc = 0.f;
+#pragma unroll
+  for (int i = 0; i < 8; ++i) {
+    acc = fmaf(__bfloat162float(w2[i]), __bfloat162float(x2[i]), acc);
+  }
+  return acc;
+}
+
+template <int MaxM, int N, int K, int kRowC, int kUnroll, int kNumWarps>
+__global__ void __launch_bounds__(kNumWarps * 32)
+pooler_gemv_kernel(const __nv_bfloat16* __restrict__ x,
+                   const __nv_bfloat16* __restrict__ w,
+                   __nv_bfloat16* __restrict__ out,
+                   int M) {
+  extern __shared__ __nv_bfloat16 sx[];
+  constexpr int kVec = 8;
+  const int tid = threadIdx.x;
+#pragma unroll
+  for (int m = 0; m < MaxM; ++m) {
+    if (m < M) {
+      const __nv_bfloat16* xr = x + static_cast<int64_t>(m) * K;
+      __nv_bfloat16* sr = sx + static_cast<int64_t>(m) * K;
+      for (int i = tid * kVec; i < K; i += kNumWarps * 32 * kVec) {
+        *reinterpret_cast<float4*>(sr + i) = *reinterpret_cast<const float4*>(xr + i);
+      }
+    }
+  }
+  __syncthreads();
+
+  const int warp = tid / 32;
+  const int lane = tid % 32;
+  const int r0 = (blockIdx.x * kNumWarps + warp) * kRowC;
+  if (r0 >= N) return;
+
+  float acc[MaxM][kRowC];
+#pragma unroll
+  for (int m = 0; m < MaxM; ++m)
+#pragma unroll
+    for (int r = 0; r < kRowC; ++r) acc[m][r] = 0.f;
+
+  constexpr int kStep = 32 * kVec * kUnroll;
+  for (int k = lane * kVec * kUnroll; k < K; k += kStep) {
+    float4 xv[MaxM][kUnroll];
+#pragma unroll
+    for (int m = 0; m < MaxM; ++m) {
+      if (m < M) {
+#pragma unroll
+        for (int u = 0; u < kUnroll; ++u) {
+          xv[m][u] = *reinterpret_cast<const float4*>(sx + static_cast<int64_t>(m) * K + k + u * kVec);
+        }
+      }
+    }
+#pragma unroll
+    for (int r = 0; r < kRowC; ++r) {
+      if (r0 + r < N) {
+        const __nv_bfloat16* wr = w + static_cast<size_t>(r0 + r) * K + k;
+        float4 wv[kUnroll];
+#pragma unroll
+        for (int u = 0; u < kUnroll; ++u) {
+          wv[u] = __ldcs(reinterpret_cast<const float4*>(wr + u * kVec));
+        }
+#pragma unroll
+        for (int m = 0; m < MaxM; ++m) {
+          if (m < M) {
+#pragma unroll
+            for (int u = 0; u < kUnroll; ++u) acc[m][r] += dot8(wv[u], xv[m][u]);
+          }
+        }
+      }
+    }
+  }
+
+#pragma unroll
+  for (int m = 0; m < MaxM; ++m) {
+    if (m < M) {
+#pragma unroll
+      for (int r = 0; r < kRowC; ++r) {
+#pragma unroll
+        for (int off = 16; off > 0; off >>= 1) {
+          acc[m][r] += __shfl_down_sync(0xffffffff, acc[m][r], off);
+        }
+        if (lane == 0 && r0 + r < N) {
+          out[static_cast<int64_t>(m) * N + r0 + r] = __float2bfloat16(acc[m][r]);
+        }
+      }
+    }
+  }
+}
+
 }  // namespace
 
 void router_bf16xfp32(
@@ -227,7 +318,7 @@ void router_bf16xfp32(
   const int T = static_cast<int>(x.size(0));
   const auto n = w.size(1);
   const int n_tiles = static_cast<int>(n / kNTile);
-  Params params{
+  RouterParams params{
       reinterpret_cast<const __nv_bfloat16*>(x.data_ptr()),
       w.data_ptr<float>(),
       out.data_ptr<float>(),
@@ -239,115 +330,60 @@ void router_bf16xfp32(
   };
   router_kernel<<<dim3(kSplitK, n_tiles), kThreads, 0, at::cuda::getCurrentCUDAStream()>>>(params);
 }
+
+void pooler_bf16(torch::Tensor x, torch::Tensor w, torch::Tensor out) {
+  const int M = static_cast<int>(x.size(0));
+  constexpr int N = 4096;
+  constexpr int K = 8192;
+  constexpr int kRowC = 2;
+  constexpr int kUnroll = 2;
+  constexpr int kNumWarps = 8;
+  constexpr int kRowsPerBlock = kRowC * kNumWarps;
+  constexpr int kBlocks = (N + kRowsPerBlock - 1) / kRowsPerBlock;
+  auto stream = at::cuda::getCurrentCUDAStream();
+  if (M == 1) {
+    auto kn = pooler_gemv_kernel<1, N, K, kRowC, kUnroll, kNumWarps>;
+    kn<<<kBlocks, kNumWarps * 32, 1 * K * 2, stream>>>(
+        reinterpret_cast<const __nv_bfloat16*>(x.data_ptr()),
+        reinterpret_cast<const __nv_bfloat16*>(w.data_ptr()),
+        reinterpret_cast<__nv_bfloat16*>(out.data_ptr()),
+        M);
+  } else {
+    auto kn = pooler_gemv_kernel<8, N, K, kRowC, kUnroll, kNumWarps>;
+    cudaFuncSetAttribute(kn, cudaFuncAttributeMaxDynamicSharedMemorySize, 8 * K * 2);
+    kn<<<kBlocks, kNumWarps * 32, 8 * K * 2, stream>>>(
+        reinterpret_cast<const __nv_bfloat16*>(x.data_ptr()),
+        reinterpret_cast<const __nv_bfloat16*>(w.data_ptr()),
+        reinterpret_cast<__nv_bfloat16*>(out.data_ptr()),
+        M);
+  }
+}
 """
 
 
-def _compile_router():
+def _compile_cuda():
     from torch.utils.cpp_extension import load_inline
 
     return load_inline(
-        name="muse_router_bf16xfp32_v1",
+        name="muse_router_pooler_v2",
         cpp_sources="""
 #include <torch/extension.h>
 void router_bf16xfp32(torch::Tensor, torch::Tensor, torch::Tensor, torch::Tensor, torch::Tensor);
+void pooler_bf16(torch::Tensor, torch::Tensor, torch::Tensor);
 """,
-        cuda_sources=_ROUTER_CU,
-        functions=["router_bf16xfp32"],
+        cuda_sources=_CUDA,
+        functions=["router_bf16xfp32", "pooler_bf16"],
         extra_cuda_cflags=["-O3", "--expt-relaxed-constexpr"],
         with_cuda=True,
         verbose=False,
     )
 
 
-def _init_hilo_kernel():
-    import triton
-    import triton.language as tl
-
-    @triton.jit
-    def _router_hilo(
-        x_ptr,
-        hi_ptr,
-        lo_ptr,
-        out_ptr,
-        M,
-        N,
-        K,
-        stride_xm,
-        stride_hin,
-        stride_lon,
-        stride_om,
-        BLOCK_M: tl.constexpr,
-        BLOCK_N: tl.constexpr,
-        BLOCK_K: tl.constexpr,
-    ):
-        pid_n = tl.program_id(0)
-        pid_m = tl.program_id(1)
-        offs_m = pid_m * BLOCK_M + tl.arange(0, BLOCK_M)
-        offs_n = pid_n * BLOCK_N + tl.arange(0, BLOCK_N)
-        mask_m = offs_m < M
-        mask_n = offs_n < N
-        acc = tl.zeros((BLOCK_M, BLOCK_N), dtype=tl.float32)
-        for k0 in range(0, K, BLOCK_K):
-            offs_k = k0 + tl.arange(0, BLOCK_K)
-            x = tl.load(
-                x_ptr + offs_m[:, None] * stride_xm + offs_k[None, :],
-                mask=mask_m[:, None],
-                other=0.0,
-            )
-            hi = tl.load(
-                hi_ptr + offs_n[:, None] * stride_hin + offs_k[None, :],
-                mask=mask_n[:, None],
-                other=0.0,
-            )
-            lo = tl.load(
-                lo_ptr + offs_n[:, None] * stride_lon + offs_k[None, :],
-                mask=mask_n[:, None],
-                other=0.0,
-            )
-            acc += tl.dot(x, tl.trans(hi), out_dtype=tl.float32)
-            acc += tl.dot(x, tl.trans(lo), out_dtype=tl.float32)
-        tl.store(
-            out_ptr + offs_m[:, None] * stride_om + offs_n[None, :],
-            acc,
-            mask=mask_m[:, None] & mask_n[None, :],
-        )
-
-    def run(x: torch.Tensor, hi: torch.Tensor, lo: torch.Tensor) -> torch.Tensor:
-        m, k = x.shape
-        n = hi.shape[0]
-        out = torch.empty((m, n), dtype=torch.float32, device=x.device)
-        block_m = 16
-        block_n = 16
-        block_k = 64
-        grid = (triton.cdiv(n, block_n), triton.cdiv(m, block_m))
-        _router_hilo[grid](
-            x,
-            hi,
-            lo,
-            out,
-            m,
-            n,
-            k,
-            x.stride(0),
-            hi.stride(0),
-            lo.stride(0),
-            out.stride(0),
-            BLOCK_M=block_m,
-            BLOCK_N=block_n,
-            BLOCK_K=block_k,
-            num_warps=4,
-            num_stages=4,
-        )
-        return out
-
-    return run
-
-
 def _init_kernels() -> None:
     global _hopper_gemv, _use_hopper_gemv
     global _tiny_gemm, _can_use_tiny
     global _router_gemm, _router_gemm_ok
-    global _fused_a, _router_mod, _hilo_kernel
+    global _cuda_mod
     if _hopper_gemv is not None:
         return
     try:
@@ -384,29 +420,11 @@ def _init_kernels() -> None:
         _router_gemm = False
         _router_gemm_ok = lambda *args, **kwargs: False
     try:
-        from sglang.kernels.ops.gemm.dsv3_fused_a_gemm import dsv3_fused_a_gemm
-
-        _fused_a = dsv3_fused_a_gemm
-    except Exception:
-        try:
-            from sglang.kernels.ops.gemm.fused_a_gemm import dsv3_fused_a_gemm
-
-            _fused_a = dsv3_fused_a_gemm
-        except Exception as e:
-            print("dsv3_fused_a_gemm unavailable:", e)
-            _fused_a = False
-    try:
-        _router_mod = _compile_router()
-        print("router CUDA kernel ready")
+        _cuda_mod = _compile_cuda()
+        print("router+pooler CUDA ready")
     except Exception as e:
-        print("router CUDA compile failed:", e)
-        _router_mod = False
-    try:
-        _hilo_kernel = _init_hilo_kernel()
-        print("router hi+lo triton ready")
-    except Exception as e:
-        print("router hi+lo triton failed:", e)
-        _hilo_kernel = False
+        print("CUDA compile failed:", e)
+        _cuda_mod = False
 
 
 def _bf16_w(state, layer: str, n: int) -> torch.Tensor:
@@ -436,37 +454,38 @@ def _use_tiny(n: int, k: int, m: int) -> bool:
     )
 
 
-def _use_fused_a(n: int, k: int, m: int) -> bool:
-    return bool(
-        _fused_a
-        and 1 < m <= FUSED_A_MAX_M
-        and n == 4096
-        and k == 8192
-        and n % 16 == 0
-        and k % 256 == 0
-    )
+def _pooler_cuda(x: torch.Tensor, w: torch.Tensor, m: int) -> Optional[torch.Tensor]:
+    if not _cuda_mod or not _pooler_cuda_ok or m < 1 or m > POOLER_CUDA_MAX_M:
+        return None
+    if w.shape[0] != POOLER_N or w.shape[1] != POOLER_K:
+        return None
+    out = torch.empty((m, POOLER_N), dtype=torch.bfloat16, device=x.device)
+    _cuda_mod.pooler_bf16(x, w, out)
+    return out
 
 
 def _bf16_forward(x: torch.Tensor, w: torch.Tensor, wt: torch.Tensor, m: int) -> torch.Tensor:
     n, k = w.shape
+    if n == POOLER_N and k == POOLER_K:
+        y = _pooler_cuda(x, w, m)
+        if y is not None:
+            return y
     if m == 1 and _hopper_gemv and _use_hopper_gemv(1, n, k):
         return _hopper_gemv(x, w)
-    if _use_fused_a(n, k, m):
-        return _fused_a(x, w.T)
     if _use_tiny(n, k, m):
         return _tiny_gemm(x, w, max_m=TINY_M_MAX)
     return torch.mm(x, wt)
 
 
 def _router_cuda(x: torch.Tensor, state, m: int) -> Optional[torch.Tensor]:
-    if not _router_mod:
+    if not _cuda_mod:
         return None
     n = state["router"].shape[0]
     k = state["router"].shape[1]
     if k != ROUTER_K or n % ROUTER_N_TILE != 0 or m < 1 or m > ROUTER_CUDA_MAX_M:
         return None
     out = torch.empty((m, n), dtype=torch.float32, device=x.device)
-    _router_mod.router_bf16xfp32(
+    _cuda_mod.router_bf16xfp32(
         x, state["router_t"], out, state["router_partials"], state["router_counters"]
     )
     return out
@@ -482,16 +501,14 @@ def _router_forward(x: torch.Tensor, state, m: int) -> torch.Tensor:
         if _router_gemm and _router_gemm_ok(xf, wt):
             return _router_gemm(xf, wt)
         return F.linear(xf, state["router"])
-    if _hilo_kernel is not False and _hilo_kernel is not None:
-        return _hilo_kernel(x, state["router_hi"], state["router_lo"])
     acc = torch.mm(x, state["router_hi_t"], out_dtype=torch.float32)
     acc += torch.mm(x, state["router_lo_t"], out_dtype=torch.float32)
     return acc
 
 
 def prepare(weights: Weights):
-    """Contiguous packs, SGLang / CUDA / Triton warmup. Untimed, up to 300s."""
-    global _fused_a, _router_mod, _hilo_kernel
+    """Contiguous packs, CUDA / SGLang warmup. Untimed, up to 300s."""
+    global _cuda_mod, _pooler_cuda_ok
     _init_kernels()
     state = {}
     for name, w in weights.items():
@@ -503,8 +520,6 @@ def prepare(weights: Weights):
     state["router_t"] = router.t().contiguous()
     hi = router.to(torch.bfloat16)
     lo = (router - hi.float()).to(torch.bfloat16)
-    state["router_hi"] = hi.contiguous()
-    state["router_lo"] = lo.contiguous()
     state["router_hi_t"] = hi.t().contiguous()
     state["router_lo_t"] = lo.t().contiguous()
     unp = state["unpooler"]
@@ -530,19 +545,16 @@ def prepare(weights: Weights):
                 _bf16_forward(x, w, wt, m)
             except Exception as e:
                 print(f"warmup bf16 {layer} m={m} failed:", e)
-                if layer == "pooler" and _fused_a:
-                    _fused_a = False
-                    print("disabled fused_a after warmup failure")
+                if layer == "pooler" and _pooler_cuda_ok:
+                    _pooler_cuda_ok = False
+                    print("disabled pooler CUDA after warmup failure")
                     _bf16_forward(x, w, wt, m)
         rx = torch.zeros((m, router.shape[1]), dtype=torch.bfloat16, device=device)
         try:
             _router_forward(rx, state, m)
         except Exception as e:
             print(f"warmup router m={m} failed:", e)
-            if m <= ROUTER_CUDA_MAX_M:
-                _router_mod = False
-            else:
-                _hilo_kernel = False
+            _cuda_mod = False
             _router_forward(rx, state, m)
     return state
 
