@@ -4,6 +4,27 @@ Offline copy of everything needed to start [openkernelchallenge.dev](https://ope
 
 Fetched from the public site, `/api/v1`, `okc` 0.7.2, and the official git remotes. See [MANIFEST.md](MANIFEST.md) for every URL, fetch date, and what is missing.
 
+## Where to optimize
+
+**Use the official H200 cloud judge.** This checkout’s host is a CPU-only Cursor VM (no NVIDIA GPU, no Docker, no PyTorch). Kernel scores are CUDA-graph timings on one H200 SXM in `lmsysorg/sglang:dev-muse-spark-open`. A MacBook or a non-Hopper GPU will not reproduce those numbers.
+
+Details: [docs/pages/where-to-run.md](docs/pages/where-to-run.md).
+
+Local (this VM):
+
+```bash
+okc version                                          # 0.7.2, on PATH
+python3 scripts/static_check.py                      # all five starters
+python3 scripts/static_check.py starter/muse_moe_w4a16/submission.py
+```
+
+Cloud (after a person runs `okc login`):
+
+```bash
+okc check starter/muse_bf16_proj/submission.py --json
+okc submit starter/muse_bf16_proj/submission.py
+```
+
 ## How to start (kernels)
 
 The kernel track is open through **4 Nov 2026, 11:59 pm PT**. You need an NVIDIA GPU to iterate locally; official judging is **one H200 SXM** inside `lmsysorg/sglang:dev-muse-spark-open`.
