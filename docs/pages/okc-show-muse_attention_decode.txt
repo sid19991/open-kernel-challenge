@@ -1,0 +1,109 @@
+◆ muse_attention_decode
+
+Gated attention decode. One decode step or 8-token verify block of grouped-query
+attention over a paged FP8 cache: QK-norm, a 2,048-token sliding window with
+RoPE or full attention over the whole context, and a gated, normalized output.
+
+  SGLang      3,766.3 µs  per decode step
+  GPU         H200  one, no network
+  Limits      10 runs and 20 checks a day
+
+Computation
+  # per request b and block token j, at position p = positions[t]
+  q, k, v, gate = split(qkv[t])   # the fused projection output
+  q = rmsnorm(q) * 5.473;  k = rmsnorm(k)
+  q, k = rope(q, p), rope(k, p)   # sliding layers
+  cache[cache_loc[t]] = fp8(k), fp8(v)
+  a = softmax(q @ K.T / 8) @ V    # up to p: window or all
+  out = rmsnorm(a) * sigmoid(gate)
+
+Inputs
+  kernel_fn(data: Inputs) returns bfloat16 [B, L, Hq·64].
+
+  class Inputs(TypedDict):
+      # bfloat16 [B, L, (2*Hq + 2*Hkv)*64], 2304 under tp8: per token q (Hq*64),
+      # then the block's keys before norm and RoPE (Hkv*64), values (Hkv*64) and
+      # the output gate's logits (Hq*64)
+      qkv: torch.Tensor
+      # int64 [B*L], each new token's position (seq_lens[b] + i)
+      positions: torch.Tensor
+      # int64 [B*L], each new token's flat cache row (page * page_size + offset)
+      cache_loc: torch.Tensor
+      # int32 [B], seq_lens + L: what each request attends over
+      cache_seqlens: torch.Tensor
+      # int32 [B+1], 0, L, 2L, ...: the block's query offsets
+      cu_seqlens_q: torch.Tensor
+      # int32, FA3's tile schedule (get_scheduler_metadata) on full-attention
+      # decode steps, else None
+      scheduler_metadata: torch.Tensor | None
+      # float8_e4m3fn [pages, page_size, Hkv, 64], written in place
+      k_cache: torch.Tensor
+      # float8_e4m3fn [pages, page_size, Hkv, 64], written in place
+      v_cache: torch.Tensor
+      k_scale: torch.Tensor     # float32 [], key = e4m3 * k_scale
+      v_scale: torch.Tensor     # float32 [], value = e4m3 * v_scale
+      # int32 [B, max_pages], physical page of each logical page (-1 unused)
+      page_table: torch.Tensor
+      # int32 [B], cached tokens per request; the block starts at this position
+      seq_lens: torch.Tensor
+      config: Config
+
+  class Config(TypedDict):
+      batch: int            # B
+      # L: 1 for decode, 8 for a speculative verify block (causal inside it)
+      q_len: int
+      num_q_heads: int      # Hq: 16 per GPU under TP8
+      num_kv_heads: int     # Hkv: 2; each serves Hq / Hkv query heads
+      head_dim: int         # 64
+      # 1 in the scored cases (as SGLang serves Muse on H200), 64 in some tests
+      page_size: int
+      # 2048 on sliding-window layers (a token and the 2,047 before it); 0 = all
+      window: int
+      rope_theta: float     # 500000 on sliding-window layers; 0 = no RoPE
+      qk_scale_factor: float
+      sm_scale: float       # 1/8
+      # the cache scales' value: 1 in the scored cases (SGLang leaves them
+      # unset)
+      kv_scale: float
+
+Scored shapes
+  load        batch   layer     q_len   weight
+  ────────────────────────────────────────────
+  decode 1    1       sliding   1       46
+  decode 1    1       full      1       16
+  decode 16   16      sliding   1       46
+  decode 16   16      full      1       16
+  decode 32   32      sliding   1       46
+  decode 32   32      full      1       16
+  verify 1    1       sliding   8       46
+  verify 1    1       full      8       16
+  verify 16   16      sliding   8       46
+  verify 16   16      full      8       16
+  verify 32   32      sliding   8       46
+  verify 32   32      full      8       16
+
+  B is batch and L is q_len: 1 for a decode step, or 8 for a speculative verify
+  block (causal inside it). Each GPU has 16 query heads and 2 key/value heads
+  (TP8).
+
+  Each load times a sliding-window layer (the last 2,048 tokens, with RoPE) and
+  a full-attention layer (the whole context, no RoPE). Contexts are around 80K
+  tokens.
+
+  The inputs are what SGLang’s attention receives: the fused projection output,
+  plus the step’s positions, cache rows and FA3 lengths, which SGLang builds
+  once per step.
+
+  `scheduler_metadata` is FA3's tile schedule for the step, built from its
+  lengths as SGLang does: set on full-attention decode steps, None on sliding
+  layers and verify blocks. Kernels that don't use FA3 can ignore it.
+
+  The cache is FP8 E4M3. Its page size is 1 in the scored cases and 64 in most
+  tests, so read config["page_size"]. Its scales are 1 in the scored cases and
+  1/64 in some tests.
+
+  Decode loads are SGLang serving with speculative decoding off; verify loads
+  are its default recipe, which checks each request's 8-token draft in one step.
+
+next  okc init muse_attention_decode
+      okc leaderboard muse_attention_decode

@@ -1,0 +1,3 @@
+usage  okc init <problem> [dir]
+
+write a problem's starter, spec and AGENTS.md

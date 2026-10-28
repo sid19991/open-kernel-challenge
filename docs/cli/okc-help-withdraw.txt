@@ -1,0 +1,5 @@
+usage  okc withdraw <job> [--yes]
+
+take a run, kernel or serving, off its board
+
+  --yes   don't ask first

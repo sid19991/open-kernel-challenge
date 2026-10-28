@@ -1,0 +1,5 @@
+usage  okc serve submit <patch.diff> [--no-wait]
+
+run a patch on a whole 8×H200 node, scored
+
+  --no-wait   return once it's submitted

@@ -1,0 +1,39 @@
+◆ okc · open kernel challenge · muse spark open
+  meta × paradigm × andromeda
+
+usage  okc <command> [args]
+
+get started
+  login                         accept the rules, then sign in with GitHub
+  problems                      list the problems and today's limits
+  show <problem>                describe a problem
+  init <problem> [dir]          write a problem's starter, spec and AGENTS.md
+
+kernels
+  submit [problem] <file>       test a kernel, then time it against SGLang
+  check [problem] <file>        the same run, kept off the board
+  status <job>                  show a run's result
+  jobs                          list your recent runs
+  leaderboard [problem]         show the overall board, or a problem's
+  withdraw <job>                take a run, kernel or serving, off its board
+
+serving
+  serve init [dir]              fetch the pinned SGLang and the patch rules
+  serve diff [dir]              write your patch to patch.diff
+  serve check <patch.diff>      check a patch on one short rung, unscored
+  serve submit <patch.diff>     run a patch on a whole 8×H200 node, scored
+  serve status [job]            show a run's result, or whether you go first
+  serve jobs                    list your serving runs
+  serve leaderboard             show the serving board
+
+api
+  api                           show the HTTP API: endpoints, auth, an example
+  api token                     print this machine's API token
+
+account
+  whoami                        show who this machine is signed in as
+  update                        update okc to the latest release
+  logout                        sign out and revoke this machine's token
+  version                       print okc's version
+
+each command's options: okc help <command> · docs https://openkernelchallenge.dev

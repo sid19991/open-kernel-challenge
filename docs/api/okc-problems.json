@@ -1,0 +1,64 @@
+{
+  "problems": [
+    {
+      "name": "muse_bf16_proj",
+      "title": "Dense projections",
+      "limits": {
+        "scored": {
+          "per_day": 10
+        },
+        "checks": {
+          "per_day": 20
+        }
+      }
+    },
+    {
+      "name": "muse_attention_decode",
+      "title": "Gated attention decode",
+      "limits": {
+        "scored": {
+          "per_day": 10
+        },
+        "checks": {
+          "per_day": 20
+        }
+      }
+    },
+    {
+      "name": "muse_moe_w4a16",
+      "title": "Routed experts",
+      "limits": {
+        "scored": {
+          "per_day": 10
+        },
+        "checks": {
+          "per_day": 20
+        }
+      }
+    },
+    {
+      "name": "muse_decode_layer",
+      "title": "Whole decoder layer",
+      "limits": {
+        "scored": {
+          "per_day": 10
+        },
+        "checks": {
+          "per_day": 20
+        }
+      }
+    },
+    {
+      "name": "muse_prefill_layer",
+      "title": "Prefill layer",
+      "limits": {
+        "scored": {
+          "per_day": 10
+        },
+        "checks": {
+          "per_day": 20
+        }
+      }
+    }
+  ]
+}

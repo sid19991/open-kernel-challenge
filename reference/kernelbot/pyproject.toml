@@ -1,0 +1,70 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "discord-cluster-manager"
+version = "0.1.0"
+description = "Discord bot for managing compute clusters and running kernel benchmarks"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "PyGithub",
+    "aiohttp",
+    "discord.py",
+    "audioop-lts; python_version >= '3.13'",
+    "python-dotenv",
+    "requests",
+    "modal>=1.5.0",
+    "psycopg2-binary",
+    "yoyo-migrations",
+    "better_profanity",
+    "PyYAML",
+    "fastapi[all]",
+    "uvicorn",
+    "jinja2",
+    "huggingface-hub>=0.20",
+    "pyarrow>=14.0",
+    "kernelguard==0.3.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff",
+    "pre-commit",
+    "pytest",
+    "pytest-coverage",
+    "pytest-asyncio"
+]
+
+[project.scripts]
+kernelbot-admin = "kernelbot.admin_cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+libkernelbot = ["sql/*.sql"]
+
+[tool.coverage.run]
+omit = ["src/libkernelbot/run_eval.py", "src/libkernelbot/launchers/*.py"]
+relative_files = true
+
+[tool.coverage.report]
+exclude_lines = [
+   "pragma: no cover",
+   "raise NotImplementedError",
+    # For now, don't require coverage of db errors
+   "except psycopg2.Error"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["scripts", "tests"]
+python_files = ["test_*.py", "*_test.py", "ci_test_*.py"]
+markers = [
+    "integration: integration tests that need to interact externally, e.g., with modal/github actions/etc"
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"

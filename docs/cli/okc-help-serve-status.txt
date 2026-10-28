@@ -1,0 +1,6 @@
+usage  okc serve status [job] [--wait] [--json]
+
+show a run's result, or whether you go first
+
+  --wait   follow the run until it finishes
+  --json   print JSON

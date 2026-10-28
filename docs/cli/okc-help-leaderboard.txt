@@ -1,0 +1,6 @@
+usage  okc leaderboard [problem] [--all] [--json]
+
+show the overall board, or a problem's
+
+  --all    every row, not the top 20 and yours
+  --json   print JSON (every row), with each row's rank and speedup and where you stand

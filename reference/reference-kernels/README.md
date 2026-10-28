@@ -1,0 +1,41 @@
+## Reference Kernels
+
+This repo holds reference kernels for the KernelBot which hosts regular competitions on [discord.gg/gpumode](discord.gg/gpumode).
+
+You can see what's going on [gpumode.com](https://www.gpumode.com/)
+
+## Competitions
+1. [PMPP practice problems](https://github.com/gpu-mode/reference-kernels/tree/main/problems/pmpp_v2)
+2. [AMD $100K kernel competition](problems/amd)
+3. [BioML kernels](problems/bioml)
+4. [AMD $100K distributed kernel competition](problems/amd_distributed)
+5. [NVIDIA Blackwell NVFP4 competition](problems/nvidia)
+6. [AMD $1.1M competition](problems/amd_202602)
+7. [Helion IRL hackathon](problems/helion)
+8. [Linear Algebra Problems](problems/linalg)
+
+We also work with universities on hosting the infrastructure for their classes:
+- [Stanford CS149 assignment 5 kernels](https://github.com/stanford-cs149/asst5-kernels)
+- [Tri Dao's Princeton parallel programming class](problems/princeton)
+
+## Contributing New Problems
+
+To add a new problem, create a new folder in the `problems/glory` directory where you need to add the following files:
+- `reference.py` - This is the PyTorch reference implementation of the problem.
+- `task.yml` - This is the problem specification that will be used to generate test cases for different shapes
+- `task.py` - Specifies the schema of the inputs and outputs for the problem
+
+For NVIDIA problems, follow [Adding Nsight Compute support](docs/ncu-profiling.md)
+to implement the evaluator profile path and verify captured kernels on a real GPU.
+
+You can evaluate problems with your own Modal account (they give you a free $30) by borrowing this [neat script from @gau-nernst](https://github.com/gpu-mode/reference-kernels/pull/96#issue-3850136894)
+
+## License
+
+This project is licensed under the [June 9 Researcher Reciprocity License](LICENSE).
+
+The license adapts the Open RAIL-S structure and adds one specific use restriction: training, fine-tuning, distillation, synthetic-data generation for training, embedding for training, or otherwise using this project to improve an AI model or AI service requires Researcher Reciprocity.
+
+> If you train on it, you let us generate.
+
+Covered AI model and service providers may not use this project while imposing terms that prevent GPU Mode, project contributors, or authorized researchers from generating outputs, evaluating models, benchmarking, publishing research, or exploring their own research ideas on materially equal terms to ordinary users.

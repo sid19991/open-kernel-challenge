@@ -1,0 +1,3 @@
+usage  okc whoami
+
+show who this machine is signed in as

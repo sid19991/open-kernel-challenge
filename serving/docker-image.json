@@ -1,0 +1,9 @@
+{
+  "image": "lmsysorg/sglang:dev-muse-spark-open",
+  "digest": "sha256:8cfc5a72cb296771f5f8a4a4688cb6d05685610a830cbb616fa4ab0eb7bb2b0a",
+  "amd64_manifest_digest": "sha256:a0ae9cefecc0fb68e74a6f3b7f338eb80a53e3e6df4637ec2f024abc5fec07af",
+  "amd64_approx_bytes": 23866593205,
+  "amd64_approx_gib": 22.23,
+  "hub_full_size_bytes": 23866593205,
+  "skipped_reason": "too large (~23.8 GB compressed / ~22+ GB amd64 layers); digest and manifests stored instead of pulling"
+}

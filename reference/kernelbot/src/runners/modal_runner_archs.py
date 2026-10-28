@@ -1,0 +1,38 @@
+# This file contains wrapper functions for running
+# Modal apps on specific devices. We will fix this later.
+from modal_runner import MODAL_RUN_TIMEOUT_SECONDS, PCH_MOUNT, app, cuda_image, modal_run_config, pch_volume
+
+from libkernelbot.validation_runtime import run_validation_config
+
+gpus = ["T4", "L4", "L4:4", "A100-80GB", "H100!", "B200"]
+pytorch_functions = {}
+for gpu in gpus:
+    gpu_slug = gpu.lower().split("-")[0].strip("!").replace(":", "x")
+    app.function(
+        gpu=gpu,
+        image=cuda_image,
+        name=f"run_cuda_script_{gpu_slug}",
+        serialized=True,
+        restrict_modal_access=True,
+        volumes={PCH_MOUNT: pch_volume.with_mount_options(read_only=True)},
+        timeout=MODAL_RUN_TIMEOUT_SECONDS,
+    )(modal_run_config)
+    pytorch_functions[gpu_slug] = app.function(
+        gpu=gpu,
+        image=cuda_image,
+        name=f"run_pytorch_script_{gpu_slug}",
+        serialized=True,
+        restrict_modal_access=True,
+        volumes={PCH_MOUNT: pch_volume.with_mount_options(read_only=True)},
+        timeout=MODAL_RUN_TIMEOUT_SECONDS,
+    )(modal_run_config)
+
+app.function(
+    gpu="B200",
+    image=cuda_image,
+    name="run_validation_script_b200",
+    serialized=True,
+    restrict_modal_access=True,
+    volumes={PCH_MOUNT: pch_volume.with_mount_options(read_only=True)},
+    timeout=MODAL_RUN_TIMEOUT_SECONDS,
+)(run_validation_config)

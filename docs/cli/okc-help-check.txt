@@ -1,0 +1,6 @@
+usage  okc check [problem] <file> [--no-wait] [--json]
+
+the same run, kept off the board
+
+  --no-wait   return once it's submitted
+  --json      print JSON

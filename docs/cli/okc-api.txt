@@ -1,0 +1,48 @@
+◆ api  the HTTP API behind okc, for scripts and agents
+
+  base        https://openkernelchallenge.dev/api/v1
+  auth        Authorization: Bearer <token>
+              your token: okc api token
+  format      JSON in and out; errors are {"detail": ...}
+
+public
+  GET    /problems
+         the problems: name, GPU, summary; `limits`: today's daily caps, with your runs left when you send your token
+  GET    /problems/{problem}
+         one problem: spec, starter, baseline; `limits`, as above
+  GET    /leaderboard                     the overall board
+  GET    /leaderboard/{problem}           one problem's board
+  GET    /queue                           backlog and running counts
+  GET    /serving                         SGLang base revision and patch rules
+  GET    /serving/leaderboard             the serving board and stock's median
+  GET    /rules
+         the rules' current version, and links to them and the terms
+
+with a token
+  GET    /me
+         who this token belongs to, and the rules you accepted
+  POST   /rules/accept
+         {"version": "<GET /rules' version>", "meta_email": <bool>}: a person's acceptance of the rules and the terms, which okc login sends
+  POST   /problems/{problem}/submissions
+         {"code": "<python>"}: a scored run; "mode": "check" for a check run, off the board
+  GET    /jobs                            your recent submissions, newest first
+  GET    /jobs/{job_id}                   a job's status and result
+  POST   /jobs/{job_id}/withdraw          take that run off its board for good
+  GET    /tokens                          your tokens' ids and labels
+  DELETE /tokens/{token_id}               revoke one
+  POST   /serving/submissions
+         {"patch": "<git diff>"}: a node run; "mode": "check" for a short unscored one
+
+submit, then poll the job until its status is done, failed, rejected or duplicate
+
+  BASE=https://openkernelchallenge.dev/api/v1
+  TOKEN=$(okc api token)
+
+  curl -s $BASE/problems/muse_moe_w4a16/submissions \
+    -H "Authorization: Bearer $TOKEN" \
+    -H "Content-Type: application/json" \
+    -d "$(jq -n --rawfile code submission.py '{code: $code}')"
+
+  curl -s $BASE/jobs/<job_id> -H "Authorization: Bearer $TOKEN"
+
+  reference   https://openkernelchallenge.dev/llms.txt

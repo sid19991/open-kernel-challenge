@@ -1,0 +1,1542 @@
+import copy
+import dataclasses
+import datetime
+import json
+
+import pytest
+from test_report import sample_compile_result, sample_run_result, sample_system_info
+
+from libkernelbot import leaderboard_db
+from libkernelbot.db_types import IdentityType
+from libkernelbot.utils import KernelBotError
+
+
+def _submit_leaderboard(database, task_directory):
+    """
+    Creates a leaderboard called 'submit-leaderboard' and returns its ID.
+    """
+    from libkernelbot.task import make_task_definition
+
+    definition = make_task_definition(task_directory / "task.yml")
+    deadline = datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1)
+
+    with database as db:
+        return db.create_leaderboard(
+            name="submit-leaderboard",
+            deadline=deadline,
+            definition=definition,
+            creator_id=1,
+            forum_id=5,
+            gpu_types=["A100", "H100"],
+        )
+
+
+@pytest.fixture()
+def submit_leaderboard(database, task_directory):
+    return _submit_leaderboard(database, task_directory)
+
+
+def _create_submission_run(
+    db: leaderboard_db.LeaderboardDB,
+    submission: int,
+    *,
+    start=None,
+    end=None,
+    mode="leaderboard",
+    secret=False,
+    runner="A100",
+    score=None,
+    compilation=None,
+    system=None,
+    result=None,
+):
+    """Creates a submission run with suitable default values"""
+    db.create_submission_run(
+        submission,
+        start=start or datetime.datetime.now(tz=datetime.timezone.utc),
+        end=end
+        or (datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(seconds=10)),
+        mode=mode,
+        secret=secret,
+        runner=runner,
+        score=score,
+        compilation=compilation or sample_compile_result(),
+        result=result or sample_run_result(),
+        system=system or sample_system_info(),
+    )
+
+
+def test_empty_db(database):
+    expected_error = "Leaderboard `does-not-exist` does not exist."
+    with database as db:
+        with pytest.raises(leaderboard_db.LeaderboardDoesNotExist, match=expected_error):
+            db.get_leaderboard("does-not-exist")
+        with pytest.raises(leaderboard_db.LeaderboardDoesNotExist, match=expected_error):
+            db.get_leaderboard_templates("does-not-exist")
+        with pytest.raises(leaderboard_db.LeaderboardDoesNotExist, match=expected_error):
+            db.get_leaderboard_gpu_types("does-not-exist")
+        with pytest.raises(leaderboard_db.LeaderboardDoesNotExist, match=expected_error):
+            db.get_leaderboard_submissions("does-not-exist", "A100", "5", 100)
+        with pytest.raises(leaderboard_db.LeaderboardDoesNotExist, match=expected_error):
+            db.get_leaderboard_submission_count("does-not-exist", "A100", "5")
+        assert db.get_leaderboards() == []
+        assert db.get_leaderboard_names() == []
+        assert db.get_submission_by_id(0) is None
+        assert db.get_user_from_id("0") is None
+
+
+def test_nested_enter(database):
+    with database as db_outer:
+        with db_outer as db_inner:
+            assert db_inner.get_leaderboards() == []
+
+
+def test_application_validation_persistence(database, submit_leaderboard):
+    submitted_at = datetime.datetime.now(tz=datetime.timezone.utc)
+    source = "def custom_kernel(matrix): return matrix"
+
+    with database as db:
+        db.cursor.execute(
+            """
+            UPDATE leaderboard.leaderboard
+            SET task = jsonb_set(
+                task,
+                '{validation}',
+                %s::jsonb
+            )
+            WHERE id = %s
+            """,
+            (
+                json.dumps(
+                    {
+                        "version": "v1",
+                        "source": "print('ok')",
+                    }
+                ),
+                submit_leaderboard,
+            ),
+        )
+        db.connection.commit()
+        submission_id = db.create_submission(
+            "submit-leaderboard",
+            "submission.py",
+            5,
+            source,
+            submitted_at,
+            user_name="validator",
+        )
+        assert db.get_submission_code_for_validation(submission_id) == source
+        assert db.get_submission_validation_ids(
+            [submission_id],
+            gpu_type="B200",
+            contract_version="v1",
+        ) == set()
+
+        scheduled_for = datetime.date(2026, 7, 26)
+        sweep_id = db.claim_validation_sweep(
+            leaderboard_id=submit_leaderboard,
+            gpu_type="B200",
+            contract_version="v1",
+            scheduled_for=scheduled_for,
+        )
+        assert sweep_id is not None
+        assert db.claim_validation_sweep(
+            leaderboard_id=submit_leaderboard,
+            gpu_type="B200",
+            contract_version="v1",
+            scheduled_for=scheduled_for,
+        ) is None
+
+        db.upsert_submission_validation(
+            submission_id=submission_id,
+            gpu_type="B200",
+            contract_version="v1",
+            status="completed",
+            passed_shapes=7,
+            total_shapes=8,
+            fully_validated=False,
+            geomean_sync_wall_speedup=1.2,
+            result={"passed_shapes": 7, "total_shapes": 8},
+        )
+        assert db.get_submission_validation_ids(
+            [submission_id],
+            gpu_type="B200",
+            contract_version="v1",
+        ) == {submission_id}
+        assert db.get_submission_validation_ids(
+            [submission_id],
+            gpu_type="B200",
+            contract_version="v2",
+        ) == set()
+        db.cursor.execute(
+            """
+            SELECT passed_shapes, total_shapes, fully_validated,
+                   geomean_sync_wall_speedup
+            FROM leaderboard.submission_validation
+            WHERE submission_id = %s AND gpu_type = 'B200'
+            """,
+            (submission_id,),
+        )
+        assert db.cursor.fetchone() == (7, 8, False, 1.2)
+
+        db.upsert_submission_validation(
+            submission_id=submission_id,
+            gpu_type="B200",
+            contract_version="v1",
+            status="completed",
+            passed_shapes=8,
+            total_shapes=8,
+            fully_validated=True,
+            geomean_sync_wall_speedup=1.3,
+            result={"passed_shapes": 8, "total_shapes": 8},
+        )
+        db.cursor.execute(
+            """
+            SELECT fully_validated, geomean_sync_wall_speedup
+            FROM leaderboard.submission_validation
+            WHERE submission_id = %s AND gpu_type = 'B200'
+            """,
+            (submission_id,),
+        )
+        assert db.cursor.fetchone() == (True, 1.3)
+
+        db.complete_validation_sweep(sweep_id, status="completed")
+
+
+def test_leaderboard_basics(database, task_directory):
+    """
+    This test creates an empty leaderboard and checks its properties.
+    """
+    from libkernelbot.task import make_task_definition
+
+    definition = make_task_definition(task_directory / "task.yml")
+
+    deadline = datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1)
+
+    with database as db:
+        db.create_leaderboard(
+            name="test-leaderboard",
+            deadline=deadline,
+            definition=definition,
+            creator_id=1,
+            forum_id=5,
+            gpu_types=["A100", "H100"],
+        )
+
+        assert db.get_leaderboard_names() == ["test-leaderboard"]
+        lb = db.get_leaderboard("test-leaderboard")
+
+        assert lb["name"] == "test-leaderboard"
+        assert lb["creator_id"] == 1
+        assert lb["deadline"] == deadline
+        assert lb["description"] == definition.description
+        assert lb["task"] == definition.task
+        assert lb["gpu_types"] == ["A100", "H100"]
+        assert lb["forum_id"] == 5
+        assert lb["id"] == db.get_leaderboard_id("test-leaderboard")
+        assert isinstance(lb["secret_seed"], int)
+
+        assert db.get_leaderboards() == [lb]
+
+        assert db.get_leaderboard_templates("test-leaderboard") == {
+            "Python": "# Python template",
+            "CUDA": "// CUDA template",
+        }
+        assert db.get_leaderboard_gpu_types("test-leaderboard") == ["A100", "H100"]
+        assert db.get_leaderboard_submissions("test-leaderboard", "A100", "5", 100) == []
+        assert db.get_leaderboard_submission_count("test-leaderboard", "A100", "5") == 0
+
+        with pytest.raises(
+            KernelBotError, match="Invalid GPU type 'A99' for leaderboard 'test-leaderboard'"
+        ):
+            assert db.get_leaderboard_submissions("test-leaderboard", "A99", "5", 100) == []
+
+        with pytest.raises(
+            KernelBotError, match="Invalid GPU type 'A99' for leaderboard 'test-leaderboard'"
+        ):
+            assert db.get_leaderboard_submission_count("test-leaderboard", "A99", "5") == 0
+
+
+def test_recreate_leaderboard(database, task_directory):
+    _submit_leaderboard(database, task_directory)
+    with pytest.raises(
+        KernelBotError,
+        match="Error: Tried to create a leaderboard 'submit-leaderboard' that already exists.",
+    ):
+        _submit_leaderboard(database, task_directory)
+
+
+def test_expired_leaderboard(database, task_directory):
+    from libkernelbot.task import make_task_definition
+
+    definition = make_task_definition(task_directory / "task.yml")
+    deadline = datetime.datetime.now(tz=datetime.timezone.utc) - datetime.timedelta(days=1)
+
+    _submit_leaderboard(database, task_directory)
+    with database as db:
+        db.create_leaderboard(
+            name="other-leaderboard",
+            deadline=deadline,
+            definition=definition,
+            creator_id=1,
+            forum_id=5,
+            gpu_types=["A100", "H100"],
+        )
+
+        assert len(db.get_leaderboard_names()) == 2
+        assert db.get_leaderboard_names(active_only=True) == ["submit-leaderboard"]
+
+
+def test_leaderboard_submission_basic(database, submit_leaderboard):
+    """
+    This test creates a leaderboard, adds a submission and a few runs, then checks query results.
+    """
+    submit_time = datetime.datetime.now(tz=datetime.timezone.utc)
+
+    # we used to have problems with literal \n in source files, so let's test that here
+    dangerous_code = r"'python string with\nspecial\tcharacters'"
+
+    with database as db:
+        sub_id = db.create_submission(
+            "submit-leaderboard", "submission.py", 5, dangerous_code, submit_time, user_name="user"
+        )
+
+        # check the raw submission
+        submission = db.get_submission_by_id(sub_id)
+        assert submission["submission_id"] == sub_id
+        assert submission["leaderboard_id"] == db.get_leaderboard_id("submit-leaderboard")
+        assert submission["leaderboard_name"] == "submit-leaderboard"
+        assert submission["file_name"] == "submission.py"
+        assert submission["user_id"] == "5"  # TODO str or int?
+        assert submission["submission_time"] == submit_time
+        assert submission["done"] is False
+        assert submission["code"] == dangerous_code
+        assert submission["runs"] == []
+        assert submission["job_status"] is None
+        assert submission["job_error"] is None
+        assert submission["job_last_heartbeat"] is None
+
+        heartbeat = datetime.datetime.now(tz=datetime.timezone.utc)
+        db.upsert_submission_job_status(sub_id, "running", "still working", heartbeat)
+        submission = db.get_submission_by_id(sub_id)
+        assert submission["job_status"] == "running"
+        assert submission["job_error"] == "still working"
+        assert submission["job_last_heartbeat"] == heartbeat
+
+        interrupted_at = datetime.datetime.now(tz=datetime.timezone.utc)
+        assert db.fail_submission_job_if_active(
+            sub_id, "interrupted by shutdown", interrupted_at
+        )
+        submission = db.get_submission_by_id(sub_id)
+        assert submission["job_status"] == "failed"
+        assert submission["job_error"] == "interrupted by shutdown"
+        assert submission["job_last_heartbeat"] == interrupted_at
+
+        assert not db.fail_submission_job_if_active(
+            sub_id, "must not replace a terminal status", interrupted_at
+        )
+        submission = db.get_submission_by_id(sub_id)
+        assert submission["job_error"] == "interrupted by shutdown"
+
+    # add a submission run
+    run_result = sample_run_result()
+    with database as db:
+        end_time = submit_time + datetime.timedelta(seconds=10)
+        db.create_submission_run(
+            sub_id,
+            submit_time,
+            end_time,
+            mode="test",
+            secret=False,
+            runner="A100",
+            score=None,
+            compilation=None,
+            result=run_result,
+            system=sample_system_info(),
+        )
+        # run ends after the contest deadline; this is valid
+        end_time_2 = submit_time + datetime.timedelta(days=1, hours=1)
+        db.create_submission_run(
+            sub_id,
+            submit_time,
+            end_time_2,
+            mode="leaderboard",
+            secret=True,
+            runner="H100",
+            score=5.5,
+            compilation=sample_compile_result(),
+            result=run_result,
+            system=sample_system_info(),
+        )
+
+        expected_meta = {
+            k: getattr(run_result, k)
+            for k in ("stdout", "stderr", "success", "exit_code", "command", "duration")
+        }
+
+        submission = db.get_submission_by_id(sub_id)
+
+        assert len(submission["runs"]) == 2
+        for run in submission["runs"]:
+            if run["mode"] == "test":
+                assert run["start_time"] == submit_time
+                assert run["end_time"] == end_time
+                assert run["secret"] is False
+                assert run["runner"] == "A100"
+                assert run["score"] is None
+                assert run["compilation"] is None
+                assert run["passed"] is True
+                assert run["meta"] == expected_meta
+                assert run["result"] == run_result.result
+                assert run["system"] == dataclasses.asdict(sample_system_info())
+            elif run["mode"] == "leaderboard":
+                assert run["start_time"] == submit_time
+                assert run["end_time"] == end_time_2
+                assert run["secret"] is True
+                assert run["runner"] == "H100"
+                assert run["score"] == 5.5
+                assert run["passed"] is True
+                assert run["compilation"] == dataclasses.asdict(sample_compile_result())
+                assert run["meta"] == expected_meta
+                assert run["result"] == run_result.result
+                assert run["system"] == dataclasses.asdict(sample_system_info())
+
+        db.mark_submission_done(sub_id)
+
+        with pytest.raises(KernelBotError):
+            _create_submission_run(db, sub_id)
+
+
+def test_leaderboard_submission_count(database, submit_leaderboard):
+    """Check submission counting logic"""
+    submit_time = datetime.datetime.now(tz=datetime.timezone.utc)
+
+    # we used to have problems with literal \n in source files, so let's test that here
+    dangerous_code = r"'python string with\nspecial\tcharacters'"
+
+    with database as db:
+        sub_id = db.create_submission(
+            "submit-leaderboard", "submission.py", 5, dangerous_code, submit_time, user_name="user"
+        )
+        _create_submission_run(db, sub_id, mode="test", secret=False, runner="A100")
+        _create_submission_run(
+            db, sub_id, mode="leaderboard", secret=True, runner="H100", score=5.5
+        )
+        _create_submission_run(
+            db, sub_id, mode="leaderboard", secret=False, runner="A100", score=1.5
+        )
+        _create_submission_run(db, sub_id, mode="leaderboard", secret=True, runner="A100")
+        submission = db.get_submission_by_id(sub_id)
+
+        assert len(submission["runs"]) == 4
+
+        db.mark_submission_done(sub_id)
+    with database as db:
+        # H100: secret, not counted
+        assert db.get_leaderboard_submission_count("submit-leaderboard", "H100") == 0
+        # A100: only one of the two submissions has a score assigned
+        assert db.get_leaderboard_submission_count("submit-leaderboard", "A100") == 1
+        assert db.get_leaderboard_submission_count("submit-leaderboard", "A100", "5") == 1
+        assert db.get_leaderboard_submission_count("submit-leaderboard", "H100", "6") == 0
+
+
+def test_leaderboard_submission_ranked(database, submit_leaderboard):
+    """Check submission counting logic"""
+    submit_time = datetime.datetime.now(tz=datetime.timezone.utc)
+
+    # we used to have problems with literal \n in source files, so let's test that here
+    dangerous_code = r"'python string with\nspecial\tcharacters'"
+
+    with database as db:
+        sub_id = db.create_submission(
+            "submit-leaderboard", "submission.py", 5, dangerous_code, submit_time, user_name="user"
+        )
+        _create_submission_run(db, sub_id, mode="leaderboard", runner="A100", score=5.5)
+        _create_submission_run(db, sub_id, mode="leaderboard", secret=True, runner="A100")
+        db.mark_submission_done(sub_id)
+
+        sub_id = db.create_submission(
+            "submit-leaderboard", "submission.py", 5, dangerous_code, submit_time, user_name="user"
+        )
+        _create_submission_run(db, sub_id, mode="leaderboard", runner="A100", score=4.5)
+        _create_submission_run(db, sub_id, mode="leaderboard", secret=True, runner="A100")
+        db.mark_submission_done(sub_id)
+
+        sub_id = db.create_submission(
+            "submit-leaderboard", "submission.py", 5, dangerous_code, submit_time, user_name="user"
+        )
+        _create_submission_run(db, sub_id, mode="leaderboard", runner="A100", score=5.0)
+        _create_submission_run(db, sub_id, mode="leaderboard", secret=True, runner="A100")
+        db.mark_submission_done(sub_id)
+
+        sub_id = db.create_submission(
+            "submit-leaderboard", "submission.py", 6, dangerous_code, submit_time, user_name="user"
+        )
+        _create_submission_run(db, sub_id, mode="leaderboard", runner="A100", score=8.0)
+        _create_submission_run(db, sub_id, mode="leaderboard", secret=True, runner="A100")
+        db.mark_submission_done(sub_id)
+
+        sub_id = db.create_submission(
+            "submit-leaderboard", "submission.py", 6, dangerous_code, submit_time, user_name="user"
+        )
+        _create_submission_run(db, sub_id, mode="leaderboard", runner="H100", score=2.0)
+        _create_submission_run(db, sub_id, mode="leaderboard", secret=True, runner="H100")
+        db.mark_submission_done(sub_id)
+
+    with database as db:
+        ranked_sub = db.get_leaderboard_submissions("submit-leaderboard", "A100", None)
+        from decimal import Decimal
+
+        assert ranked_sub == [
+            {
+                "gpu_type": "A100",
+                "leaderboard_name": "submit-leaderboard",
+                "rank": 1,
+                "submission_id": 2,
+                "submission_name": "submission.py",
+                "submission_score": Decimal("4.5"),
+                "submission_time": submit_time,
+                "user_id": "5",
+                "user_name": "user",
+            },
+            {
+                "gpu_type": "A100",
+                "leaderboard_name": "submit-leaderboard",
+                "rank": 2,
+                "submission_id": 4,
+                "submission_name": "submission.py",
+                "submission_score": Decimal("8.0"),
+                "submission_time": submit_time,
+                "user_id": "6",
+                "user_name": "user",
+            },
+        ]
+
+
+def test_hacked_submissions_are_hidden_from_leaderboard_rankings(database, submit_leaderboard):
+    submit_time = datetime.datetime.now(tz=datetime.timezone.utc)
+
+    with database as db:
+        submission_status_hacked = db.create_submission(
+            "submit-leaderboard", "submission_status_hacked.py", 5, "fast", submit_time, user_name="user5"
+        )
+        _create_submission_run(
+            db, submission_status_hacked, mode="leaderboard", runner="A100", score=1.0
+        )
+        _create_submission_run(
+            db, submission_status_hacked, mode="leaderboard", secret=True, runner="A100"
+        )
+        db.mark_submission_hacked(submission_status_hacked, error="blocked")
+
+        job_status_hacked = db.create_submission(
+            "submit-leaderboard", "job_status_hacked.py", 6, "fast", submit_time, user_name="user6"
+        )
+        _create_submission_run(db, job_status_hacked, mode="leaderboard", runner="A100", score=0.5)
+        _create_submission_run(db, job_status_hacked, mode="leaderboard", secret=True, runner="A100")
+        db.mark_submission_done(job_status_hacked)
+        db.upsert_submission_job_status(job_status_hacked, "hacked", "blocked")
+
+        valid = db.create_submission(
+            "submit-leaderboard", "valid.py", 7, "valid", submit_time, user_name="user7"
+        )
+        _create_submission_run(db, valid, mode="leaderboard", runner="A100", score=2.0)
+        _create_submission_run(db, valid, mode="leaderboard", secret=True, runner="A100")
+        db.mark_submission_done(valid)
+
+    with database as db:
+        ranked = db.get_leaderboard_submissions("submit-leaderboard", "A100")
+        assert [row["submission_id"] for row in ranked] == [valid]
+
+        assert db.get_leaderboard_submissions("submit-leaderboard", "A100", "5") == []
+        assert db.get_leaderboard_submissions("submit-leaderboard", "A100", "6") == []
+        assert [row["submission_id"] for row in db.get_leaderboard_submissions(
+            "submit-leaderboard", "A100", "7"
+        )] == [valid]
+
+        assert db.get_leaderboard_submission_count("submit-leaderboard", "A100") == 1
+        assert db.get_leaderboard_submission_count("submit-leaderboard", "A100", "5") == 0
+        assert db.get_leaderboard_submission_count("submit-leaderboard", "A100", "6") == 0
+        assert db.get_leaderboard_submission_count("submit-leaderboard", "A100", "7") == 1
+
+
+def test_failed_secret_run_hides_submission_from_rankings(database, submit_leaderboard):
+    submit_time = datetime.datetime.now(tz=datetime.timezone.utc)
+    failed_secret = dataclasses.replace(sample_run_result(), passed=False)
+
+    with database as db:
+        hacked = db.create_submission(
+            "submit-leaderboard", "fast.py", 5, "fast", submit_time, user_name="user5"
+        )
+        _create_submission_run(db, hacked, mode="leaderboard", runner="A100", score=1.0)
+        _create_submission_run(
+            db,
+            hacked,
+            mode="leaderboard",
+            secret=True,
+            runner="A100",
+            score=None,
+            result=failed_secret,
+        )
+        db.mark_submission_done(hacked)
+
+        valid = db.create_submission(
+            "submit-leaderboard", "valid.py", 6, "valid", submit_time, user_name="user6"
+        )
+        _create_submission_run(db, valid, mode="leaderboard", runner="A100", score=2.0)
+        _create_submission_run(
+            db,
+            valid,
+            mode="leaderboard",
+            secret=True,
+            runner="A100",
+            score=None,
+        )
+        db.mark_submission_done(valid)
+
+    with database as db:
+        ranked = db.get_leaderboard_submissions("submit-leaderboard", "A100")
+        assert [row["submission_id"] for row in ranked] == [valid]
+        assert db.get_leaderboard_submission_count("submit-leaderboard", "A100") == 1
+        assert db.get_leaderboard_submission_count("submit-leaderboard", "A100", "5") == 0
+
+
+def test_failed_secret_benchmark_hides_public_leaderboard_score(database, submit_leaderboard):
+    submit_time = datetime.datetime.now(tz=datetime.timezone.utc)
+    failed_secret = dataclasses.replace(sample_run_result(), passed=False)
+
+    with database as db:
+        hacked = db.create_submission(
+            "submit-leaderboard", "fast.py", 5, "fast", submit_time, user_name="user5"
+        )
+        _create_submission_run(db, hacked, mode="leaderboard", runner="A100", score=1.0)
+        _create_submission_run(
+            db,
+            hacked,
+            mode="benchmark",
+            secret=True,
+            runner="A100",
+            score=None,
+            result=failed_secret,
+        )
+        db.mark_submission_done(hacked)
+
+        valid = db.create_submission(
+            "submit-leaderboard", "valid.py", 6, "valid", submit_time, user_name="user6"
+        )
+        _create_submission_run(db, valid, mode="leaderboard", runner="A100", score=2.0)
+        _create_submission_run(db, valid, mode="benchmark", secret=True, runner="A100")
+        _create_submission_run(db, valid, mode="leaderboard", secret=True, runner="A100")
+        db.mark_submission_done(valid)
+
+    with database as db:
+        ranked = db.get_leaderboard_submissions("submit-leaderboard", "A100")
+        assert [row["submission_id"] for row in ranked] == [valid]
+        assert db.get_leaderboard_submission_count("submit-leaderboard", "A100") == 1
+        assert db.get_leaderboard_submission_count("submit-leaderboard", "A100", "5") == 0
+
+
+def test_missing_secret_leaderboard_run_hides_public_leaderboard_score(
+    database, submit_leaderboard
+):
+    submit_time = datetime.datetime.now(tz=datetime.timezone.utc)
+
+    with database as db:
+        public_only = db.create_submission(
+            "submit-leaderboard", "public_only.py", 5, "fast", submit_time, user_name="user5"
+        )
+        _create_submission_run(db, public_only, mode="leaderboard", runner="A100", score=1.0)
+        db.mark_submission_done(public_only)
+
+        secret_test_only = db.create_submission(
+            "submit-leaderboard", "secret_test_only.py", 6, "fast", submit_time, user_name="user6"
+        )
+        _create_submission_run(db, secret_test_only, mode="leaderboard", runner="A100", score=1.5)
+        _create_submission_run(
+            db, secret_test_only, mode="test", secret=True, runner="A100"
+        )
+        db.mark_submission_done(secret_test_only)
+
+        valid = db.create_submission(
+            "submit-leaderboard", "valid.py", 7, "valid", submit_time, user_name="user7"
+        )
+        _create_submission_run(db, valid, mode="leaderboard", runner="A100", score=2.0)
+        _create_submission_run(db, valid, mode="leaderboard", secret=True, runner="A100")
+        db.mark_submission_done(valid)
+
+    with database as db:
+        ranked = db.get_leaderboard_submissions("submit-leaderboard", "A100")
+        assert [row["submission_id"] for row in ranked] == [valid]
+        assert db.get_leaderboard_submission_count("submit-leaderboard", "A100") == 1
+        assert db.get_leaderboard_submission_count("submit-leaderboard", "A100", "5") == 0
+        assert db.get_leaderboard_submission_count("submit-leaderboard", "A100", "6") == 0
+
+
+def test_failed_secret_run_hides_user_submission_scores(database, submit_leaderboard):
+    submit_time = datetime.datetime.now(tz=datetime.timezone.utc)
+    failed_secret = dataclasses.replace(sample_run_result(), passed=False)
+
+    with database as db:
+        sub_id = db.create_submission(
+            "submit-leaderboard", "fast.py", 5, "fast", submit_time, user_name="user5"
+        )
+        _create_submission_run(db, sub_id, mode="leaderboard", runner="A100", score=1.0)
+        _create_submission_run(
+            db,
+            sub_id,
+            mode="leaderboard",
+            secret=True,
+            runner="A100",
+            score=None,
+            result=failed_secret,
+        )
+        db.mark_submission_done(sub_id)
+
+    with database as db:
+        submissions = db.get_user_submissions("5", leaderboard_name="submit-leaderboard")
+        assert len(submissions) == 1
+        assert submissions[0]["id"] == sub_id
+        assert submissions[0]["runs"] == []
+
+
+def test_validate_identity_web_auth_happy_path(database, submit_leaderboard):
+    with database as db:
+        db.cursor.execute(
+                """
+                INSERT INTO leaderboard.user_info (id, user_name, web_auth_id)
+                VALUES (%s, %s, %s)
+                """,
+                ("1234", "sara_jojo","2345" ),
+            )
+        user_info = db.validate_identity("2345",IdentityType.WEB)
+        assert user_info["user_id"] =="1234"
+        assert user_info["user_name"] =="sara_jojo"
+        assert user_info["id_type"] ==IdentityType.WEB.value
+
+def  test_validate_identity_web_auth_not_found(database, submit_leaderboard):
+    with database as db:
+        db.cursor.execute(
+                """
+                INSERT INTO leaderboard.user_info (id, user_name)
+                VALUES (%s, %s)
+                """,
+                ("1234", "sara_jojo"),
+            )
+        user_info = db.validate_identity("2345",IdentityType.WEB)
+        assert user_info is None
+
+def test_validate_identity_web_auth_missing(database, submit_leaderboard):
+    with database as db:
+        db.cursor.execute(
+                """
+                INSERT INTO leaderboard.user_info (id, user_name)
+                VALUES (%s, %s)
+                """,
+                ("1234", "sara_jojo"),
+            )
+        res = db.validate_identity("2345",IdentityType.WEB)
+        assert res is None
+
+
+def test_leaderboard_submission_deduplication(database, submit_leaderboard):
+    """validate that identical submission codes are added just once"""
+    with database as db:
+        db.create_submission(
+            "submit-leaderboard",
+            "submission.py",
+            5,
+            "pass",
+            datetime.datetime.now(),
+            user_name="user",
+        )
+        db.create_submission(
+            "submit-leaderboard", "other.py", 6, "pass", datetime.datetime.now(), user_name="other"
+        )
+
+        db.cursor.execute("SELECT COUNT(*) FROM leaderboard.code_files")
+        assert db.cursor.fetchone()[0] == 1
+
+
+def test_leaderboard_submission_delete(database, submit_leaderboard):
+    with database as db:
+        sub_id = db.create_submission(
+            "submit-leaderboard",
+            "submission.py",
+            5,
+            "pass",
+            datetime.datetime.now(),
+            user_name="user",
+        )
+        other_sub = db.create_submission(
+            "submit-leaderboard",
+            "submission.py",
+            5,
+            "different",
+            datetime.datetime.now(),
+            user_name="user",
+        )
+
+        _create_submission_run(db, sub_id, mode="leaderboard", secret=False, runner="A100", score=5)
+        _create_submission_run(db, sub_id, mode="leaderboard", secret=True, runner="A100", score=5)
+        _create_submission_run(
+            db, other_sub, mode="leaderboard", secret=False, runner="A100", score=5
+        )
+        db.mark_submission_done(sub_id)
+
+        db.cursor.execute("SELECT COUNT(*) FROM leaderboard.runs")
+        assert db.cursor.fetchone()[0] == 3
+
+        db.cursor.execute("SELECT COUNT(*) FROM leaderboard.submission")
+        assert db.cursor.fetchone()[0] == 2
+
+        # ok, now delete
+        db.delete_submission(sub_id)
+        assert db.get_submission_by_id(sub_id) is None
+        assert db.get_submission_by_id(other_sub) is not None
+
+        # run and submission are deleted
+        db.cursor.execute("SELECT COUNT(*) FROM leaderboard.runs")
+        assert db.cursor.fetchone()[0] == 1
+
+        db.cursor.execute("SELECT COUNT(*) FROM leaderboard.submission")
+        assert db.cursor.fetchone()[0] == 1
+
+        # but the code file remains
+        db.cursor.execute("SELECT COUNT(*) FROM leaderboard.code_files")
+        assert db.cursor.fetchone()[0] == 2
+
+
+def test_delete_leaderboard(database, submit_leaderboard):
+    with database as db:
+        db.delete_leaderboard("submit-leaderboard")
+        assert db.get_leaderboard_names() == []
+
+
+def test_delete_submissions_for_user(database, submit_leaderboard):
+    with database as db:
+        target_a = db.create_submission(
+            "submit-leaderboard",
+            "submission.py",
+            5,
+            "pass",
+            datetime.datetime.now(),
+            user_name="target-user",
+        )
+        target_b = db.create_submission(
+            "submit-leaderboard",
+            "submission.py",
+            5,
+            "pass 2",
+            datetime.datetime.now(),
+            user_name="target-user",
+        )
+        other = db.create_submission(
+            "submit-leaderboard",
+            "submission.py",
+            7,
+            "different",
+            datetime.datetime.now(),
+            user_name="other-user",
+        )
+
+        _create_submission_run(db, target_a, mode="leaderboard", secret=False, runner="A100", score=5)
+        _create_submission_run(db, target_b, mode="test", secret=False, runner="A100", score=None)
+        _create_submission_run(db, other, mode="leaderboard", secret=False, runner="A100", score=7)
+        db.upsert_submission_job_status(target_a, "running", None)
+        db.upsert_submission_job_status(target_b, "pending", None)
+
+        deleted = db.delete_submissions_for_user(db.get_leaderboard_id("submit-leaderboard"), "target-user")
+
+        assert deleted == {
+            "deleted_job_status": 2,
+            "deleted_runs": 2,
+            "deleted_submissions": 2,
+        }
+        assert db.get_submission_by_id(target_a) is None
+        assert db.get_submission_by_id(target_b) is None
+        assert db.get_submission_by_id(other) is not None
+
+        db.cursor.execute("SELECT COUNT(*) FROM leaderboard.runs")
+        assert db.cursor.fetchone()[0] == 1
+
+        db.cursor.execute("SELECT COUNT(*) FROM leaderboard.submission_job_status")
+        assert db.cursor.fetchone()[0] == 0
+
+        db.cursor.execute("SELECT COUNT(*) FROM leaderboard.submission")
+        assert db.cursor.fetchone()[0] == 1
+
+
+def test_delete_submissions_for_user_missing_leaderboard(database):
+    with database as db:
+        with pytest.raises(
+            leaderboard_db.LeaderboardDoesNotExist,
+            match="Leaderboard `999999` does not exist.",
+        ):
+            db.delete_submissions_for_user(999999, "target-user")
+
+
+def test_delete_leaderboard_with_runs(database, submit_leaderboard):
+    with database as db:
+        db.create_submission(
+            "submit-leaderboard",
+            "submission.py",
+            5,
+            "pass",
+            datetime.datetime.now(),
+            user_name="user",
+        )
+
+        db.cursor.execute("SELECT COUNT(*) FROM leaderboard.templates")
+        assert db.cursor.fetchone()[0] > 0
+
+        with pytest.raises(
+            KernelBotError,
+            match="Could not delete leaderboard `submit-leaderboard` with existing submissions.",
+        ):
+            db.delete_leaderboard("submit-leaderboard")
+
+        # nothing was deleted
+        db.cursor.execute("SELECT COUNT(*) FROM leaderboard.templates")
+        assert db.cursor.fetchone()[0] > 0
+        assert db.get_leaderboard_names() == ["submit-leaderboard"]
+
+        db.delete_leaderboard("submit-leaderboard", force=True)
+        assert db.get_leaderboard_names() == []
+        db.cursor.execute("SELECT COUNT(*) FROM leaderboard.submission")
+        assert db.cursor.fetchone()[0] == 0
+
+        db.cursor.execute("SELECT COUNT(*) FROM leaderboard.templates")
+        assert db.cursor.fetchone()[0] == 0
+
+
+def test_leaderboard_update(database, task_directory):
+    from libkernelbot.task import make_task_definition
+
+    definition = make_task_definition(task_directory / "task.yml")
+
+    deadline = datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1)
+    new_deadline = datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=2)
+
+    new_def = copy.deepcopy(definition)
+    new_def.description = "new description"
+    new_def.task.test_timeout = 14532
+    new_def.templates["CUDA"] = "// new CUDA template"
+
+    with database as db:
+        # create initial leaderboard
+        db.create_leaderboard(
+            name="test-leaderboard",
+            deadline=deadline,
+            definition=definition,
+            creator_id=1,
+            forum_id=5,
+            gpu_types=["A100", "H100"],
+        )
+
+        # update deadline
+        db.update_leaderboard("test-leaderboard", new_deadline, new_def)
+        updated_lb = db.get_leaderboard("test-leaderboard")
+        assert updated_lb["deadline"] == new_deadline
+        assert updated_lb["description"] == "new description"
+        assert updated_lb["task"] == new_def.task
+
+        assert db.get_leaderboard_templates("test-leaderboard") == {
+            "CUDA": "// new CUDA template",
+            "Python": "# Python template",
+        }
+
+
+def test_generate_stats(database, submit_leaderboard):
+    with database as db:
+        start = datetime.datetime.now(tz=datetime.timezone.utc)
+        sub_id = db.create_submission(
+            "submit-leaderboard", "submission.py", 5, "pass", start, user_name="user"
+        )
+        _create_submission_run(
+            db,
+            sub_id,
+            start=start + datetime.timedelta(seconds=10),
+            end=start + datetime.timedelta(seconds=20),
+            mode="leaderboard",
+            secret=False,
+            runner="A100",
+            score=5,
+        )
+        _create_submission_run(
+            db,
+            sub_id,
+            start=start + datetime.timedelta(seconds=20),
+            end=start + datetime.timedelta(seconds=30),
+            mode="leaderboard",
+            secret=True,
+            runner="A100",
+            score=6,
+        )
+        _create_submission_run(
+            db,
+            sub_id,
+            start=start,
+            end=start + datetime.timedelta(seconds=15),
+            mode="leaderboard",
+            secret=False,
+            runner="A100",
+            score=4,
+        )
+        db.mark_submission_done(sub_id)
+
+        assert db.generate_stats(False) == {
+            "avg_delay.A100": datetime.timedelta(seconds=10),
+            "max_delay.A100": datetime.timedelta(seconds=20),
+            "num_run.A100": 3,
+            "num_submissions": 1,
+            "num_unique_codes": 1,
+            "num_users": 1,
+            "runs_passed.A100": 3,
+            "runs_scored.A100": 3,
+            "runs_secret.A100": 1,
+            "sub_waiting": 0,
+            "total_runtime.A100": datetime.timedelta(seconds=35),
+        }
+
+        # Same results when filtering by the correct leaderboard
+        assert db.generate_stats(False, leaderboard_name="submit-leaderboard") == {
+            "avg_delay.A100": datetime.timedelta(seconds=10),
+            "max_delay.A100": datetime.timedelta(seconds=20),
+            "num_run.A100": 3,
+            "num_submissions": 1,
+            "num_unique_codes": 1,
+            "num_users": 1,
+            "runs_passed.A100": 3,
+            "runs_scored.A100": 3,
+            "runs_secret.A100": 1,
+            "sub_waiting": 0,
+            "total_runtime.A100": datetime.timedelta(seconds=35),
+        }
+
+        # Empty results when filtering by a non-existent leaderboard
+        assert db.generate_stats(False, leaderboard_name="nonexistent") == {
+            "num_submissions": 0,
+            "sub_waiting": 0,
+            "num_users": 0,
+            "num_unique_codes": 0,
+        }
+
+
+def test_get_user_submissions_empty(database, submit_leaderboard):
+    """Test get_user_submissions returns empty list for user with no submissions"""
+    with database as db:
+        result = db.get_user_submissions(user_id="999")
+        assert result == []
+
+
+def test_get_user_submissions_basic(database, submit_leaderboard):
+    """Test get_user_submissions returns user's submissions"""
+    with database as db:
+        # Create submissions for two different users
+        sub1 = db.create_submission(
+            "submit-leaderboard",
+            "user5_file.py",
+            5,
+            "code for user 5",
+            datetime.datetime.now(tz=datetime.timezone.utc),
+            user_name="user5",
+        )
+        db.create_submission(
+            "submit-leaderboard",
+            "user5_other.py",
+            5,
+            "more code for user 5",
+            datetime.datetime.now(tz=datetime.timezone.utc),
+            user_name="user5",
+        )
+        db.create_submission(
+            "submit-leaderboard",
+            "user6_file.py",
+            6,
+            "code for user 6",
+            datetime.datetime.now(tz=datetime.timezone.utc),
+            user_name="user6",
+        )
+
+        # Add a run to sub1
+        _create_submission_run(db, sub1, mode="leaderboard", secret=False, runner="A100", score=1.5)
+        db.mark_submission_done(sub1)
+
+        # Get user 5's submissions
+        result = db.get_user_submissions(user_id="5")
+        assert len(result) == 2
+
+        # Check that both submissions belong to user 5
+        file_names = {r["file_name"] for r in result}
+        assert "user5_file.py" in file_names
+        assert "user5_other.py" in file_names
+
+        # Verify user 6 is not included
+        assert all(r["file_name"].startswith("user5") for r in result)
+
+
+def test_get_user_submissions_with_leaderboard_filter(database, task_directory):
+    """Test get_user_submissions filters by leaderboard name"""
+    from libkernelbot.task import make_task_definition
+
+    definition = make_task_definition(task_directory / "task.yml")
+    deadline = datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1)
+
+    with database as db:
+        # Create two leaderboards
+        db.create_leaderboard(
+            name="leaderboard-a",
+            deadline=deadline,
+            definition=definition,
+            creator_id=1,
+            forum_id=5,
+            gpu_types=["A100"],
+        )
+        db.create_leaderboard(
+            name="leaderboard-b",
+            deadline=deadline,
+            definition=definition,
+            creator_id=1,
+            forum_id=6,
+            gpu_types=["H100"],
+        )
+
+        # Create submissions on different leaderboards
+        db.create_submission(
+            "leaderboard-a",
+            "file_a.py",
+            5,
+            "code a",
+            datetime.datetime.now(tz=datetime.timezone.utc),
+            user_name="user5",
+        )
+        db.create_submission(
+            "leaderboard-b",
+            "file_b.py",
+            5,
+            "code b",
+            datetime.datetime.now(tz=datetime.timezone.utc),
+            user_name="user5",
+        )
+
+        # Filter by leaderboard-a
+        result = db.get_user_submissions(user_id="5", leaderboard_name="leaderboard-a")
+        assert len(result) == 1
+        assert result[0]["file_name"] == "file_a.py"
+        assert result[0]["leaderboard_name"] == "leaderboard-a"
+
+        # Filter by leaderboard-b
+        result = db.get_user_submissions(user_id="5", leaderboard_name="leaderboard-b")
+        assert len(result) == 1
+        assert result[0]["file_name"] == "file_b.py"
+
+
+def test_get_user_submissions_pagination(database, submit_leaderboard):
+    """Test get_user_submissions respects limit and offset"""
+    with database as db:
+        # Create 5 submissions
+        for i in range(5):
+            db.create_submission(
+                "submit-leaderboard",
+                f"file_{i}.py",
+                5,
+                f"code {i}",
+                datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(seconds=i),
+                user_name="user5",
+            )
+
+        # Test limit
+        result = db.get_user_submissions(user_id="5", limit=2)
+        assert len(result) == 2
+
+        # Test offset
+        result_all = db.get_user_submissions(user_id="5", limit=10)
+        result_offset = db.get_user_submissions(user_id="5", limit=2, offset=2)
+        assert len(result_offset) == 2
+        assert result_offset[0]["id"] == result_all[2]["id"]
+
+
+def test_get_user_submissions_with_multiple_runs(database, submit_leaderboard):
+    """Test get_user_submissions returns all runs per submission"""
+    with database as db:
+        # Create a submission
+        sub1 = db.create_submission(
+            "submit-leaderboard",
+            "multi_run.py",
+            5,
+            "code",
+            datetime.datetime.now(tz=datetime.timezone.utc),
+            user_name="user5",
+        )
+
+        # Add multiple runs on different GPUs
+        _create_submission_run(db, sub1, runner="A100", score=1.5, secret=False)
+        _create_submission_run(db, sub1, runner="A100", secret=True)
+        _create_submission_run(db, sub1, runner="H100", score=2.0, secret=False)
+        _create_submission_run(db, sub1, runner="H100", secret=True)
+        db.mark_submission_done(sub1)
+
+        # Get submissions
+        result = db.get_user_submissions(user_id="5")
+        assert len(result) == 1
+
+        # Verify runs list contains both runs
+        submission = result[0]
+        assert "runs" in submission
+        assert len(submission["runs"]) == 2
+
+        # Verify run data
+        gpu_types = {r["gpu_type"] for r in submission["runs"]}
+        assert "A100" in gpu_types
+        assert "H100" in gpu_types
+
+        scores = {r["score"] for r in submission["runs"]}
+        assert 1.5 in scores
+        assert 2.0 in scores
+
+
+def test_check_leaderboard_access_public(database, submit_leaderboard):
+    """Public leaderboards grant access to everyone."""
+    with database as db:
+        assert db.check_leaderboard_access("submit-leaderboard", "999") is True
+
+
+def test_check_leaderboard_access_closed_no_invite(database, task_directory):
+    """Closed leaderboards deny access without a claimed invite."""
+    from libkernelbot.task import make_task_definition
+
+    definition = make_task_definition(task_directory / "task.yml")
+    deadline = datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1)
+
+    with database as db:
+        db.create_leaderboard(
+            name="closed-lb",
+            deadline=deadline,
+            definition=definition,
+            creator_id=1,
+            forum_id=5,
+            gpu_types=["A100"],
+            visibility="closed",
+        )
+        assert db.check_leaderboard_access("closed-lb", "999") is False
+
+
+def test_check_leaderboard_access_closed_with_invite(database, task_directory):
+    """Closed leaderboards grant access after claiming an invite."""
+    from libkernelbot.task import make_task_definition
+
+    definition = make_task_definition(task_directory / "task.yml")
+    deadline = datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1)
+
+    with database as db:
+        db.create_leaderboard(
+            name="closed-lb",
+            deadline=deadline,
+            definition=definition,
+            creator_id=1,
+            forum_id=5,
+            gpu_types=["A100"],
+            visibility="closed",
+        )
+        codes = db.generate_invite_codes(["closed-lb"], 1)
+        assert db.check_leaderboard_access("closed-lb", "42") is False
+        db.claim_invite_code(codes[0], "42")
+        assert db.check_leaderboard_access("closed-lb", "42") is True
+
+
+def test_generate_invite_codes(database, task_directory):
+    """Generate invite codes returns unique codes."""
+    from libkernelbot.task import make_task_definition
+
+    definition = make_task_definition(task_directory / "task.yml")
+    deadline = datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1)
+
+    with database as db:
+        db.create_leaderboard(
+            name="closed-lb",
+            deadline=deadline,
+            definition=definition,
+            creator_id=1,
+            forum_id=5,
+            gpu_types=["A100"],
+            visibility="closed",
+        )
+        codes = db.generate_invite_codes(["closed-lb"], 5)
+        assert len(codes) == 5
+        assert len(set(codes)) == 5  # all unique
+
+
+def test_generate_invite_codes_multi_leaderboard(database, task_directory):
+    """Generate invite codes covering multiple leaderboards."""
+    from libkernelbot.task import make_task_definition
+
+    definition = make_task_definition(task_directory / "task.yml")
+    deadline = datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1)
+
+    with database as db:
+        db.create_leaderboard(
+            name="closed-lb-1", deadline=deadline, definition=definition,
+            creator_id=1, forum_id=5, gpu_types=["A100"], visibility="closed",
+        )
+        db.create_leaderboard(
+            name="closed-lb-2", deadline=deadline, definition=definition,
+            creator_id=1, forum_id=6, gpu_types=["A100"], visibility="closed",
+        )
+        codes = db.generate_invite_codes(["closed-lb-1", "closed-lb-2"], 2)
+        assert len(codes) == 2
+
+        # Claiming one code grants access to both leaderboards
+        db.claim_invite_code(codes[0], "42")
+        assert db.check_leaderboard_access("closed-lb-1", "42") is True
+        assert db.check_leaderboard_access("closed-lb-2", "42") is True
+
+        # Unclaimed code doesn't grant access
+        assert db.check_leaderboard_access("closed-lb-1", "99") is False
+
+
+def test_claim_invite_code_already_claimed(database, task_directory):
+    """Claiming an already-claimed code raises an error."""
+    from libkernelbot.task import make_task_definition
+
+    definition = make_task_definition(task_directory / "task.yml")
+    deadline = datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1)
+
+    with database as db:
+        db.create_leaderboard(
+            name="closed-lb",
+            deadline=deadline,
+            definition=definition,
+            creator_id=1,
+            forum_id=5,
+            gpu_types=["A100"],
+            visibility="closed",
+        )
+        codes = db.generate_invite_codes(["closed-lb"], 1)
+        db.claim_invite_code(codes[0], "42")
+
+        with pytest.raises(KernelBotError, match="already been claimed"):
+            db.claim_invite_code(codes[0], "99")
+
+
+def test_claim_invite_code_idempotent(database, task_directory):
+    """Same user claiming the same code again is idempotent."""
+    from libkernelbot.task import make_task_definition
+
+    definition = make_task_definition(task_directory / "task.yml")
+    deadline = datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1)
+
+    with database as db:
+        db.create_leaderboard(
+            name="closed-lb",
+            deadline=deadline,
+            definition=definition,
+            creator_id=1,
+            forum_id=5,
+            gpu_types=["A100"],
+            visibility="closed",
+        )
+        codes = db.generate_invite_codes(["closed-lb"], 1)
+        db.claim_invite_code(codes[0], "42")
+        result = db.claim_invite_code(codes[0], "42")  # no error
+        assert result["leaderboards"] == ["closed-lb"]
+
+
+def test_claim_invite_code_invalid(database, task_directory):
+    """Claiming a nonexistent code raises an error."""
+    with database as db:
+        with pytest.raises(KernelBotError, match="Invalid invite code"):
+            db.claim_invite_code("bogus-code", "42")
+
+
+def test_get_invite_codes(database, task_directory):
+    """Admin can list invite codes with claim status."""
+    from libkernelbot.task import make_task_definition
+
+    definition = make_task_definition(task_directory / "task.yml")
+    deadline = datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1)
+
+    with database as db:
+        db.create_leaderboard(
+            name="closed-lb",
+            deadline=deadline,
+            definition=definition,
+            creator_id=1,
+            forum_id=5,
+            gpu_types=["A100"],
+            visibility="closed",
+        )
+        codes = db.generate_invite_codes(["closed-lb"], 3)
+        db.claim_invite_code(codes[0], "42")
+
+        invites = db.get_invite_codes("closed-lb")
+        assert len(invites) == 3
+
+        claimed = [i for i in invites if i["user_id"] is not None]
+        unclaimed = [i for i in invites if i["user_id"] is None]
+        assert len(claimed) == 1
+        assert len(unclaimed) == 2
+        assert claimed[0]["user_id"] == "42"
+        assert claimed[0]["code"] == codes[0]
+
+
+def test_leaderboard_visibility_field(database, task_directory):
+    """Leaderboard visibility field is returned correctly."""
+    from libkernelbot.task import make_task_definition
+
+    definition = make_task_definition(task_directory / "task.yml")
+    deadline = datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1)
+
+    with database as db:
+        db.create_leaderboard(
+            name="public-lb",
+            deadline=deadline,
+            definition=definition,
+            creator_id=1,
+            forum_id=5,
+            gpu_types=["A100"],
+        )
+        db.create_leaderboard(
+            name="closed-lb",
+            deadline=deadline,
+            definition=definition,
+            creator_id=1,
+            forum_id=6,
+            gpu_types=["A100"],
+            visibility="closed",
+        )
+
+        assert db.get_leaderboard("public-lb")["visibility"] == "public"
+        assert db.get_leaderboard("closed-lb")["visibility"] == "closed"
+
+        lbs = db.get_leaderboards()
+        vis_map = {lb["name"]: lb["visibility"] for lb in lbs}
+        assert vis_map["public-lb"] == "public"
+        assert vis_map["closed-lb"] == "closed"
+
+
+def test_set_leaderboard_visibility(database, submit_leaderboard):
+    """Changing visibility works."""
+    with database as db:
+        assert db.get_leaderboard("submit-leaderboard")["visibility"] == "public"
+        db.set_leaderboard_visibility("submit-leaderboard", "closed")
+        assert db.get_leaderboard("submit-leaderboard")["visibility"] == "closed"
+        db.set_leaderboard_visibility("submit-leaderboard", "public")
+        assert db.get_leaderboard("submit-leaderboard")["visibility"] == "public"
+
+
+# --- Rate Limit Tests ---
+
+
+def test_set_rate_limit(database, submit_leaderboard):
+    """Setting a rate limit creates it and upserting updates it."""
+    with database as db:
+        result = db.set_rate_limit("submit-leaderboard", "test", 5)
+        assert result["mode_category"] == "test"
+        assert result["max_submissions_per_hour"] == 5
+        assert result["leaderboard_name"] == "submit-leaderboard"
+
+        # Upsert updates the value
+        result = db.set_rate_limit("submit-leaderboard", "test", 10)
+        assert result["max_submissions_per_hour"] == 10
+
+        # Different category creates a separate entry
+        result = db.set_rate_limit("submit-leaderboard", "leaderboard", 3)
+        assert result["mode_category"] == "leaderboard"
+        assert result["max_submissions_per_hour"] == 3
+
+
+def test_get_rate_limits_empty(database, submit_leaderboard):
+    """No rate limits returns empty list."""
+    with database as db:
+        limits = db.get_rate_limits("submit-leaderboard")
+        assert limits == []
+
+
+def test_get_rate_limits(database, submit_leaderboard):
+    """Getting rate limits returns all configured limits."""
+    with database as db:
+        db.set_rate_limit("submit-leaderboard", "test", 5)
+        db.set_rate_limit("submit-leaderboard", "leaderboard", 3)
+        limits = db.get_rate_limits("submit-leaderboard")
+        assert len(limits) == 2
+        categories = {r["mode_category"] for r in limits}
+        assert categories == {"test", "leaderboard"}
+
+
+def test_delete_rate_limit(database, submit_leaderboard):
+    """Deleting a rate limit removes it."""
+    with database as db:
+        db.set_rate_limit("submit-leaderboard", "test", 5)
+        db.delete_rate_limit("submit-leaderboard", "test")
+        limits = db.get_rate_limits("submit-leaderboard")
+        assert limits == []
+
+
+def test_delete_rate_limit_not_found(database, submit_leaderboard):
+    """Deleting a non-existent rate limit raises an error."""
+    with database as db:
+        with pytest.raises(KernelBotError, match="No rate limit found"):
+            db.delete_rate_limit("submit-leaderboard", "test")
+
+
+def test_check_rate_limit_no_config(database, submit_leaderboard):
+    """check_rate_limit returns None when no rate limit is configured."""
+    with database as db:
+        result = db.check_rate_limit("submit-leaderboard", "123", "test")
+        assert result is None
+
+
+def test_check_rate_limit_zero_limit_blocks_submissions(database, submit_leaderboard):
+    """A zero rate limit keeps a leaderboard visible while rejecting submissions."""
+    with database as db:
+        db.set_rate_limit("submit-leaderboard", "leaderboard", 0)
+        result = db.check_rate_limit("submit-leaderboard", "123", "leaderboard")
+        assert result["allowed"] is False
+        assert result["current_count"] == 0
+        assert result["max_per_hour"] == 0
+
+
+def test_check_rate_limit_under_limit(database, submit_leaderboard):
+    """check_rate_limit allows submissions under the limit."""
+    with database as db:
+        db.set_rate_limit("submit-leaderboard", "test", 5)
+        db.create_submission(
+            "submit-leaderboard", "test.py", 123, "code1", datetime.datetime.now(), mode_category="test"
+        )
+        result = db.check_rate_limit("submit-leaderboard", "123", "test")
+        assert result["allowed"] is True
+        assert result["current_count"] == 1
+        assert result["max_per_hour"] == 5
+
+
+def test_check_rate_limit_at_limit(database, submit_leaderboard):
+    """check_rate_limit blocks submissions at the limit."""
+    with database as db:
+        db.set_rate_limit("submit-leaderboard", "test", 2)
+        for i in range(2):
+            db.create_submission(
+                "submit-leaderboard", f"test{i}.py", 123, f"code{i}", datetime.datetime.now(), mode_category="test"
+            )
+        result = db.check_rate_limit("submit-leaderboard", "123", "test")
+        assert result["allowed"] is False
+        assert result["current_count"] == 2
+        assert result["max_per_hour"] == 2
+        assert result["retry_after_seconds"] >= 0
+
+
+def test_check_rate_limit_categories_independent(database, submit_leaderboard):
+    """Test submissions don't count against leaderboard rate limit."""
+    with database as db:
+        db.set_rate_limit("submit-leaderboard", "test", 1)
+        db.set_rate_limit("submit-leaderboard", "leaderboard", 1)
+        # Use up test limit
+        db.create_submission(
+            "submit-leaderboard", "test.py", 123, "code_test", datetime.datetime.now(), mode_category="test"
+        )
+        # Leaderboard should still be allowed
+        result = db.check_rate_limit("submit-leaderboard", "123", "leaderboard")
+        assert result["allowed"] is True
+        assert result["current_count"] == 0
+
+        # Test should be blocked
+        result = db.check_rate_limit("submit-leaderboard", "123", "test")
+        assert result["allowed"] is False

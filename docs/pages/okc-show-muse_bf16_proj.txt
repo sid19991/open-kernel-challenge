@@ -1,0 +1,81 @@
+◆ muse_bf16_proj
+
+Dense projections. The attention and MoE-block projections and the router, as
+one GPU runs them serving Muse Spark Open on 8×H200. They are BF16 (the router
+FP32).
+
+  SGLang      4,830.8 µs  per decode step
+  GPU         H200  one, no network
+  Limits      10 runs and 20 checks a day
+
+Computation
+  # x: [m, k] BF16   W: [n, k] = weights[layer]
+  # qkv_gate, o, pooler, unpooler: BF16; router: FP32
+  out = x @ W.T  # [m, n], BF16 (router: FP32)
+
+Inputs
+  kernel_fn(data: Inputs, state) returns bfloat16 / float32 [m, n]. state is
+  what prepare(weights) returned.
+
+  class Inputs(TypedDict):
+      x: torch.Tensor  # bfloat16 [m, k]
+      config: Config
+
+  class Weights(TypedDict):
+      qkv_gate: torch.Tensor  # bfloat16 [2304, 8192]
+      o: torch.Tensor         # bfloat16 [8192, 1024]
+      pooler: torch.Tensor    # bfloat16 [4096, 8192]
+      unpooler: torch.Tensor  # bfloat16 [8192, 4096]
+      router: torch.Tensor    # float32 [256, 8192]
+
+  class Config(TypedDict):
+      m: int
+      # output width; the unpooler's is 1024 up to 8 tokens (this GPU's slice),
+      # else 8192
+      n: int
+      k: int
+      # which weight: "qkv_gate", "o", "pooler", "unpooler" or "router"
+      layer: str
+
+Scored shapes
+  load        m     layer      weight
+  ───────────────────────────────────
+  decode 1    1     qkv_gate   62
+  decode 1    1     o          62
+  decode 1    1     pooler     62
+  decode 1    1     unpooler   62
+  decode 1    1     router     62
+  decode 16   16    qkv_gate   62
+  decode 16   16    o          62
+  decode 16   16    pooler     62
+  decode 16   16    unpooler   62
+  decode 16   16    router     62
+  decode 32   32    qkv_gate   62
+  decode 32   32    o          62
+  decode 32   32    pooler     62
+  decode 32   32    unpooler   62
+  decode 32   32    router     62
+  verify 1    8     qkv_gate   62
+  verify 1    8     o          62
+  verify 1    8     pooler     62
+  verify 1    8     unpooler   62
+  verify 1    8     router     62
+  verify 16   128   qkv_gate   62
+  verify 16   128   o          62
+  verify 16   128   pooler     62
+  verify 16   128   unpooler   62
+  verify 16   128   router     62
+  verify 32   256   qkv_gate   62
+  verify 32   256   o          62
+  verify 32   256   pooler     62
+  verify 32   256   unpooler   62
+  verify 32   256   router     62
+
+  m is the tokens per step: 1, 16 and 32 for decode, and 8, 128 and 256 for
+  8-token verify blocks. The weights arrive once, in prepare(), untimed.
+
+  Decode loads are SGLang serving with speculative decoding off; verify loads
+  are its default recipe, which checks each request's 8-token draft in one step.
+
+next  okc init muse_bf16_proj
+      okc leaderboard muse_bf16_proj

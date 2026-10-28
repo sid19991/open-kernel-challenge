@@ -1,0 +1,27 @@
+name: Linear Algebra
+
+deadline: ""
+
+description: "Core linear algebra kernels for modern accelerator workloads."
+
+problems:
+  - directory: linalg/qr_py
+    name: qr
+    deadline: "2026-06-30"
+    gpus:
+      - B200
+  - directory: linalg/qr_v2
+    name: qr_v2
+    deadline: "2026-06-30"
+    gpus:
+      - B200
+  - directory: linalg/eigh_py
+    name: eigh
+    deadline: "2026-07-15"
+    gpus:
+      - B200
+  - directory: linalg/cholesky_py
+    name: cholesky
+    deadline: "2026-07-30"
+    gpus:
+      - B200

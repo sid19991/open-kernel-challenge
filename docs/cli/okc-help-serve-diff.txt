@@ -1,0 +1,3 @@
+usage  okc serve diff [dir]
+
+write your patch to patch.diff

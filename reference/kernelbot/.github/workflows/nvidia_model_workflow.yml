@@ -1,0 +1,73 @@
+name: NVIDIA Model Benchmark Job
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: 'Unique identifier for this run'
+        required: true
+        type: string
+      payload:
+        description: 'Content of the user submission config, as compressed json string'
+        required: true
+        type: string
+
+run-name: 'Model Job - ${{ github.event.inputs.run_id }}'
+
+jobs:
+  run:
+    runs-on: [nvidia-docker-b200-8-x86-64]
+    timeout-minutes: 60
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_REPOSITORY: ${{ github.repository }}
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Create input files
+      shell: bash
+      run: |
+        # Extract the payload content without printing it
+        apt-get update && apt-get install -y jq
+        PAYLOAD=$(jq -r '.inputs.payload' $GITHUB_EVENT_PATH)
+
+        # Apply mask to the extracted content
+        echo "::add-mask::$PAYLOAD"
+
+        # Now write to file (won't be logged since it's masked)
+        echo "$PAYLOAD" > payload.json
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v4
+
+    - name: Setup environment
+      shell: bash
+      run: |
+        uv venv .venv --python 3.10
+        echo "VIRTUAL_ENV=$PWD/.venv" >> $GITHUB_ENV
+        echo "$PWD/.venv/bin" >> $GITHUB_PATH
+
+        # Install torch first (build dep for vLLM)
+        uv pip install torch==2.9.1 --index-url https://download.pytorch.org/whl/cu130
+
+        # Install vLLM to pull in all transitive deps, then remove vllm itself.
+        # The user's fork gets installed fresh by the benchmark runner.
+        uv pip install vllm && uv pip uninstall vllm
+
+        # Install kernelbot
+        uv pip install -r "requirements-dev.txt"
+        uv pip install -e .
+
+    - name: Run model benchmark
+      shell: bash
+      env:
+        SETUPTOOLS_SCM_PRETEND_VERSION: "0.0.1.dev0"
+      run: |
+        python3 src/runners/github-runner.py
+
+    - name: Upload benchmark results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: run-result
+        path: result.json

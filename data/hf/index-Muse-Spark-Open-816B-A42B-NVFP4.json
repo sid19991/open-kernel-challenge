@@ -1,0 +1,257 @@
+{
+  "repo": "meta-models/Muse-Spark-Open-816B-A42B-NVFP4",
+  "n_files": 50,
+  "total_bytes": 178988068488,
+  "files": [
+    {
+      "path": ".gitattributes",
+      "size": 1570,
+      "oid": "52373fe24473b1aa44333d318f578ae6bf04b49b"
+    },
+    {
+      "path": "LICENSE.md",
+      "size": 8299,
+      "oid": "425b4e8bd18106f70cc707f2717cdb81b252b020"
+    },
+    {
+      "path": "README.md",
+      "size": 20648,
+      "oid": "725b43a66b0e16060f0271cd32cbaa058c703f21"
+    },
+    {
+      "path": "USE_POLICY.md",
+      "size": 4901,
+      "oid": "15a3a3891eb441b314ba8091e366fb38fe14a751"
+    },
+    {
+      "path": "chat_template.jinja",
+      "size": 16295,
+      "oid": "2500a42b6dd93185735e6895a1a638f179592a4b"
+    },
+    {
+      "path": "config.json",
+      "size": 48677,
+      "oid": "d2cd088c7fe91bb7c720fb283c68d37a56715e17"
+    },
+    {
+      "path": "generation_config.json",
+      "size": 200,
+      "oid": "b79d6e4978ec47474ed7aa8f69cf192b9dea83cb"
+    },
+    {
+      "path": "hf_quant_config.json",
+      "size": 244,
+      "oid": "ce1d779c184aafcdcf2a69a4d8882b3a75191ae1"
+    },
+    {
+      "path": "l4_200k_base",
+      "size": 3622230,
+      "oid": "6d1ad50551f0efec536ebd576778dece66c13b99"
+    },
+    {
+      "path": "model-00001-of-00127.safetensors",
+      "size": 3613153448,
+      "oid": "ce8052b02fe656407ff53ed2f34ba3d769320058"
+    },
+    {
+      "path": "model-00002-of-00127.safetensors",
+      "size": 3310388776,
+      "oid": "13d6d2379e768bacf122dfc4bec97911eb9d5560"
+    },
+    {
+      "path": "model-00003-of-00127.safetensors",
+      "size": 17179869360,
+      "oid": "f3c80a68e63ae54768e0d1c40785307e3c9d96b6"
+    },
+    {
+      "path": "model-00004-of-00127.safetensors",
+      "size": 8589934760,
+      "oid": "486c62d28b0f067990d431e9384aafcc18b6155b"
+    },
+    {
+      "path": "model-00005-of-00127.safetensors",
+      "size": 4873885008,
+      "oid": "203bf1ea06d6f23deef6cb78202796a035413514"
+    },
+    {
+      "path": "model-00006-of-00127.safetensors",
+      "size": 3531712504,
+      "oid": "480452000838ee4aa297184c0edddb3ec1076571"
+    },
+    {
+      "path": "model-00007-of-00127.safetensors",
+      "size": 4831841856,
+      "oid": "45d38398e7762bf923de4824ee6c5d934f6fd442"
+    },
+    {
+      "path": "model-00008-of-00127.safetensors",
+      "size": 2994838128,
+      "oid": "6f9cf51b303b297d8c3d0e804e7f946f1a218e47"
+    },
+    {
+      "path": "model-00009-of-00127.safetensors",
+      "size": 4831841856,
+      "oid": "74fef0cc4f17e46191275c93fec153170f7af332"
+    },
+    {
+      "path": "model-00010-of-00127.safetensors",
+      "size": 2994838128,
+      "oid": "2a5f47db09633ad27cc4460ad5c1b30f897bcceb"
+    },
+    {
+      "path": "model-00011-of-00127.safetensors",
+      "size": 4831841856,
+      "oid": "bcc87f068680502918c1d0208567e4f986237670"
+    },
+    {
+      "path": "model-00012-of-00127.safetensors",
+      "size": 2994838128,
+      "oid": "b94619c54ef3c35416b63cd88f47f25445b9ee6e"
+    },
+    {
+      "path": "model-00013-of-00127.safetensors",
+      "size": 4831841856,
+      "oid": "57e0b5df19a90b0242fba0f357531d7cb3fba3da"
+    },
+    {
+      "path": "model-00014-of-00127.safetensors",
+      "size": 2994838128,
+      "oid": "119bb3df6d11d7a347c389d240d4abba56a671fa"
+    },
+    {
+      "path": "model-00015-of-00127.safetensors",
+      "size": 4831841856,
+      "oid": "4f3a0269dbf3042cc23590bc685468bbe9298243"
+    },
+    {
+      "path": "model-00016-of-00127.safetensors",
+      "size": 2994838128,
+      "oid": "e408cc258a3fca0c0ba6bb89cf3ae8ca53c6d07e"
+    },
+    {
+      "path": "model-00017-of-00127.safetensors",
+      "size": 4831841856,
+      "oid": "a0944788b5f5fae9f7e160cee7e2c408a3d8fb64"
+    },
+    {
+      "path": "model-00018-of-00127.safetensors",
+      "size": 2994838128,
+      "oid": "c07f86ce4dc5a2bfa7900e41b981d7a0b6cc826c"
+    },
+    {
+      "path": "model-00019-of-00127.safetensors",
+      "size": 4831841856,
+      "oid": "2d7dd967543dc3daad8faf1abadea5786e7ebeab"
+    },
+    {
+      "path": "model-00020-of-00127.safetensors",
+      "size": 2994838128,
+      "oid": "fc398f07a8fc1201591066662d12e7dfa62cf0c8"
+    },
+    {
+      "path": "model-00021-of-00127.safetensors",
+      "size": 4831841856,
+      "oid": "363be70dca1f485240e0d892ba5e26b18d566634"
+    },
+    {
+      "path": "model-00022-of-00127.safetensors",
+      "size": 2994838128,
+      "oid": "2bbc87de34306112b69fb66eab6f9cf3875c151c"
+    },
+    {
+      "path": "model-00023-of-00127.safetensors",
+      "size": 4831841856,
+      "oid": "c8f2cd95c109e72e31fee85c351ed613f9dff9d1"
+    },
+    {
+      "path": "model-00024-of-00127.safetensors",
+      "size": 2994838128,
+      "oid": "71bcb167bbe4c094c4a004e4e1f89c65630f5a0e"
+    },
+    {
+      "path": "model-00025-of-00127.safetensors",
+      "size": 4831841856,
+      "oid": "c3738e64a1f46685da6aa6518b12d7277d954686"
+    },
+    {
+      "path": "model-00026-of-00127.safetensors",
+      "size": 2994838128,
+      "oid": "07be81425dc6253fd1233fe9dc18a2dee22a6a09"
+    },
+    {
+      "path": "model-00027-of-00127.safetensors",
+      "size": 4831841856,
+      "oid": "7c18f8d016e318ac8b60c8cbc059c25f01514bb0"
+    },
+    {
+      "path": "model-00028-of-00127.safetensors",
+      "size": 2994838112,
+      "oid": "d2f4396675542a0a3c24a16694bc3406f417ac79"
+    },
+    {
+      "path": "model-00029-of-00127.safetensors",
+      "size": 4831841856,
+      "oid": "b0a73d9395937938bcc7e04b352c8e81ec41bc9e"
+    },
+    {
+      "path": "model-00030-of-00127.safetensors",
+      "size": 2994838128,
+      "oid": "bda44279ac852401991d3eb01b20653aec7a81c9"
+    },
+    {
+      "path": "model-00031-of-00127.safetensors",
+      "size": 4831841856,
+      "oid": "d118de5fd3facfa0453155ffa6c102369f9cced2"
+    },
+    {
+      "path": "model-00032-of-00127.safetensors",
+      "size": 2994838128,
+      "oid": "1ba3c592107de8513371b7ce3aa0c4ac2ff3a5b0"
+    },
+    {
+      "path": "model-00033-of-00127.safetensors",
+      "size": 4831841856,
+      "oid": "9185a74031441c7938b56f8a11e361d2393edcd4"
+    },
+    {
+      "path": "model-00034-of-00127.safetensors",
+      "size": 2994838128,
+      "oid": "e3df3fbef8bc082d3fa0c0ba1922f8f646836a62"
+    },
+    {
+      "path": "model-00035-of-00127.safetensors",
+      "size": 4831841856,
+      "oid": "f0c6d89d37c4f842c11a846c7f60f8d6b6bd77ae"
+    },
+    {
+      "path": "model-00036-of-00127.safetensors",
+      "size": 2994838128,
+      "oid": "cbc69bf1ca1f3f0a52fce9d37a1dc16a98d5f704"
+    },
+    {
+      "path": "model-00037-of-00127.safetensors",
+      "size": 4831841856,
+      "oid": "8416379e903abadbe0870206012c44f9ef3040cb"
+    },
+    {
+      "path": "model-00038-of-00127.safetensors",
+      "size": 2994838128,
+      "oid": "699cb742051710738be423af8e740e145e03367b"
+    },
+    {
+      "path": "model-00039-of-00127.safetensors",
+      "size": 4831841856,
+      "oid": "5171cd6831aa4b3f2ae9125224d04bef24257bee"
+    },
+    {
+      "path": "model-00040-of-00127.safetensors",
+      "size": 2994838128,
+      "oid": "9529d5de2d29e7a9679ff1e24fbd1d95f159d199"
+    },
+    {
+      "path": "model-00041-of-00127.safetensors",
+      "size": 4831841856,
+      "oid": "d0a50d793da81192d332242bd36109335c50ff1e"
+    }
+  ]
+}

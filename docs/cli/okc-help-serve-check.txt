@@ -1,0 +1,5 @@
+usage  okc serve check <patch.diff> [--no-wait]
+
+check a patch on one short rung, unscored
+
+  --no-wait   return once it's submitted

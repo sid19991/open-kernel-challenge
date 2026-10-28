@@ -1,0 +1,7144 @@
+{
+  "board": "overall",
+  "measure": "rank across the problems; the API gives ranks only",
+  "ranked": 1426,
+  "leader": {
+    "rank": 1,
+    "team": "pjmullin3",
+    "first": true,
+    "ahead": 0
+  },
+  "you": null,
+  "rows": [
+    {
+      "rank": 1,
+      "solved": 4,
+      "team": "pjmullin3"
+    },
+    {
+      "rank": 2,
+      "solved": 4,
+      "team": "colinlikescode"
+    },
+    {
+      "rank": 3,
+      "solved": 4,
+      "team": "mpeng19"
+    },
+    {
+      "rank": 4,
+      "solved": 4,
+      "team": "abhishekgahlot2"
+    },
+    {
+      "rank": 5,
+      "solved": 4,
+      "team": "mgpai22"
+    },
+    {
+      "rank": 6,
+      "solved": 4,
+      "team": "bomboclatdaru"
+    },
+    {
+      "rank": 7,
+      "solved": 4,
+      "team": "ntovas"
+    },
+    {
+      "rank": 8,
+      "solved": 4,
+      "team": "zzz0906"
+    },
+    {
+      "rank": 9,
+      "solved": 2,
+      "team": "caoshiyi"
+    },
+    {
+      "rank": 10,
+      "solved": 4,
+      "team": "Aspect5"
+    },
+    {
+      "rank": 11,
+      "solved": 4,
+      "team": "picsoulabs"
+    },
+    {
+      "rank": 12,
+      "solved": 4,
+      "team": "olety"
+    },
+    {
+      "rank": 13,
+      "solved": 4,
+      "team": "PierreNowak"
+    },
+    {
+      "rank": 14,
+      "solved": 4,
+      "team": "tie-pilot-qxw"
+    },
+    {
+      "rank": 15,
+      "solved": 4,
+      "team": "ZhimaoL"
+    },
+    {
+      "rank": 16,
+      "solved": 4,
+      "team": "zereraz"
+    },
+    {
+      "rank": 17,
+      "solved": 4,
+      "team": "tonybolivar"
+    },
+    {
+      "rank": 18,
+      "solved": 1,
+      "team": "ethanmarcuss"
+    },
+    {
+      "rank": 19,
+      "solved": 4,
+      "team": "harshagundala"
+    },
+    {
+      "rank": 20,
+      "solved": 4,
+      "team": "EmreKaplaner"
+    },
+    {
+      "rank": 21,
+      "solved": 4,
+      "team": "apullin"
+    },
+    {
+      "rank": 22,
+      "solved": 4,
+      "team": "2018kguo"
+    },
+    {
+      "rank": 23,
+      "solved": 4,
+      "team": "Lurrobert"
+    },
+    {
+      "rank": 24,
+      "solved": 3,
+      "team": "SamrendraS"
+    },
+    {
+      "rank": 25,
+      "solved": 4,
+      "team": "AkshitPareek"
+    },
+    {
+      "rank": 26,
+      "solved": 4,
+      "team": "deepak-foundryai"
+    },
+    {
+      "rank": 27,
+      "solved": 4,
+      "team": "yousefarifalarif"
+    },
+    {
+      "rank": 28,
+      "solved": 4,
+      "team": "0daycloud"
+    },
+    {
+      "rank": 29,
+      "solved": 4,
+      "team": "reformedot"
+    },
+    {
+      "rank": 30,
+      "solved": 4,
+      "team": "ketanworkid"
+    },
+    {
+      "rank": 31,
+      "solved": 4,
+      "team": "accountforgoofystuff"
+    },
+    {
+      "rank": 32,
+      "solved": 4,
+      "team": "miketung"
+    },
+    {
+      "rank": 33,
+      "solved": 4,
+      "team": "steelep"
+    },
+    {
+      "rank": 34,
+      "solved": 4,
+      "team": "concept-guest"
+    },
+    {
+      "rank": 35,
+      "solved": 4,
+      "team": "graadient"
+    },
+    {
+      "rank": 36,
+      "solved": 4,
+      "team": "shouryamaanjain"
+    },
+    {
+      "rank": 37,
+      "solved": 4,
+      "team": "Maher4Ever"
+    },
+    {
+      "rank": 38,
+      "solved": 2,
+      "team": "jeje-soy-michu"
+    },
+    {
+      "rank": 39,
+      "solved": 4,
+      "team": "zro-inference"
+    },
+    {
+      "rank": 40,
+      "solved": 4,
+      "team": "tech-cosmos"
+    },
+    {
+      "rank": 41,
+      "solved": 4,
+      "team": "lxe"
+    },
+    {
+      "rank": 42,
+      "solved": 4,
+      "team": "Dagmawi-Beyene"
+    },
+    {
+      "rank": 43,
+      "solved": 4,
+      "team": "raulkr"
+    },
+    {
+      "rank": 44,
+      "solved": 4,
+      "team": "cu788"
+    },
+    {
+      "rank": 45,
+      "solved": 4,
+      "team": "BasilMan517"
+    },
+    {
+      "rank": 46,
+      "solved": 2,
+      "team": "alpinevm"
+    },
+    {
+      "rank": 47,
+      "solved": 4,
+      "team": "reyanshsolis"
+    },
+    {
+      "rank": 48,
+      "solved": 4,
+      "team": "shashwatgokhe"
+    },
+    {
+      "rank": 49,
+      "solved": 4,
+      "team": "jschb"
+    },
+    {
+      "rank": 50,
+      "solved": 4,
+      "team": "vishaal-drkm"
+    },
+    {
+      "rank": 51,
+      "solved": 4,
+      "team": "UnderAndOver"
+    },
+    {
+      "rank": 52,
+      "solved": 4,
+      "team": "vidhunv1"
+    },
+    {
+      "rank": 53,
+      "solved": 4,
+      "team": "suryuhh"
+    },
+    {
+      "rank": 54,
+      "solved": 4,
+      "team": "bsflll"
+    },
+    {
+      "rank": 55,
+      "solved": 4,
+      "team": "LDD19"
+    },
+    {
+      "rank": 56,
+      "solved": 4,
+      "team": "thehimalayanleo"
+    },
+    {
+      "rank": 57,
+      "solved": 4,
+      "team": "lazizbekravshanov"
+    },
+    {
+      "rank": 58,
+      "solved": 4,
+      "team": "Bezdarnost"
+    },
+    {
+      "rank": 59,
+      "solved": 4,
+      "team": "dylantirandaz"
+    },
+    {
+      "rank": 60,
+      "solved": 4,
+      "team": "manojkumar1053"
+    },
+    {
+      "rank": 61,
+      "solved": 4,
+      "team": "bobrenjc93"
+    },
+    {
+      "rank": 62,
+      "solved": 4,
+      "team": "hridaya423"
+    },
+    {
+      "rank": 63,
+      "solved": 4,
+      "team": "arkintof"
+    },
+    {
+      "rank": 64,
+      "solved": 4,
+      "team": "HyperbolicCurve"
+    },
+    {
+      "rank": 65,
+      "solved": 4,
+      "team": "pegasus1134"
+    },
+    {
+      "rank": 66,
+      "solved": 1,
+      "team": "simonrueba"
+    },
+    {
+      "rank": 67,
+      "solved": 4,
+      "team": "anthonyfong100"
+    },
+    {
+      "rank": 68,
+      "solved": 4,
+      "team": "franciskim"
+    },
+    {
+      "rank": 69,
+      "solved": 4,
+      "team": "kunwarshivam"
+    },
+    {
+      "rank": 70,
+      "solved": 4,
+      "team": "deva0x"
+    },
+    {
+      "rank": 71,
+      "solved": 4,
+      "team": "AstonMartinRegistry"
+    },
+    {
+      "rank": 72,
+      "solved": 4,
+      "team": "danielproxd2"
+    },
+    {
+      "rank": 73,
+      "solved": 4,
+      "team": "dantrapp"
+    },
+    {
+      "rank": 74,
+      "solved": 4,
+      "team": "emirsoyturk"
+    },
+    {
+      "rank": 75,
+      "solved": 4,
+      "team": "yairbarak22"
+    },
+    {
+      "rank": 76,
+      "solved": 4,
+      "team": "rohanarun"
+    },
+    {
+      "rank": 77,
+      "solved": 4,
+      "team": "nl-alonso"
+    },
+    {
+      "rank": 78,
+      "solved": 4,
+      "team": "prateekm1007"
+    },
+    {
+      "rank": 79,
+      "solved": 4,
+      "team": "vjeux"
+    },
+    {
+      "rank": 80,
+      "solved": 4,
+      "team": "Madhavan113"
+    },
+    {
+      "rank": 81,
+      "solved": 4,
+      "team": "SamMausberg"
+    },
+    {
+      "rank": 82,
+      "solved": 4,
+      "team": "VikramLex"
+    },
+    {
+      "rank": 83,
+      "solved": 4,
+      "team": "BoruiXu"
+    },
+    {
+      "rank": 84,
+      "solved": 4,
+      "team": "siddhantdubey"
+    },
+    {
+      "rank": 85,
+      "solved": 4,
+      "team": "CapCap"
+    },
+    {
+      "rank": 86,
+      "solved": 4,
+      "team": "plingampally"
+    },
+    {
+      "rank": 87,
+      "solved": 4,
+      "team": "sjbaebae"
+    },
+    {
+      "rank": 88,
+      "solved": 4,
+      "team": "Max17190"
+    },
+    {
+      "rank": 89,
+      "solved": 4,
+      "team": "seezatnap"
+    },
+    {
+      "rank": 90,
+      "solved": 4,
+      "team": "bill810975"
+    },
+    {
+      "rank": 91,
+      "solved": 4,
+      "team": "alygg77"
+    },
+    {
+      "rank": 92,
+      "solved": 4,
+      "team": "shrey-Bish"
+    },
+    {
+      "rank": 93,
+      "solved": 4,
+      "team": "isaiahbjork"
+    },
+    {
+      "rank": 94,
+      "solved": 4,
+      "team": "defiarbitrage-star"
+    },
+    {
+      "rank": 95,
+      "solved": 4,
+      "team": "StarAtNyte"
+    },
+    {
+      "rank": 96,
+      "solved": 4,
+      "team": "mikirejf"
+    },
+    {
+      "rank": 97,
+      "solved": 4,
+      "team": "dylanrobCAD"
+    },
+    {
+      "rank": 98,
+      "solved": 4,
+      "team": "Pinoeer-kingxi"
+    },
+    {
+      "rank": 99,
+      "solved": 4,
+      "team": "NotPellew"
+    },
+    {
+      "rank": 100,
+      "solved": 4,
+      "team": "raj921"
+    },
+    {
+      "rank": 101,
+      "solved": 4,
+      "team": "Meganpark980320"
+    },
+    {
+      "rank": 102,
+      "solved": 4,
+      "team": "IbrahimHabibeh"
+    },
+    {
+      "rank": 103,
+      "solved": 4,
+      "team": "asfires"
+    },
+    {
+      "rank": 104,
+      "solved": 4,
+      "team": "praveenperera"
+    },
+    {
+      "rank": 105,
+      "solved": 4,
+      "team": "prajitrr"
+    },
+    {
+      "rank": 106,
+      "solved": 4,
+      "team": "Sudarsh3301"
+    },
+    {
+      "rank": 107,
+      "solved": 3,
+      "team": "boredspaceape"
+    },
+    {
+      "rank": 108,
+      "solved": 4,
+      "team": "tivris"
+    },
+    {
+      "rank": 109,
+      "solved": 4,
+      "team": "thronecloud"
+    },
+    {
+      "rank": 110,
+      "solved": 4,
+      "team": "joeyhlu"
+    },
+    {
+      "rank": 111,
+      "solved": 4,
+      "team": "schrepa"
+    },
+    {
+      "rank": 112,
+      "solved": 4,
+      "team": "andreilungeanu"
+    },
+    {
+      "rank": 113,
+      "solved": 4,
+      "team": "pierrelouisdelx"
+    },
+    {
+      "rank": 114,
+      "solved": 4,
+      "team": "876pol"
+    },
+    {
+      "rank": 115,
+      "solved": 4,
+      "team": "DTennant"
+    },
+    {
+      "rank": 116,
+      "solved": 4,
+      "team": "ajkpersonal"
+    },
+    {
+      "rank": 117,
+      "solved": 4,
+      "team": "burak-bayir"
+    },
+    {
+      "rank": 118,
+      "solved": 4,
+      "team": "IanGupta"
+    },
+    {
+      "rank": 119,
+      "solved": 1,
+      "team": "DanielDubinsky"
+    },
+    {
+      "rank": 120,
+      "solved": 4,
+      "team": "shayansanjideh"
+    },
+    {
+      "rank": 121,
+      "solved": 4,
+      "team": "elbourne12345"
+    },
+    {
+      "rank": 122,
+      "solved": 4,
+      "team": "datafireball"
+    },
+    {
+      "rank": 123,
+      "solved": 4,
+      "team": "AlexCuadron"
+    },
+    {
+      "rank": 124,
+      "solved": 4,
+      "team": "apNV"
+    },
+    {
+      "rank": 125,
+      "solved": 4,
+      "team": "nickb4456"
+    },
+    {
+      "rank": 126,
+      "solved": 4,
+      "team": "roywei"
+    },
+    {
+      "rank": 127,
+      "solved": 4,
+      "team": "Zheruel"
+    },
+    {
+      "rank": 128,
+      "solved": 4,
+      "team": "Eightsheet"
+    },
+    {
+      "rank": 129,
+      "solved": 4,
+      "team": "xneak"
+    },
+    {
+      "rank": 130,
+      "solved": 4,
+      "team": "brianmickel"
+    },
+    {
+      "rank": 131,
+      "solved": 4,
+      "team": "changzen-stack"
+    },
+    {
+      "rank": 132,
+      "solved": 4,
+      "team": "jakozaur"
+    },
+    {
+      "rank": 133,
+      "solved": 4,
+      "team": "arihantbansal"
+    },
+    {
+      "rank": 134,
+      "solved": 4,
+      "team": "Hmbown"
+    },
+    {
+      "rank": 135,
+      "solved": 4,
+      "team": "RaghavS3"
+    },
+    {
+      "rank": 136,
+      "solved": 4,
+      "team": "chinesepowered"
+    },
+    {
+      "rank": 137,
+      "solved": 4,
+      "team": "josemiguel"
+    },
+    {
+      "rank": 138,
+      "solved": 4,
+      "team": "zhebrak"
+    },
+    {
+      "rank": 139,
+      "solved": 4,
+      "team": "aryanma"
+    },
+    {
+      "rank": 140,
+      "solved": 4,
+      "team": "viridale"
+    },
+    {
+      "rank": 141,
+      "solved": 4,
+      "team": "argonautica"
+    },
+    {
+      "rank": 142,
+      "solved": 4,
+      "team": "G-AshwinKumar"
+    },
+    {
+      "rank": 143,
+      "solved": 4,
+      "team": "maxwbuckley"
+    },
+    {
+      "rank": 144,
+      "solved": 4,
+      "team": "puncsky"
+    },
+    {
+      "rank": 145,
+      "solved": 4,
+      "team": "rianfyi"
+    },
+    {
+      "rank": 146,
+      "solved": 4,
+      "team": "zywang-hust"
+    },
+    {
+      "rank": 147,
+      "solved": 4,
+      "team": "Ashish-Soni08"
+    },
+    {
+      "rank": 148,
+      "solved": 4,
+      "team": "Muno459"
+    },
+    {
+      "rank": 149,
+      "solved": 4,
+      "team": "Mapika"
+    },
+    {
+      "rank": 150,
+      "solved": 4,
+      "team": "theluckystrike"
+    },
+    {
+      "rank": 151,
+      "solved": 4,
+      "team": "AnayGarodia"
+    },
+    {
+      "rank": 152,
+      "solved": 4,
+      "team": "srikalyan"
+    },
+    {
+      "rank": 153,
+      "solved": 4,
+      "team": "mega-dmitriy"
+    },
+    {
+      "rank": 154,
+      "solved": 4,
+      "team": "notnitsuj"
+    },
+    {
+      "rank": 155,
+      "solved": 4,
+      "team": "praveen221"
+    },
+    {
+      "rank": 156,
+      "solved": 4,
+      "team": "aldinash"
+    },
+    {
+      "rank": 157,
+      "solved": 4,
+      "team": "adirajagopal"
+    },
+    {
+      "rank": 158,
+      "solved": 4,
+      "team": "Malik1234567891011"
+    },
+    {
+      "rank": 159,
+      "solved": 4,
+      "team": "MuhsinunC"
+    },
+    {
+      "rank": 160,
+      "solved": 4,
+      "team": "surya-koritala"
+    },
+    {
+      "rank": 161,
+      "solved": 4,
+      "team": "digitalis-p"
+    },
+    {
+      "rank": 162,
+      "solved": 4,
+      "team": "saaivignesh20"
+    },
+    {
+      "rank": 163,
+      "solved": 4,
+      "team": "shiv213"
+    },
+    {
+      "rank": 164,
+      "solved": 4,
+      "team": "jmaio22"
+    },
+    {
+      "rank": 165,
+      "solved": 4,
+      "team": "Danny0951"
+    },
+    {
+      "rank": 166,
+      "solved": 4,
+      "team": "MythicalCow"
+    },
+    {
+      "rank": 167,
+      "solved": 4,
+      "team": "ramadistra"
+    },
+    {
+      "rank": 168,
+      "solved": 1,
+      "team": "Kasempiternal"
+    },
+    {
+      "rank": 169,
+      "solved": 4,
+      "team": "Matheus-F-Scatolin"
+    },
+    {
+      "rank": 170,
+      "solved": 4,
+      "team": "thakrarsagar"
+    },
+    {
+      "rank": 171,
+      "solved": 4,
+      "team": "mehapps"
+    },
+    {
+      "rank": 172,
+      "solved": 4,
+      "team": "r10xai"
+    },
+    {
+      "rank": 173,
+      "solved": 4,
+      "team": "natexcvi"
+    },
+    {
+      "rank": 174,
+      "solved": 4,
+      "team": "all-seeing-code"
+    },
+    {
+      "rank": 175,
+      "solved": 4,
+      "team": "AryaFayyazi"
+    },
+    {
+      "rank": 176,
+      "solved": 4,
+      "team": "kenryu42"
+    },
+    {
+      "rank": 177,
+      "solved": 4,
+      "team": "eishem"
+    },
+    {
+      "rank": 178,
+      "solved": 4,
+      "team": "arjanssuri"
+    },
+    {
+      "rank": 179,
+      "solved": 4,
+      "team": "solumos"
+    },
+    {
+      "rank": 180,
+      "solved": 4,
+      "team": "mottopanikeiku"
+    },
+    {
+      "rank": 181,
+      "solved": 4,
+      "team": "AutoclickerI"
+    },
+    {
+      "rank": 182,
+      "solved": 4,
+      "team": "Xuan-1998"
+    },
+    {
+      "rank": 183,
+      "solved": 4,
+      "team": "Vasanthdev2004"
+    },
+    {
+      "rank": 184,
+      "solved": 4,
+      "team": "Cacheon-32bf83e3d56115ae-msu"
+    },
+    {
+      "rank": 185,
+      "solved": 4,
+      "team": "iarbpairs"
+    },
+    {
+      "rank": 186,
+      "solved": 4,
+      "team": "bajpainaman"
+    },
+    {
+      "rank": 187,
+      "solved": 4,
+      "team": "ChakshuGautam"
+    },
+    {
+      "rank": 188,
+      "solved": 4,
+      "team": "thomgardiner"
+    },
+    {
+      "rank": 189,
+      "solved": 4,
+      "team": "jfrolich"
+    },
+    {
+      "rank": 190,
+      "solved": 4,
+      "team": "paper-19"
+    },
+    {
+      "rank": 191,
+      "solved": 4,
+      "team": "e-shizz"
+    },
+    {
+      "rank": 192,
+      "solved": 4,
+      "team": "adityanaidu16"
+    },
+    {
+      "rank": 193,
+      "solved": 4,
+      "team": "Jainam2130"
+    },
+    {
+      "rank": 194,
+      "solved": 4,
+      "team": "mattteochen"
+    },
+    {
+      "rank": 195,
+      "solved": 4,
+      "team": "Kernlog"
+    },
+    {
+      "rank": 196,
+      "solved": 4,
+      "team": "littleBro"
+    },
+    {
+      "rank": 197,
+      "solved": 4,
+      "team": "ong"
+    },
+    {
+      "rank": 198,
+      "solved": 4,
+      "team": "bri-prism"
+    },
+    {
+      "rank": 199,
+      "solved": 4,
+      "team": "whabacivch"
+    },
+    {
+      "rank": 200,
+      "solved": 4,
+      "team": "AndresNinou"
+    },
+    {
+      "rank": 201,
+      "solved": 4,
+      "team": "Godavari-abbay"
+    },
+    {
+      "rank": 202,
+      "solved": 4,
+      "team": "Krish-Parmar22"
+    },
+    {
+      "rank": 203,
+      "solved": 4,
+      "team": "inductor69"
+    },
+    {
+      "rank": 204,
+      "solved": 4,
+      "team": "Mavericky-j"
+    },
+    {
+      "rank": 205,
+      "solved": 4,
+      "team": "itaiorr"
+    },
+    {
+      "rank": 206,
+      "solved": 4,
+      "team": "jingchaodev"
+    },
+    {
+      "rank": 207,
+      "solved": 4,
+      "team": "Clifford-Swartz"
+    },
+    {
+      "rank": 208,
+      "solved": 4,
+      "team": "EternaPeptix"
+    },
+    {
+      "rank": 209,
+      "solved": 4,
+      "team": "nikolas-sapa"
+    },
+    {
+      "rank": 210,
+      "solved": 4,
+      "team": "jsaurabh"
+    },
+    {
+      "rank": 211,
+      "solved": 4,
+      "team": "sammous"
+    },
+    {
+      "rank": 212,
+      "solved": 4,
+      "team": "olanotolu"
+    },
+    {
+      "rank": 213,
+      "solved": 4,
+      "team": "lokesh-vadlamudi"
+    },
+    {
+      "rank": 214,
+      "solved": 4,
+      "team": "Danishlynx"
+    },
+    {
+      "rank": 215,
+      "solved": 4,
+      "team": "naveenoxmiq"
+    },
+    {
+      "rank": 216,
+      "solved": 4,
+      "team": "IAMIbrahimmemon"
+    },
+    {
+      "rank": 217,
+      "solved": 4,
+      "team": "narayanacharyuluchitroju"
+    },
+    {
+      "rank": 218,
+      "solved": 4,
+      "team": "bharath03-a"
+    },
+    {
+      "rank": 219,
+      "solved": 4,
+      "team": "vasu-devs"
+    },
+    {
+      "rank": 220,
+      "solved": 4,
+      "team": "osirishorus"
+    },
+    {
+      "rank": 221,
+      "solved": 4,
+      "team": "achitaan"
+    },
+    {
+      "rank": 222,
+      "solved": 4,
+      "team": "Ezra144israel"
+    },
+    {
+      "rank": 223,
+      "solved": 4,
+      "team": "capemox"
+    },
+    {
+      "rank": 224,
+      "solved": 4,
+      "team": "fervorarc"
+    },
+    {
+      "rank": 225,
+      "solved": 4,
+      "team": "aschnapp"
+    },
+    {
+      "rank": 226,
+      "solved": 4,
+      "team": "ultramathi"
+    },
+    {
+      "rank": 227,
+      "solved": 4,
+      "team": "benzaid32"
+    },
+    {
+      "rank": 228,
+      "solved": 4,
+      "team": "nftboy07"
+    },
+    {
+      "rank": 229,
+      "solved": 4,
+      "team": "mikeohuo"
+    },
+    {
+      "rank": 230,
+      "solved": 4,
+      "team": "wessimpson"
+    },
+    {
+      "rank": 231,
+      "solved": 4,
+      "team": "oyzh888"
+    },
+    {
+      "rank": 232,
+      "solved": 1,
+      "team": "EdgarBabajanyan"
+    },
+    {
+      "rank": 233,
+      "solved": 4,
+      "team": "sankalp1999"
+    },
+    {
+      "rank": 234,
+      "solved": 4,
+      "team": "leobouts"
+    },
+    {
+      "rank": 235,
+      "solved": 4,
+      "team": "princejain756"
+    },
+    {
+      "rank": 236,
+      "solved": 4,
+      "team": "CapJack-cloud"
+    },
+    {
+      "rank": 237,
+      "solved": 4,
+      "team": "EamonnArmstrong85"
+    },
+    {
+      "rank": 238,
+      "solved": 4,
+      "team": "lee101"
+    },
+    {
+      "rank": 239,
+      "solved": 4,
+      "team": "dylanler"
+    },
+    {
+      "rank": 240,
+      "solved": 3,
+      "team": "ymiled"
+    },
+    {
+      "rank": 241,
+      "solved": 4,
+      "team": "MohamadEidAlAktaa"
+    },
+    {
+      "rank": 242,
+      "solved": 4,
+      "team": "Alvin-MN"
+    },
+    {
+      "rank": 243,
+      "solved": 4,
+      "team": "sudodaksh"
+    },
+    {
+      "rank": 244,
+      "solved": 4,
+      "team": "polintosh"
+    },
+    {
+      "rank": 245,
+      "solved": 4,
+      "team": "aaln"
+    },
+    {
+      "rank": 246,
+      "solved": 4,
+      "team": "ethanmlam"
+    },
+    {
+      "rank": 247,
+      "solved": 4,
+      "team": "Dbar2"
+    },
+    {
+      "rank": 248,
+      "solved": 4,
+      "team": "pngbtw"
+    },
+    {
+      "rank": 249,
+      "solved": 4,
+      "team": "aviyanp"
+    },
+    {
+      "rank": 250,
+      "solved": 4,
+      "team": "billy-enrizky"
+    },
+    {
+      "rank": 251,
+      "solved": 4,
+      "team": "mattneel"
+    },
+    {
+      "rank": 252,
+      "solved": 3,
+      "team": "itsrealranky"
+    },
+    {
+      "rank": 253,
+      "solved": 4,
+      "team": "neenvm"
+    },
+    {
+      "rank": 254,
+      "solved": 4,
+      "team": "nisten"
+    },
+    {
+      "rank": 255,
+      "solved": 4,
+      "team": "SuperMohit"
+    },
+    {
+      "rank": 256,
+      "solved": 4,
+      "team": "BretjHribar"
+    },
+    {
+      "rank": 257,
+      "solved": 4,
+      "team": "wanderingspirit03"
+    },
+    {
+      "rank": 258,
+      "solved": 4,
+      "team": "hsamrat007"
+    },
+    {
+      "rank": 259,
+      "solved": 4,
+      "team": "GuyNachshon"
+    },
+    {
+      "rank": 260,
+      "solved": 1,
+      "team": "nodeeeeee"
+    },
+    {
+      "rank": 261,
+      "solved": 4,
+      "team": "brinkgenesis"
+    },
+    {
+      "rank": 262,
+      "solved": 4,
+      "team": "lordboba"
+    },
+    {
+      "rank": 263,
+      "solved": 4,
+      "team": "Wildebeest"
+    },
+    {
+      "rank": 264,
+      "solved": 4,
+      "team": "n8mauer"
+    },
+    {
+      "rank": 265,
+      "solved": 4,
+      "team": "arbazkhan971"
+    },
+    {
+      "rank": 266,
+      "solved": 4,
+      "team": "MrNirmata"
+    },
+    {
+      "rank": 267,
+      "solved": 4,
+      "team": "benpixel"
+    },
+    {
+      "rank": 268,
+      "solved": 4,
+      "team": "amilovidov"
+    },
+    {
+      "rank": 269,
+      "solved": 4,
+      "team": "fcescob"
+    },
+    {
+      "rank": 270,
+      "solved": 4,
+      "team": "SapphireXwd"
+    },
+    {
+      "rank": 271,
+      "solved": 4,
+      "team": "Harshit31"
+    },
+    {
+      "rank": 272,
+      "solved": 4,
+      "team": "thediymaker"
+    },
+    {
+      "rank": 273,
+      "solved": 4,
+      "team": "abhijithneilabraham"
+    },
+    {
+      "rank": 274,
+      "solved": 4,
+      "team": "0xsnoops"
+    },
+    {
+      "rank": 275,
+      "solved": 4,
+      "team": "vincentes"
+    },
+    {
+      "rank": 276,
+      "solved": 4,
+      "team": "shashank-100"
+    },
+    {
+      "rank": 277,
+      "solved": 4,
+      "team": "bigbag"
+    },
+    {
+      "rank": 278,
+      "solved": 3,
+      "team": "nielsgl"
+    },
+    {
+      "rank": 279,
+      "solved": 4,
+      "team": "chunlea"
+    },
+    {
+      "rank": 280,
+      "solved": 2,
+      "team": "Amal-David"
+    },
+    {
+      "rank": 281,
+      "solved": 1,
+      "team": "owengretzinger"
+    },
+    {
+      "rank": 282,
+      "solved": 4,
+      "team": "calvinh99"
+    },
+    {
+      "rank": 283,
+      "solved": 4,
+      "team": "chafreaky"
+    },
+    {
+      "rank": 284,
+      "solved": 4,
+      "team": "VkaZas"
+    },
+    {
+      "rank": 285,
+      "solved": 4,
+      "team": "Ranoobaba"
+    },
+    {
+      "rank": 286,
+      "solved": 4,
+      "team": "dqv12908"
+    },
+    {
+      "rank": 287,
+      "solved": 4,
+      "team": "AntonioCoppe"
+    },
+    {
+      "rank": 288,
+      "solved": 4,
+      "team": "ritwikareddykancharla"
+    },
+    {
+      "rank": 289,
+      "solved": 4,
+      "team": "bigboateng"
+    },
+    {
+      "rank": 290,
+      "solved": 4,
+      "team": "xfranek"
+    },
+    {
+      "rank": 291,
+      "solved": 4,
+      "team": "EricSpencer00"
+    },
+    {
+      "rank": 292,
+      "solved": 4,
+      "team": "Barnadrot"
+    },
+    {
+      "rank": 293,
+      "solved": 4,
+      "team": "bnleft"
+    },
+    {
+      "rank": 294,
+      "solved": 4,
+      "team": "kelvinguchu"
+    },
+    {
+      "rank": 295,
+      "solved": 4,
+      "team": "SSHdotCodes"
+    },
+    {
+      "rank": 296,
+      "solved": 4,
+      "team": "NolanGC"
+    },
+    {
+      "rank": 297,
+      "solved": 4,
+      "team": "vincitamore"
+    },
+    {
+      "rank": 298,
+      "solved": 4,
+      "team": "s66lem"
+    },
+    {
+      "rank": 299,
+      "solved": 4,
+      "team": "ibrahimnd2000"
+    },
+    {
+      "rank": 300,
+      "solved": 3,
+      "team": "FindHao"
+    },
+    {
+      "rank": 301,
+      "solved": 4,
+      "team": "lumen-rot"
+    },
+    {
+      "rank": 302,
+      "solved": 4,
+      "team": "x1xhlol"
+    },
+    {
+      "rank": 303,
+      "solved": 4,
+      "team": "erikqu"
+    },
+    {
+      "rank": 304,
+      "solved": 4,
+      "team": "M13k0"
+    },
+    {
+      "rank": 305,
+      "solved": 4,
+      "team": "khera-shanu"
+    },
+    {
+      "rank": 306,
+      "solved": 4,
+      "team": "victory-c"
+    },
+    {
+      "rank": 307,
+      "solved": 4,
+      "team": "dzannotti"
+    },
+    {
+      "rank": 308,
+      "solved": 4,
+      "team": "janiverse"
+    },
+    {
+      "rank": 309,
+      "solved": 4,
+      "team": "aidenlippert"
+    },
+    {
+      "rank": 310,
+      "solved": 4,
+      "team": "wholien"
+    },
+    {
+      "rank": 311,
+      "solved": 4,
+      "team": "drigo10"
+    },
+    {
+      "rank": 312,
+      "solved": 4,
+      "team": "prasincs"
+    },
+    {
+      "rank": 313,
+      "solved": 4,
+      "team": "markclawdberg"
+    },
+    {
+      "rank": 314,
+      "solved": 4,
+      "team": "neilteje"
+    },
+    {
+      "rank": 315,
+      "solved": 4,
+      "team": "marcoshernanz"
+    },
+    {
+      "rank": 316,
+      "solved": 4,
+      "team": "lictl"
+    },
+    {
+      "rank": 317,
+      "solved": 4,
+      "team": "newjordan"
+    },
+    {
+      "rank": 318,
+      "solved": 4,
+      "team": "marco-krammer"
+    },
+    {
+      "rank": 319,
+      "solved": 4,
+      "team": "BLS-Architect"
+    },
+    {
+      "rank": 320,
+      "solved": 4,
+      "team": "Choppaaahh"
+    },
+    {
+      "rank": 321,
+      "solved": 3,
+      "team": "sarthakguptadev"
+    },
+    {
+      "rank": 322,
+      "solved": 4,
+      "team": "dadon"
+    },
+    {
+      "rank": 323,
+      "solved": 4,
+      "team": "arturoleon"
+    },
+    {
+      "rank": 324,
+      "solved": 4,
+      "team": "iampranavj"
+    },
+    {
+      "rank": 325,
+      "solved": 4,
+      "team": "qxlsz"
+    },
+    {
+      "rank": 326,
+      "solved": 4,
+      "team": "toprak1919"
+    },
+    {
+      "rank": 327,
+      "solved": 4,
+      "team": "Savid"
+    },
+    {
+      "rank": 328,
+      "solved": 4,
+      "team": "qb-harshit"
+    },
+    {
+      "rank": 329,
+      "solved": 4,
+      "team": "nimatime"
+    },
+    {
+      "rank": 330,
+      "solved": 4,
+      "team": "nicorosaless"
+    },
+    {
+      "rank": 331,
+      "solved": 4,
+      "team": "moQ83"
+    },
+    {
+      "rank": 332,
+      "solved": 4,
+      "team": "cyber199306"
+    },
+    {
+      "rank": 333,
+      "solved": 4,
+      "team": "Harshkamdar67"
+    },
+    {
+      "rank": 334,
+      "solved": 1,
+      "team": "IP1102"
+    },
+    {
+      "rank": 335,
+      "solved": 4,
+      "team": "Parassharmaa"
+    },
+    {
+      "rank": 336,
+      "solved": 4,
+      "team": "kalanpeace"
+    },
+    {
+      "rank": 337,
+      "solved": 4,
+      "team": "haian1910"
+    },
+    {
+      "rank": 338,
+      "solved": 4,
+      "team": "harsha-iiiv"
+    },
+    {
+      "rank": 339,
+      "solved": 3,
+      "team": "mdzor"
+    },
+    {
+      "rank": 340,
+      "solved": 4,
+      "team": "nikhilbarhate99"
+    },
+    {
+      "rank": 341,
+      "solved": 4,
+      "team": "jessechenglyu"
+    },
+    {
+      "rank": 342,
+      "solved": 4,
+      "team": "zachw1"
+    },
+    {
+      "rank": 343,
+      "solved": 3,
+      "team": "mishravikas"
+    },
+    {
+      "rank": 344,
+      "solved": 4,
+      "team": "vubui"
+    },
+    {
+      "rank": 345,
+      "solved": 4,
+      "team": "tanctl"
+    },
+    {
+      "rank": 346,
+      "solved": 3,
+      "team": "kulikov0"
+    },
+    {
+      "rank": 347,
+      "solved": 4,
+      "team": "therealnaveenkamal"
+    },
+    {
+      "rank": 348,
+      "solved": 4,
+      "team": "ecolindiaz"
+    },
+    {
+      "rank": 349,
+      "solved": 4,
+      "team": "yesthatwilly"
+    },
+    {
+      "rank": 350,
+      "solved": 3,
+      "team": "booth-algo"
+    },
+    {
+      "rank": 351,
+      "solved": 4,
+      "team": "syhya"
+    },
+    {
+      "rank": 352,
+      "solved": 4,
+      "team": "imumesh18"
+    },
+    {
+      "rank": 353,
+      "solved": 4,
+      "team": "samedovzaur"
+    },
+    {
+      "rank": 354,
+      "solved": 4,
+      "team": "Monishver11"
+    },
+    {
+      "rank": 355,
+      "solved": 4,
+      "team": "tduic"
+    },
+    {
+      "rank": 356,
+      "solved": 4,
+      "team": "haianhltr"
+    },
+    {
+      "rank": 357,
+      "solved": 4,
+      "team": "ihamzazam"
+    },
+    {
+      "rank": 358,
+      "solved": 3,
+      "team": "FreemanTheDemon"
+    },
+    {
+      "rank": 359,
+      "solved": 4,
+      "team": "starparvin"
+    },
+    {
+      "rank": 360,
+      "solved": 4,
+      "team": "willgou"
+    },
+    {
+      "rank": 361,
+      "solved": 3,
+      "team": "vinod-memfold"
+    },
+    {
+      "rank": 362,
+      "solved": 4,
+      "team": "hooiv"
+    },
+    {
+      "rank": 363,
+      "solved": 4,
+      "team": "hieptran1812"
+    },
+    {
+      "rank": 364,
+      "solved": 4,
+      "team": "NipunNagendra"
+    },
+    {
+      "rank": 365,
+      "solved": 4,
+      "team": "halvenhq"
+    },
+    {
+      "rank": 366,
+      "solved": 4,
+      "team": "agheieff"
+    },
+    {
+      "rank": 367,
+      "solved": 4,
+      "team": "jiangularity"
+    },
+    {
+      "rank": 368,
+      "solved": 4,
+      "team": "kevincodex1"
+    },
+    {
+      "rank": 369,
+      "solved": 4,
+      "team": "lperezmo"
+    },
+    {
+      "rank": 370,
+      "solved": 4,
+      "team": "EdDiboi"
+    },
+    {
+      "rank": 371,
+      "solved": 4,
+      "team": "Himanshu-Sangshetti"
+    },
+    {
+      "rank": 372,
+      "solved": 4,
+      "team": "wustep"
+    },
+    {
+      "rank": 373,
+      "solved": 4,
+      "team": "ChrisAbdo"
+    },
+    {
+      "rank": 374,
+      "solved": 4,
+      "team": "HarshavardhanK"
+    },
+    {
+      "rank": 375,
+      "solved": 3,
+      "team": "saikrn112"
+    },
+    {
+      "rank": 376,
+      "solved": 4,
+      "team": "gavinkvx"
+    },
+    {
+      "rank": 377,
+      "solved": 4,
+      "team": "LeiLiu8102"
+    },
+    {
+      "rank": 378,
+      "solved": 4,
+      "team": "Vijayavallabh"
+    },
+    {
+      "rank": 379,
+      "solved": 4,
+      "team": "MadhavShroff"
+    },
+    {
+      "rank": 380,
+      "solved": 4,
+      "team": "SilentKnight87"
+    },
+    {
+      "rank": 381,
+      "solved": 4,
+      "team": "GodlyDonuts"
+    },
+    {
+      "rank": 382,
+      "solved": 4,
+      "team": "nyosegawa"
+    },
+    {
+      "rank": 383,
+      "solved": 4,
+      "team": "binga"
+    },
+    {
+      "rank": 384,
+      "solved": 4,
+      "team": "Sudhendra"
+    },
+    {
+      "rank": 385,
+      "solved": 4,
+      "team": "arafatkatze"
+    },
+    {
+      "rank": 386,
+      "solved": 4,
+      "team": "aryanwss"
+    },
+    {
+      "rank": 387,
+      "solved": 4,
+      "team": "Vidit-lab"
+    },
+    {
+      "rank": 388,
+      "solved": 4,
+      "team": "alin9661"
+    },
+    {
+      "rank": 389,
+      "solved": 4,
+      "team": "AniMahou"
+    },
+    {
+      "rank": 390,
+      "solved": 4,
+      "team": "ericli"
+    },
+    {
+      "rank": 391,
+      "solved": 4,
+      "team": "FransDevelopment"
+    },
+    {
+      "rank": 392,
+      "solved": 4,
+      "team": "WilliamZhang20"
+    },
+    {
+      "rank": 393,
+      "solved": 4,
+      "team": "MianMMajid"
+    },
+    {
+      "rank": 394,
+      "solved": 4,
+      "team": "TalhaRehmanMTRKT"
+    },
+    {
+      "rank": 395,
+      "solved": 4,
+      "team": "Teji360"
+    },
+    {
+      "rank": 396,
+      "solved": 4,
+      "team": "1337isnot1337"
+    },
+    {
+      "rank": 397,
+      "solved": 4,
+      "team": "AUTSMVENTURES"
+    },
+    {
+      "rank": 398,
+      "solved": 4,
+      "team": "ry2009"
+    },
+    {
+      "rank": 399,
+      "solved": 2,
+      "team": "Akashneelesh"
+    },
+    {
+      "rank": 400,
+      "solved": 4,
+      "team": "nrcrews"
+    },
+    {
+      "rank": 401,
+      "solved": 4,
+      "team": "KrE80r"
+    },
+    {
+      "rank": 402,
+      "solved": 4,
+      "team": "Christian103103"
+    },
+    {
+      "rank": 403,
+      "solved": 4,
+      "team": "3xC1ibR"
+    },
+    {
+      "rank": 404,
+      "solved": 4,
+      "team": "wmolyneaux"
+    },
+    {
+      "rank": 405,
+      "solved": 4,
+      "team": "debajyotidatta"
+    },
+    {
+      "rank": 406,
+      "solved": 4,
+      "team": "yevbar"
+    },
+    {
+      "rank": 407,
+      "solved": 4,
+      "team": "Bikz"
+    },
+    {
+      "rank": 408,
+      "solved": 4,
+      "team": "corleonesado"
+    },
+    {
+      "rank": 409,
+      "solved": 4,
+      "team": "rkceve"
+    },
+    {
+      "rank": 410,
+      "solved": 4,
+      "team": "seungpyoson"
+    },
+    {
+      "rank": 411,
+      "solved": 4,
+      "team": "Harshil-Jani"
+    },
+    {
+      "rank": 412,
+      "solved": 4,
+      "team": "igorriti"
+    },
+    {
+      "rank": 413,
+      "solved": 4,
+      "team": "caiovicentino"
+    },
+    {
+      "rank": 414,
+      "solved": 4,
+      "team": "itsryanlenk"
+    },
+    {
+      "rank": 415,
+      "solved": 4,
+      "team": "samirpatil2000"
+    },
+    {
+      "rank": 416,
+      "solved": 4,
+      "team": "mmuzzi"
+    },
+    {
+      "rank": 417,
+      "solved": 3,
+      "team": "Nickforall"
+    },
+    {
+      "rank": 418,
+      "solved": 4,
+      "team": "Arpit-Khandelwal"
+    },
+    {
+      "rank": 419,
+      "solved": 4,
+      "team": "AndrewMohawk"
+    },
+    {
+      "rank": 420,
+      "solved": 4,
+      "team": "Bashocodes"
+    },
+    {
+      "rank": 421,
+      "solved": 4,
+      "team": "ADCAdams"
+    },
+    {
+      "rank": 422,
+      "solved": 1,
+      "team": "vudedoo"
+    },
+    {
+      "rank": 423,
+      "solved": 4,
+      "team": "amir-mir-sft"
+    },
+    {
+      "rank": 424,
+      "solved": 4,
+      "team": "OsamaJaber-AI"
+    },
+    {
+      "rank": 425,
+      "solved": 4,
+      "team": "jvpflum"
+    },
+    {
+      "rank": 426,
+      "solved": 4,
+      "team": "tirthpatell"
+    },
+    {
+      "rank": 427,
+      "solved": 4,
+      "team": "refcell"
+    },
+    {
+      "rank": 428,
+      "solved": 4,
+      "team": "girish-m-s"
+    },
+    {
+      "rank": 429,
+      "solved": 4,
+      "team": "will4381"
+    },
+    {
+      "rank": 430,
+      "solved": 4,
+      "team": "PelleKrab"
+    },
+    {
+      "rank": 431,
+      "solved": 4,
+      "team": "iamdflame"
+    },
+    {
+      "rank": 432,
+      "solved": 4,
+      "team": "frizynn"
+    },
+    {
+      "rank": 433,
+      "solved": 4,
+      "team": "Eskalala"
+    },
+    {
+      "rank": 434,
+      "solved": 4,
+      "team": "estensen"
+    },
+    {
+      "rank": 435,
+      "solved": 4,
+      "team": "hellno"
+    },
+    {
+      "rank": 436,
+      "solved": 4,
+      "team": "OLW1111"
+    },
+    {
+      "rank": 437,
+      "solved": 4,
+      "team": "ABHINAVVV13"
+    },
+    {
+      "rank": 438,
+      "solved": 4,
+      "team": "lucas-chu"
+    },
+    {
+      "rank": 439,
+      "solved": 4,
+      "team": "Firdausfarul"
+    },
+    {
+      "rank": 440,
+      "solved": 4,
+      "team": "sbcatania"
+    },
+    {
+      "rank": 441,
+      "solved": 3,
+      "team": "jacobortiz"
+    },
+    {
+      "rank": 442,
+      "solved": 4,
+      "team": "chrishyeonseo"
+    },
+    {
+      "rank": 443,
+      "solved": 2,
+      "team": "roee50"
+    },
+    {
+      "rank": 444,
+      "solved": 4,
+      "team": "rkm-memfold"
+    },
+    {
+      "rank": 445,
+      "solved": 4,
+      "team": "pangoleen"
+    },
+    {
+      "rank": 446,
+      "solved": 4,
+      "team": "Maxence-r"
+    },
+    {
+      "rank": 447,
+      "solved": 4,
+      "team": "sxidn"
+    },
+    {
+      "rank": 448,
+      "solved": 4,
+      "team": "grzenio22"
+    },
+    {
+      "rank": 449,
+      "solved": 4,
+      "team": "M-DEV-1"
+    },
+    {
+      "rank": 450,
+      "solved": 4,
+      "team": "mscheong01"
+    },
+    {
+      "rank": 451,
+      "solved": 2,
+      "team": "eaganmaart-prog"
+    },
+    {
+      "rank": 452,
+      "solved": 3,
+      "team": "weiyan-creatify"
+    },
+    {
+      "rank": 453,
+      "solved": 4,
+      "team": "shubhy001"
+    },
+    {
+      "rank": 454,
+      "solved": 4,
+      "team": "catminou4"
+    },
+    {
+      "rank": 455,
+      "solved": 4,
+      "team": "lancekrogers"
+    },
+    {
+      "rank": 456,
+      "solved": 4,
+      "team": "cr0sh"
+    },
+    {
+      "rank": 457,
+      "solved": 4,
+      "team": "anant2047"
+    },
+    {
+      "rank": 458,
+      "solved": 4,
+      "team": "Mingyang-ZHAI"
+    },
+    {
+      "rank": 459,
+      "solved": 4,
+      "team": "pavanmanishd"
+    },
+    {
+      "rank": 460,
+      "solved": 4,
+      "team": "ethduke"
+    },
+    {
+      "rank": 461,
+      "solved": 4,
+      "team": "hybridnoise"
+    },
+    {
+      "rank": 462,
+      "solved": 4,
+      "team": "arrry-hydraDB"
+    },
+    {
+      "rank": 463,
+      "solved": 4,
+      "team": "claygeo"
+    },
+    {
+      "rank": 464,
+      "solved": 4,
+      "team": "JrKrishh"
+    },
+    {
+      "rank": 465,
+      "solved": 4,
+      "team": "gauravsaini"
+    },
+    {
+      "rank": 466,
+      "solved": 4,
+      "team": "RobertBarnettProjects"
+    },
+    {
+      "rank": 467,
+      "solved": 4,
+      "team": "gurrapu21"
+    },
+    {
+      "rank": 468,
+      "solved": 4,
+      "team": "Alonlevy01"
+    },
+    {
+      "rank": 469,
+      "solved": 4,
+      "team": "QuantIntellect"
+    },
+    {
+      "rank": 470,
+      "solved": 4,
+      "team": "telos27"
+    },
+    {
+      "rank": 471,
+      "solved": 4,
+      "team": "maria-pereira-r"
+    },
+    {
+      "rank": 472,
+      "solved": 4,
+      "team": "Beardedfreedom"
+    },
+    {
+      "rank": 473,
+      "solved": 4,
+      "team": "sw1sh"
+    },
+    {
+      "rank": 474,
+      "solved": 4,
+      "team": "morcoan"
+    },
+    {
+      "rank": 475,
+      "solved": 4,
+      "team": "HalfEmptyDrum"
+    },
+    {
+      "rank": 476,
+      "solved": 4,
+      "team": "olympusbuildz"
+    },
+    {
+      "rank": 477,
+      "solved": 4,
+      "team": "anuragalla"
+    },
+    {
+      "rank": 478,
+      "solved": 4,
+      "team": "abhishekray07"
+    },
+    {
+      "rank": 479,
+      "solved": 4,
+      "team": "oldhero5"
+    },
+    {
+      "rank": 480,
+      "solved": 4,
+      "team": "AeryAnubhav"
+    },
+    {
+      "rank": 481,
+      "solved": 4,
+      "team": "slopdealer"
+    },
+    {
+      "rank": 482,
+      "solved": 4,
+      "team": "razramon"
+    },
+    {
+      "rank": 483,
+      "solved": 4,
+      "team": "RanaPriyansh"
+    },
+    {
+      "rank": 484,
+      "solved": 4,
+      "team": "sarathms97"
+    },
+    {
+      "rank": 485,
+      "solved": 4,
+      "team": "vatsalnar123"
+    },
+    {
+      "rank": 486,
+      "solved": 4,
+      "team": "Pranavharshans"
+    },
+    {
+      "rank": 487,
+      "solved": 1,
+      "team": "dupenodi"
+    },
+    {
+      "rank": 488,
+      "solved": 4,
+      "team": "trviv"
+    },
+    {
+      "rank": 489,
+      "solved": 4,
+      "team": "Damadimo"
+    },
+    {
+      "rank": 490,
+      "solved": 3,
+      "team": "AndrewNg"
+    },
+    {
+      "rank": 491,
+      "solved": 2,
+      "team": "CFC87"
+    },
+    {
+      "rank": 492,
+      "solved": 2,
+      "team": "dixit122"
+    },
+    {
+      "rank": 493,
+      "solved": 4,
+      "team": "Me-Koder"
+    },
+    {
+      "rank": 494,
+      "solved": 4,
+      "team": "ayushsoni1001"
+    },
+    {
+      "rank": 495,
+      "solved": 4,
+      "team": "EROREx"
+    },
+    {
+      "rank": 496,
+      "solved": 4,
+      "team": "TheOnlyFusionCube"
+    },
+    {
+      "rank": 497,
+      "solved": 4,
+      "team": "adamleex"
+    },
+    {
+      "rank": 498,
+      "solved": 4,
+      "team": "aktanazat"
+    },
+    {
+      "rank": 499,
+      "solved": 4,
+      "team": "farizrahman4u"
+    },
+    {
+      "rank": 500,
+      "solved": 4,
+      "team": "codenz"
+    },
+    {
+      "rank": 501,
+      "solved": 4,
+      "team": "hariappi"
+    },
+    {
+      "rank": 502,
+      "solved": 2,
+      "team": "amitabhsh"
+    },
+    {
+      "rank": 503,
+      "solved": 4,
+      "team": "c45"
+    },
+    {
+      "rank": 504,
+      "solved": 4,
+      "team": "devanshbatham"
+    },
+    {
+      "rank": 505,
+      "solved": 2,
+      "team": "heartkilla"
+    },
+    {
+      "rank": 506,
+      "solved": 4,
+      "team": "nehamjain10"
+    },
+    {
+      "rank": 507,
+      "solved": 4,
+      "team": "idanbeck"
+    },
+    {
+      "rank": 508,
+      "solved": 4,
+      "team": "roshanasingh4"
+    },
+    {
+      "rank": 509,
+      "solved": 4,
+      "team": "ernestovizcaino"
+    },
+    {
+      "rank": 510,
+      "solved": 4,
+      "team": "LawJarp-A"
+    },
+    {
+      "rank": 511,
+      "solved": 4,
+      "team": "legetdev"
+    },
+    {
+      "rank": 512,
+      "solved": 4,
+      "team": "jurajselep"
+    },
+    {
+      "rank": 513,
+      "solved": 4,
+      "team": "goddice"
+    },
+    {
+      "rank": 514,
+      "solved": 2,
+      "team": "m-deepankar-singh"
+    },
+    {
+      "rank": 515,
+      "solved": 4,
+      "team": "emeraldant"
+    },
+    {
+      "rank": 516,
+      "solved": 4,
+      "team": "AnugunjNaman"
+    },
+    {
+      "rank": 517,
+      "solved": 4,
+      "team": "gustcol"
+    },
+    {
+      "rank": 518,
+      "solved": 4,
+      "team": "karthikr223"
+    },
+    {
+      "rank": 519,
+      "solved": 4,
+      "team": "jacobpmiller"
+    },
+    {
+      "rank": 520,
+      "solved": 4,
+      "team": "prjailani"
+    },
+    {
+      "rank": 521,
+      "solved": 4,
+      "team": "AgbediaSamuel"
+    },
+    {
+      "rank": 522,
+      "solved": 4,
+      "team": "leofmarciano"
+    },
+    {
+      "rank": 523,
+      "solved": 4,
+      "team": "ZetaZeroHash"
+    },
+    {
+      "rank": 524,
+      "solved": 4,
+      "team": "infraax"
+    },
+    {
+      "rank": 525,
+      "solved": 4,
+      "team": "radoslawcz"
+    },
+    {
+      "rank": 526,
+      "solved": 4,
+      "team": "dhanushchalicheemala"
+    },
+    {
+      "rank": 527,
+      "solved": 3,
+      "team": "jverre"
+    },
+    {
+      "rank": 528,
+      "solved": 4,
+      "team": "Vinisilva0010"
+    },
+    {
+      "rank": 529,
+      "solved": 4,
+      "team": "cheese-cakee"
+    },
+    {
+      "rank": 530,
+      "solved": 1,
+      "team": "dolanzhao"
+    },
+    {
+      "rank": 531,
+      "solved": 1,
+      "team": "Abarbir12"
+    },
+    {
+      "rank": 532,
+      "solved": 4,
+      "team": "adityakm24"
+    },
+    {
+      "rank": 533,
+      "solved": 4,
+      "team": "triv-assemble"
+    },
+    {
+      "rank": 534,
+      "solved": 4,
+      "team": "hectorfarahani"
+    },
+    {
+      "rank": 535,
+      "solved": 4,
+      "team": "totally-tim"
+    },
+    {
+      "rank": 536,
+      "solved": 4,
+      "team": "joelwohlhauser"
+    },
+    {
+      "rank": 537,
+      "solved": 4,
+      "team": "ambicuity"
+    },
+    {
+      "rank": 538,
+      "solved": 2,
+      "team": "Pranshu-Bahadur"
+    },
+    {
+      "rank": 539,
+      "solved": 1,
+      "team": "gauravjain14"
+    },
+    {
+      "rank": 540,
+      "solved": 3,
+      "team": "ronithrashmikara"
+    },
+    {
+      "rank": 541,
+      "solved": 4,
+      "team": "nasosnathan"
+    },
+    {
+      "rank": 542,
+      "solved": 4,
+      "team": "supreetrai"
+    },
+    {
+      "rank": 543,
+      "solved": 4,
+      "team": "JulianNorton"
+    },
+    {
+      "rank": 544,
+      "solved": 4,
+      "team": "yashwanth1208"
+    },
+    {
+      "rank": 545,
+      "solved": 4,
+      "team": "Karbelekedar"
+    },
+    {
+      "rank": 546,
+      "solved": 4,
+      "team": "andheller"
+    },
+    {
+      "rank": 547,
+      "solved": 4,
+      "team": "Dpakkk"
+    },
+    {
+      "rank": 548,
+      "solved": 4,
+      "team": "Cube3868"
+    },
+    {
+      "rank": 549,
+      "solved": 4,
+      "team": "fabianzuluaga48"
+    },
+    {
+      "rank": 550,
+      "solved": 4,
+      "team": "nkjain92"
+    },
+    {
+      "rank": 551,
+      "solved": 4,
+      "team": "hl219"
+    },
+    {
+      "rank": 552,
+      "solved": 4,
+      "team": "Etelis"
+    },
+    {
+      "rank": 553,
+      "solved": 4,
+      "team": "yelgabo"
+    },
+    {
+      "rank": 554,
+      "solved": 4,
+      "team": "mdbabumiamssm"
+    },
+    {
+      "rank": 555,
+      "solved": 4,
+      "team": "wspencerhurst"
+    },
+    {
+      "rank": 556,
+      "solved": 4,
+      "team": "kshitij-hash"
+    },
+    {
+      "rank": 557,
+      "solved": 4,
+      "team": "chris-go"
+    },
+    {
+      "rank": 558,
+      "solved": 1,
+      "team": "raskin1"
+    },
+    {
+      "rank": 559,
+      "solved": 4,
+      "team": "kushaldabbe"
+    },
+    {
+      "rank": 560,
+      "solved": 4,
+      "team": "uzay-eth"
+    },
+    {
+      "rank": 561,
+      "solved": 4,
+      "team": "lasme-ephrem"
+    },
+    {
+      "rank": 562,
+      "solved": 4,
+      "team": "Harp404"
+    },
+    {
+      "rank": 563,
+      "solved": 4,
+      "team": "convex1"
+    },
+    {
+      "rank": 564,
+      "solved": 1,
+      "team": "amitsuliman"
+    },
+    {
+      "rank": 565,
+      "solved": 4,
+      "team": "Internalizable"
+    },
+    {
+      "rank": 566,
+      "solved": 4,
+      "team": "ricardobeat"
+    },
+    {
+      "rank": 567,
+      "solved": 4,
+      "team": "leakyfilter"
+    },
+    {
+      "rank": 568,
+      "solved": 4,
+      "team": "Alexander-Aghili"
+    },
+    {
+      "rank": 569,
+      "solved": 4,
+      "team": "arthurcolle"
+    },
+    {
+      "rank": 570,
+      "solved": 4,
+      "team": "saahas-kohli"
+    },
+    {
+      "rank": 571,
+      "solved": 4,
+      "team": "jaideepsaipadhi"
+    },
+    {
+      "rank": 572,
+      "solved": 1,
+      "team": "morganmcg1"
+    },
+    {
+      "rank": 573,
+      "solved": 4,
+      "team": "daregl"
+    },
+    {
+      "rank": 574,
+      "solved": 4,
+      "team": "yoeven"
+    },
+    {
+      "rank": 575,
+      "solved": 4,
+      "team": "Ramneet-Singh"
+    },
+    {
+      "rank": 576,
+      "solved": 3,
+      "team": "Ahmed-Sinkeat"
+    },
+    {
+      "rank": 577,
+      "solved": 4,
+      "team": "jcstein"
+    },
+    {
+      "rank": 578,
+      "solved": 1,
+      "team": "sdrshn-nmbr"
+    },
+    {
+      "rank": 579,
+      "solved": 1,
+      "team": "tarik-sarac"
+    },
+    {
+      "rank": 580,
+      "solved": 4,
+      "team": "prateekkumar-flex"
+    },
+    {
+      "rank": 581,
+      "solved": 4,
+      "team": "AmranHudda"
+    },
+    {
+      "rank": 582,
+      "solved": 4,
+      "team": "karthisapmm-ux"
+    },
+    {
+      "rank": 583,
+      "solved": 4,
+      "team": "GindaChen"
+    },
+    {
+      "rank": 584,
+      "solved": 2,
+      "team": "samueltuyizere"
+    },
+    {
+      "rank": 585,
+      "solved": 4,
+      "team": "stochasticstiff"
+    },
+    {
+      "rank": 586,
+      "solved": 4,
+      "team": "Codnay"
+    },
+    {
+      "rank": 587,
+      "solved": 1,
+      "team": "iyersathya"
+    },
+    {
+      "rank": 588,
+      "solved": 4,
+      "team": "eason-w"
+    },
+    {
+      "rank": 589,
+      "solved": 4,
+      "team": "MagMueller"
+    },
+    {
+      "rank": 590,
+      "solved": 3,
+      "team": "jkomyno"
+    },
+    {
+      "rank": 591,
+      "solved": 4,
+      "team": "konradscheng"
+    },
+    {
+      "rank": 592,
+      "solved": 4,
+      "team": "ronaldstoner"
+    },
+    {
+      "rank": 593,
+      "solved": 4,
+      "team": "Neeraj138"
+    },
+    {
+      "rank": 594,
+      "solved": 1,
+      "team": "zobinHuang"
+    },
+    {
+      "rank": 595,
+      "solved": 2,
+      "team": "0xAnto"
+    },
+    {
+      "rank": 596,
+      "solved": 3,
+      "team": "bombrake"
+    },
+    {
+      "rank": 597,
+      "solved": 4,
+      "team": "yfei1"
+    },
+    {
+      "rank": 598,
+      "solved": 4,
+      "team": "tmc"
+    },
+    {
+      "rank": 599,
+      "solved": 4,
+      "team": "yanissrairi"
+    },
+    {
+      "rank": 600,
+      "solved": 4,
+      "team": "g-rabah"
+    },
+    {
+      "rank": 601,
+      "solved": 4,
+      "team": "lamb356"
+    },
+    {
+      "rank": 602,
+      "solved": 2,
+      "team": "krish1905"
+    },
+    {
+      "rank": 603,
+      "solved": 4,
+      "team": "ayshptk"
+    },
+    {
+      "rank": 604,
+      "solved": 4,
+      "team": "manuev2"
+    },
+    {
+      "rank": 605,
+      "solved": 1,
+      "team": "GeorgeWu1204"
+    },
+    {
+      "rank": 606,
+      "solved": 2,
+      "team": "omarirfa"
+    },
+    {
+      "rank": 607,
+      "solved": 4,
+      "team": "m0at"
+    },
+    {
+      "rank": 608,
+      "solved": 4,
+      "team": "0xSmit"
+    },
+    {
+      "rank": 609,
+      "solved": 4,
+      "team": "antaloaalonso"
+    },
+    {
+      "rank": 610,
+      "solved": 4,
+      "team": "benboren"
+    },
+    {
+      "rank": 611,
+      "solved": 1,
+      "team": "yigithanyigit"
+    },
+    {
+      "rank": 612,
+      "solved": 1,
+      "team": "pickleburger"
+    },
+    {
+      "rank": 613,
+      "solved": 4,
+      "team": "C-L-2013"
+    },
+    {
+      "rank": 614,
+      "solved": 4,
+      "team": "Manishyadv"
+    },
+    {
+      "rank": 615,
+      "solved": 1,
+      "team": "gvnn3-ai"
+    },
+    {
+      "rank": 616,
+      "solved": 4,
+      "team": "OVAWARE"
+    },
+    {
+      "rank": 617,
+      "solved": 1,
+      "team": "kimseunghyun-kr"
+    },
+    {
+      "rank": 618,
+      "solved": 4,
+      "team": "jernejstrasner"
+    },
+    {
+      "rank": 619,
+      "solved": 3,
+      "team": "aditya3799"
+    },
+    {
+      "rank": 620,
+      "solved": 4,
+      "team": "anujvaishnav"
+    },
+    {
+      "rank": 621,
+      "solved": 4,
+      "team": "break-the-build"
+    },
+    {
+      "rank": 622,
+      "solved": 4,
+      "team": "a11ce"
+    },
+    {
+      "rank": 623,
+      "solved": 4,
+      "team": "bishal0922"
+    },
+    {
+      "rank": 624,
+      "solved": 4,
+      "team": "preyam2002"
+    },
+    {
+      "rank": 625,
+      "solved": 1,
+      "team": "cjrohandj"
+    },
+    {
+      "rank": 626,
+      "solved": 1,
+      "team": "jackopenn"
+    },
+    {
+      "rank": 627,
+      "solved": 4,
+      "team": "sriharsha-sammeta"
+    },
+    {
+      "rank": 628,
+      "solved": 4,
+      "team": "puretensor"
+    },
+    {
+      "rank": 629,
+      "solved": 4,
+      "team": "AathilFelix"
+    },
+    {
+      "rank": 630,
+      "solved": 4,
+      "team": "friedman-max"
+    },
+    {
+      "rank": 631,
+      "solved": 4,
+      "team": "Jeremy-Sharpe"
+    },
+    {
+      "rank": 632,
+      "solved": 4,
+      "team": "reinhardjvv"
+    },
+    {
+      "rank": 633,
+      "solved": 4,
+      "team": "den3110"
+    },
+    {
+      "rank": 634,
+      "solved": 4,
+      "team": "DicksonWu654"
+    },
+    {
+      "rank": 635,
+      "solved": 4,
+      "team": "latent-variable-17"
+    },
+    {
+      "rank": 636,
+      "solved": 4,
+      "team": "aulafy"
+    },
+    {
+      "rank": 637,
+      "solved": 1,
+      "team": "benthecarman"
+    },
+    {
+      "rank": 638,
+      "solved": 4,
+      "team": "nimao"
+    },
+    {
+      "rank": 639,
+      "solved": 4,
+      "team": "baobabtr33"
+    },
+    {
+      "rank": 640,
+      "solved": 1,
+      "team": "clankamode"
+    },
+    {
+      "rank": 641,
+      "solved": 3,
+      "team": "vladnosiv"
+    },
+    {
+      "rank": 642,
+      "solved": 4,
+      "team": "soiax"
+    },
+    {
+      "rank": 643,
+      "solved": 4,
+      "team": "AstralDrift"
+    },
+    {
+      "rank": 644,
+      "solved": 4,
+      "team": "starlitxiling"
+    },
+    {
+      "rank": 645,
+      "solved": 4,
+      "team": "sooham"
+    },
+    {
+      "rank": 646,
+      "solved": 2,
+      "team": "5ivatej"
+    },
+    {
+      "rank": 647,
+      "solved": 4,
+      "team": "scottdhughes"
+    },
+    {
+      "rank": 648,
+      "solved": 4,
+      "team": "komorebi2203"
+    },
+    {
+      "rank": 649,
+      "solved": 4,
+      "team": "dusty-g"
+    },
+    {
+      "rank": 650,
+      "solved": 4,
+      "team": "rohanxs"
+    },
+    {
+      "rank": 651,
+      "solved": 4,
+      "team": "ex3ndr"
+    },
+    {
+      "rank": 652,
+      "solved": 4,
+      "team": "karnati-praveen"
+    },
+    {
+      "rank": 653,
+      "solved": 4,
+      "team": "guirguispierre"
+    },
+    {
+      "rank": 654,
+      "solved": 1,
+      "team": "jasonzh0"
+    },
+    {
+      "rank": 655,
+      "solved": 1,
+      "team": "justinkimmy"
+    },
+    {
+      "rank": 656,
+      "solved": 4,
+      "team": "k4rth33k"
+    },
+    {
+      "rank": 657,
+      "solved": 4,
+      "team": "pritishyuvraj"
+    },
+    {
+      "rank": 658,
+      "solved": 4,
+      "team": "tanayj10"
+    },
+    {
+      "rank": 659,
+      "solved": 4,
+      "team": "yuval1024"
+    },
+    {
+      "rank": 660,
+      "solved": 4,
+      "team": "UnoDomination"
+    },
+    {
+      "rank": 661,
+      "solved": 4,
+      "team": "rahul-bangre"
+    },
+    {
+      "rank": 662,
+      "solved": 4,
+      "team": "muhammadsqlan"
+    },
+    {
+      "rank": 663,
+      "solved": 4,
+      "team": "Soorya2201"
+    },
+    {
+      "rank": 664,
+      "solved": 4,
+      "team": "dicksonagyei"
+    },
+    {
+      "rank": 665,
+      "solved": 4,
+      "team": "WT-MM"
+    },
+    {
+      "rank": 666,
+      "solved": 4,
+      "team": "gstohl"
+    },
+    {
+      "rank": 667,
+      "solved": 4,
+      "team": "CerebralCoding"
+    },
+    {
+      "rank": 668,
+      "solved": 4,
+      "team": "munachiernest"
+    },
+    {
+      "rank": 669,
+      "solved": 4,
+      "team": "Jackson57279"
+    },
+    {
+      "rank": 670,
+      "solved": 4,
+      "team": "aadillpickle"
+    },
+    {
+      "rank": 671,
+      "solved": 1,
+      "team": "anuroopsriram"
+    },
+    {
+      "rank": 672,
+      "solved": 4,
+      "team": "yosyp"
+    },
+    {
+      "rank": 673,
+      "solved": 4,
+      "team": "sumansid"
+    },
+    {
+      "rank": 674,
+      "solved": 4,
+      "team": "unable12"
+    },
+    {
+      "rank": 675,
+      "solved": 4,
+      "team": "seahyc"
+    },
+    {
+      "rank": 676,
+      "solved": 4,
+      "team": "homeshrawat"
+    },
+    {
+      "rank": 677,
+      "solved": 4,
+      "team": "sravanthkod"
+    },
+    {
+      "rank": 678,
+      "solved": 4,
+      "team": "manishaamireddy"
+    },
+    {
+      "rank": 679,
+      "solved": 3,
+      "team": "aniemerg"
+    },
+    {
+      "rank": 680,
+      "solved": 1,
+      "team": "Mocchibird"
+    },
+    {
+      "rank": 681,
+      "solved": 4,
+      "team": "samholson"
+    },
+    {
+      "rank": 682,
+      "solved": 1,
+      "team": "ai-hpc"
+    },
+    {
+      "rank": 683,
+      "solved": 4,
+      "team": "Gage-Weaver"
+    },
+    {
+      "rank": 684,
+      "solved": 4,
+      "team": "austynrowat"
+    },
+    {
+      "rank": 685,
+      "solved": 1,
+      "team": "bobashopcashier"
+    },
+    {
+      "rank": 686,
+      "solved": 4,
+      "team": "justinwetch"
+    },
+    {
+      "rank": 687,
+      "solved": 4,
+      "team": "lientv"
+    },
+    {
+      "rank": 688,
+      "solved": 4,
+      "team": "Chirantan02"
+    },
+    {
+      "rank": 689,
+      "solved": 4,
+      "team": "0xOsiris"
+    },
+    {
+      "rank": 690,
+      "solved": 4,
+      "team": "aravindh-nanjaiya-latha"
+    },
+    {
+      "rank": 691,
+      "solved": 2,
+      "team": "elnachto"
+    },
+    {
+      "rank": 692,
+      "solved": 1,
+      "team": "Bit-Sahil04"
+    },
+    {
+      "rank": 693,
+      "solved": 2,
+      "team": "c-nnr"
+    },
+    {
+      "rank": 694,
+      "solved": 4,
+      "team": "Eyax00"
+    },
+    {
+      "rank": 695,
+      "solved": 4,
+      "team": "edchase00-commits"
+    },
+    {
+      "rank": 696,
+      "solved": 4,
+      "team": "thedevilhunter225"
+    },
+    {
+      "rank": 697,
+      "solved": 4,
+      "team": "anzal1"
+    },
+    {
+      "rank": 698,
+      "solved": 4,
+      "team": "elstongun"
+    },
+    {
+      "rank": 699,
+      "solved": 4,
+      "team": "divij-mot"
+    },
+    {
+      "rank": 700,
+      "solved": 4,
+      "team": "Kushagrabainsla"
+    },
+    {
+      "rank": 701,
+      "solved": 1,
+      "team": "kushalpatil07"
+    },
+    {
+      "rank": 702,
+      "solved": 4,
+      "team": "willa-code"
+    },
+    {
+      "rank": 703,
+      "solved": 4,
+      "team": "Surebob"
+    },
+    {
+      "rank": 704,
+      "solved": 1,
+      "team": "aaronseanph"
+    },
+    {
+      "rank": 705,
+      "solved": 4,
+      "team": "adityawrk"
+    },
+    {
+      "rank": 706,
+      "solved": 1,
+      "team": "PerrinMyerson"
+    },
+    {
+      "rank": 707,
+      "solved": 4,
+      "team": "0xparashar"
+    },
+    {
+      "rank": 708,
+      "solved": 1,
+      "team": "UditSankhadasariya"
+    },
+    {
+      "rank": 709,
+      "solved": 1,
+      "team": "stefanbuesch"
+    },
+    {
+      "rank": 710,
+      "solved": 4,
+      "team": "piercebrookins"
+    },
+    {
+      "rank": 711,
+      "solved": 4,
+      "team": "hohieuai"
+    },
+    {
+      "rank": 712,
+      "solved": 1,
+      "team": "ctlst"
+    },
+    {
+      "rank": 713,
+      "solved": 4,
+      "team": "Champsmatter"
+    },
+    {
+      "rank": 714,
+      "solved": 4,
+      "team": "st7mpy"
+    },
+    {
+      "rank": 715,
+      "solved": 4,
+      "team": "AleksaGavric"
+    },
+    {
+      "rank": 716,
+      "solved": 4,
+      "team": "bemlerlabs"
+    },
+    {
+      "rank": 717,
+      "solved": 1,
+      "team": "hsrakri"
+    },
+    {
+      "rank": 718,
+      "solved": 1,
+      "team": "Dnouv"
+    },
+    {
+      "rank": 719,
+      "solved": 4,
+      "team": "SamGanYX"
+    },
+    {
+      "rank": 720,
+      "solved": 1,
+      "team": "ajit3259"
+    },
+    {
+      "rank": 721,
+      "solved": 1,
+      "team": "AlexWortega"
+    },
+    {
+      "rank": 722,
+      "solved": 4,
+      "team": "rishabhkarnawat"
+    },
+    {
+      "rank": 723,
+      "solved": 3,
+      "team": "akshaypainjane"
+    },
+    {
+      "rank": 724,
+      "solved": 4,
+      "team": "Luskish"
+    },
+    {
+      "rank": 725,
+      "solved": 1,
+      "team": "TheDaoOfCoding"
+    },
+    {
+      "rank": 726,
+      "solved": 2,
+      "team": "fioritonicolas"
+    },
+    {
+      "rank": 727,
+      "solved": 1,
+      "team": "larroy"
+    },
+    {
+      "rank": 728,
+      "solved": 4,
+      "team": "ArivoliR"
+    },
+    {
+      "rank": 729,
+      "solved": 4,
+      "team": "rememberlenny"
+    },
+    {
+      "rank": 730,
+      "solved": 4,
+      "team": "sptsway"
+    },
+    {
+      "rank": 731,
+      "solved": 3,
+      "team": "addu2612"
+    },
+    {
+      "rank": 732,
+      "solved": 4,
+      "team": "qorvr"
+    },
+    {
+      "rank": 733,
+      "solved": 4,
+      "team": "VibeCoding-1"
+    },
+    {
+      "rank": 734,
+      "solved": 4,
+      "team": "kethcode"
+    },
+    {
+      "rank": 735,
+      "solved": 3,
+      "team": "AdityaStark7"
+    },
+    {
+      "rank": 736,
+      "solved": 4,
+      "team": "ryanli-me"
+    },
+    {
+      "rank": 737,
+      "solved": 4,
+      "team": "winger"
+    },
+    {
+      "rank": 738,
+      "solved": 4,
+      "team": "bra1nDump"
+    },
+    {
+      "rank": 739,
+      "solved": 4,
+      "team": "xharshvardhan"
+    },
+    {
+      "rank": 740,
+      "solved": 1,
+      "team": "dsmith111"
+    },
+    {
+      "rank": 741,
+      "solved": 1,
+      "team": "ashwwwin"
+    },
+    {
+      "rank": 742,
+      "solved": 4,
+      "team": "marctaylor700"
+    },
+    {
+      "rank": 743,
+      "solved": 4,
+      "team": "NiksLFC"
+    },
+    {
+      "rank": 744,
+      "solved": 4,
+      "team": "tharunreddy"
+    },
+    {
+      "rank": 745,
+      "solved": 4,
+      "team": "Epistetechnician"
+    },
+    {
+      "rank": 746,
+      "solved": 4,
+      "team": "abhinavnandwani"
+    },
+    {
+      "rank": 747,
+      "solved": 2,
+      "team": "skundu42"
+    },
+    {
+      "rank": 748,
+      "solved": 4,
+      "team": "codinghunter1"
+    },
+    {
+      "rank": 749,
+      "solved": 4,
+      "team": "y0usaf"
+    },
+    {
+      "rank": 750,
+      "solved": 4,
+      "team": "kopekC"
+    },
+    {
+      "rank": 751,
+      "solved": 4,
+      "team": "cereblab"
+    },
+    {
+      "rank": 752,
+      "solved": 1,
+      "team": "enigmarikki"
+    },
+    {
+      "rank": 753,
+      "solved": 4,
+      "team": "sarthakagrawal927"
+    },
+    {
+      "rank": 754,
+      "solved": 4,
+      "team": "subhanjandas"
+    },
+    {
+      "rank": 755,
+      "solved": 4,
+      "team": "smraikai"
+    },
+    {
+      "rank": 756,
+      "solved": 4,
+      "team": "serkozk"
+    },
+    {
+      "rank": 757,
+      "solved": 3,
+      "team": "mamadou-wane"
+    },
+    {
+      "rank": 758,
+      "solved": 4,
+      "team": "orenyomtov"
+    },
+    {
+      "rank": 759,
+      "solved": 4,
+      "team": "mjkang-estrella"
+    },
+    {
+      "rank": 760,
+      "solved": 4,
+      "team": "mahdi-salmanzade"
+    },
+    {
+      "rank": 761,
+      "solved": 4,
+      "team": "smitpatel316"
+    },
+    {
+      "rank": 762,
+      "solved": 4,
+      "team": "jparklev"
+    },
+    {
+      "rank": 763,
+      "solved": 4,
+      "team": "ikTheProgrammer1"
+    },
+    {
+      "rank": 764,
+      "solved": 4,
+      "team": "Oswfrans"
+    },
+    {
+      "rank": 765,
+      "solved": 4,
+      "team": "xindex2"
+    },
+    {
+      "rank": 766,
+      "solved": 2,
+      "team": "A-Ravioli"
+    },
+    {
+      "rank": 767,
+      "solved": 4,
+      "team": "gatordevin"
+    },
+    {
+      "rank": 768,
+      "solved": 4,
+      "team": "cgarrot"
+    },
+    {
+      "rank": 769,
+      "solved": 4,
+      "team": "TwilightTechie"
+    },
+    {
+      "rank": 770,
+      "solved": 4,
+      "team": "abhaysudhir"
+    },
+    {
+      "rank": 771,
+      "solved": 4,
+      "team": "whoashish115"
+    },
+    {
+      "rank": 772,
+      "solved": 1,
+      "team": "kirubarajan"
+    },
+    {
+      "rank": 773,
+      "solved": 4,
+      "team": "thbechtold"
+    },
+    {
+      "rank": 774,
+      "solved": 4,
+      "team": "stanleyjzheng"
+    },
+    {
+      "rank": 775,
+      "solved": 2,
+      "team": "kgantla-Valens"
+    },
+    {
+      "rank": 776,
+      "solved": 4,
+      "team": "piyushumate"
+    },
+    {
+      "rank": 777,
+      "solved": 4,
+      "team": "Air-crypto"
+    },
+    {
+      "rank": 778,
+      "solved": 4,
+      "team": "teddygood"
+    },
+    {
+      "rank": 779,
+      "solved": 4,
+      "team": "i-anuragmishra"
+    },
+    {
+      "rank": 780,
+      "solved": 4,
+      "team": "c0dn"
+    },
+    {
+      "rank": 781,
+      "solved": 4,
+      "team": "KhalidRamadan"
+    },
+    {
+      "rank": 782,
+      "solved": 4,
+      "team": "Autobot175"
+    },
+    {
+      "rank": 783,
+      "solved": 3,
+      "team": "chanatundev"
+    },
+    {
+      "rank": 784,
+      "solved": 2,
+      "team": "titoatwork"
+    },
+    {
+      "rank": 785,
+      "solved": 3,
+      "team": "Sarthak30"
+    },
+    {
+      "rank": 786,
+      "solved": 1,
+      "team": "Guruprasanna-M"
+    },
+    {
+      "rank": 787,
+      "solved": 4,
+      "team": "chinmayarvind23"
+    },
+    {
+      "rank": 788,
+      "solved": 4,
+      "team": "iamgroot42"
+    },
+    {
+      "rank": 789,
+      "solved": 2,
+      "team": "hyprcat"
+    },
+    {
+      "rank": 790,
+      "solved": 2,
+      "team": "WarriorOfLiberation"
+    },
+    {
+      "rank": 791,
+      "solved": 4,
+      "team": "jiayiyaij"
+    },
+    {
+      "rank": 792,
+      "solved": 4,
+      "team": "hassanpasha5630"
+    },
+    {
+      "rank": 793,
+      "solved": 3,
+      "team": "mjh316"
+    },
+    {
+      "rank": 794,
+      "solved": 4,
+      "team": "ecto"
+    },
+    {
+      "rank": 795,
+      "solved": 1,
+      "team": "Aravind-11"
+    },
+    {
+      "rank": 796,
+      "solved": 1,
+      "team": "JamesEBall"
+    },
+    {
+      "rank": 797,
+      "solved": 4,
+      "team": "Rahulsingh1939"
+    },
+    {
+      "rank": 798,
+      "solved": 3,
+      "team": "sliday"
+    },
+    {
+      "rank": 799,
+      "solved": 1,
+      "team": "sai-lalith"
+    },
+    {
+      "rank": 800,
+      "solved": 4,
+      "team": "sexychinese"
+    },
+    {
+      "rank": 801,
+      "solved": 4,
+      "team": "lowkeynice"
+    },
+    {
+      "rank": 802,
+      "solved": 4,
+      "team": "RinnetAdmin"
+    },
+    {
+      "rank": 803,
+      "solved": 1,
+      "team": "zsophiaaa"
+    },
+    {
+      "rank": 804,
+      "solved": 1,
+      "team": "lakshmanpasala"
+    },
+    {
+      "rank": 805,
+      "solved": 4,
+      "team": "adityaghai07"
+    },
+    {
+      "rank": 806,
+      "solved": 4,
+      "team": "richardslatter"
+    },
+    {
+      "rank": 807,
+      "solved": 1,
+      "team": "AnujF1005"
+    },
+    {
+      "rank": 808,
+      "solved": 4,
+      "team": "mtedj"
+    },
+    {
+      "rank": 809,
+      "solved": 4,
+      "team": "otaliptus"
+    },
+    {
+      "rank": 810,
+      "solved": 2,
+      "team": "ashtonaliu"
+    },
+    {
+      "rank": 811,
+      "solved": 4,
+      "team": "gluonfield"
+    },
+    {
+      "rank": 812,
+      "solved": 1,
+      "team": "wanghemeng"
+    },
+    {
+      "rank": 813,
+      "solved": 4,
+      "team": "say4n"
+    },
+    {
+      "rank": 814,
+      "solved": 4,
+      "team": "0xOsprey"
+    },
+    {
+      "rank": 815,
+      "solved": 4,
+      "team": "dzhang019"
+    },
+    {
+      "rank": 816,
+      "solved": 3,
+      "team": "ri-ru"
+    },
+    {
+      "rank": 817,
+      "solved": 4,
+      "team": "ramtoo-cell"
+    },
+    {
+      "rank": 818,
+      "solved": 4,
+      "team": "o15CR"
+    },
+    {
+      "rank": 819,
+      "solved": 4,
+      "team": "naveengithub89"
+    },
+    {
+      "rank": 820,
+      "solved": 4,
+      "team": "SoulSniper-V2"
+    },
+    {
+      "rank": 821,
+      "solved": 4,
+      "team": "dk8827"
+    },
+    {
+      "rank": 822,
+      "solved": 4,
+      "team": "AntelopePilot"
+    },
+    {
+      "rank": 823,
+      "solved": 4,
+      "team": "sanketsaurav"
+    },
+    {
+      "rank": 824,
+      "solved": 1,
+      "team": "1mehmetin"
+    },
+    {
+      "rank": 825,
+      "solved": 4,
+      "team": "pranitmathur06"
+    },
+    {
+      "rank": 826,
+      "solved": 4,
+      "team": "yoheinakajima"
+    },
+    {
+      "rank": 827,
+      "solved": 1,
+      "team": "earthnet-nz"
+    },
+    {
+      "rank": 828,
+      "solved": 4,
+      "team": "caser-legal"
+    },
+    {
+      "rank": 829,
+      "solved": 2,
+      "team": "swperb"
+    },
+    {
+      "rank": 830,
+      "solved": 4,
+      "team": "tinoshjim99"
+    },
+    {
+      "rank": 831,
+      "solved": 4,
+      "team": "ankitgala007"
+    },
+    {
+      "rank": 832,
+      "solved": 3,
+      "team": "tongchen92"
+    },
+    {
+      "rank": 833,
+      "solved": 4,
+      "team": "mymuhyo"
+    },
+    {
+      "rank": 834,
+      "solved": 4,
+      "team": "udirobert"
+    },
+    {
+      "rank": 835,
+      "solved": 4,
+      "team": "bharadwaj1098"
+    },
+    {
+      "rank": 836,
+      "solved": 1,
+      "team": "DiyaShah7"
+    },
+    {
+      "rank": 837,
+      "solved": 4,
+      "team": "c-gamble"
+    },
+    {
+      "rank": 838,
+      "solved": 4,
+      "team": "theylor999"
+    },
+    {
+      "rank": 839,
+      "solved": 4,
+      "team": "isolume"
+    },
+    {
+      "rank": 840,
+      "solved": 4,
+      "team": "kalashshah"
+    },
+    {
+      "rank": 841,
+      "solved": 4,
+      "team": "Bloh09"
+    },
+    {
+      "rank": 842,
+      "solved": 4,
+      "team": "hsharmadev"
+    },
+    {
+      "rank": 843,
+      "solved": 1,
+      "team": "felixjaehn"
+    },
+    {
+      "rank": 844,
+      "solved": 4,
+      "team": "apurvasaraiya"
+    },
+    {
+      "rank": 845,
+      "solved": 4,
+      "team": "hritikbtw"
+    },
+    {
+      "rank": 846,
+      "solved": 4,
+      "team": "0x94t3z"
+    },
+    {
+      "rank": 847,
+      "solved": 4,
+      "team": "rexthrasher1618-ui"
+    },
+    {
+      "rank": 848,
+      "solved": 4,
+      "team": "MadanChaollaPark"
+    },
+    {
+      "rank": 849,
+      "solved": 4,
+      "team": "sandeepbele"
+    },
+    {
+      "rank": 850,
+      "solved": 4,
+      "team": "jpcc0"
+    },
+    {
+      "rank": 851,
+      "solved": 4,
+      "team": "Dewars30"
+    },
+    {
+      "rank": 852,
+      "solved": 2,
+      "team": "shivansh3592"
+    },
+    {
+      "rank": 853,
+      "solved": 4,
+      "team": "bdepyzy"
+    },
+    {
+      "rank": 854,
+      "solved": 4,
+      "team": "cinun"
+    },
+    {
+      "rank": 855,
+      "solved": 4,
+      "team": "mulkakhileshmj"
+    },
+    {
+      "rank": 856,
+      "solved": 4,
+      "team": "mwufi"
+    },
+    {
+      "rank": 857,
+      "solved": 4,
+      "team": "I-Isroilov"
+    },
+    {
+      "rank": 858,
+      "solved": 4,
+      "team": "fahimashab-code"
+    },
+    {
+      "rank": 859,
+      "solved": 4,
+      "team": "Prudhvi-19"
+    },
+    {
+      "rank": 860,
+      "solved": 2,
+      "team": "bengowan"
+    },
+    {
+      "rank": 861,
+      "solved": 4,
+      "team": "pythongiant"
+    },
+    {
+      "rank": 862,
+      "solved": 1,
+      "team": "nabaruns"
+    },
+    {
+      "rank": 863,
+      "solved": 4,
+      "team": "jacobbabula"
+    },
+    {
+      "rank": 864,
+      "solved": 4,
+      "team": "CoCo-1223"
+    },
+    {
+      "rank": 865,
+      "solved": 2,
+      "team": "pmarquees"
+    },
+    {
+      "rank": 866,
+      "solved": 4,
+      "team": "Kataneco"
+    },
+    {
+      "rank": 867,
+      "solved": 4,
+      "team": "Tarzelf"
+    },
+    {
+      "rank": 868,
+      "solved": 4,
+      "team": "leankwisine"
+    },
+    {
+      "rank": 869,
+      "solved": 4,
+      "team": "admud"
+    },
+    {
+      "rank": 870,
+      "solved": 4,
+      "team": "bobby224812"
+    },
+    {
+      "rank": 871,
+      "solved": 4,
+      "team": "elviscgn"
+    },
+    {
+      "rank": 872,
+      "solved": 3,
+      "team": "Abomination81"
+    },
+    {
+      "rank": 873,
+      "solved": 2,
+      "team": "ifBars"
+    },
+    {
+      "rank": 874,
+      "solved": 4,
+      "team": "dustinddoan"
+    },
+    {
+      "rank": 875,
+      "solved": 4,
+      "team": "DaniMarcel"
+    },
+    {
+      "rank": 876,
+      "solved": 1,
+      "team": "macto94"
+    },
+    {
+      "rank": 877,
+      "solved": 4,
+      "team": "prabin-acharya"
+    },
+    {
+      "rank": 878,
+      "solved": 4,
+      "team": "ZekeVoigt"
+    },
+    {
+      "rank": 879,
+      "solved": 4,
+      "team": "0xqtpie"
+    },
+    {
+      "rank": 880,
+      "solved": 1,
+      "team": "karthiksuk"
+    },
+    {
+      "rank": 881,
+      "solved": 3,
+      "team": "geohotstan"
+    },
+    {
+      "rank": 882,
+      "solved": 4,
+      "team": "harshitsinghbhandari"
+    },
+    {
+      "rank": 883,
+      "solved": 3,
+      "team": "chenxuzhao-ai"
+    },
+    {
+      "rank": 884,
+      "solved": 3,
+      "team": "gchen0002"
+    },
+    {
+      "rank": 885,
+      "solved": 4,
+      "team": "Malayvasa"
+    },
+    {
+      "rank": 886,
+      "solved": 4,
+      "team": "brianshin22"
+    },
+    {
+      "rank": 887,
+      "solved": 1,
+      "team": "joshrzemien"
+    },
+    {
+      "rank": 888,
+      "solved": 4,
+      "team": "adb228"
+    },
+    {
+      "rank": 889,
+      "solved": 3,
+      "team": "tyc00n99"
+    },
+    {
+      "rank": 890,
+      "solved": 2,
+      "team": "YamPengLi"
+    },
+    {
+      "rank": 891,
+      "solved": 2,
+      "team": "NoahLundSyrdal"
+    },
+    {
+      "rank": 892,
+      "solved": 4,
+      "team": "theon199"
+    },
+    {
+      "rank": 893,
+      "solved": 4,
+      "team": "NickTrapp"
+    },
+    {
+      "rank": 894,
+      "solved": 4,
+      "team": "GeorgyZhukovv"
+    },
+    {
+      "rank": 895,
+      "solved": 2,
+      "team": "RadonUmar"
+    },
+    {
+      "rank": 896,
+      "solved": 4,
+      "team": "Jovanseetk"
+    },
+    {
+      "rank": 897,
+      "solved": 4,
+      "team": "gnanam1990"
+    },
+    {
+      "rank": 898,
+      "solved": 2,
+      "team": "lyccol"
+    },
+    {
+      "rank": 899,
+      "solved": 4,
+      "team": "ashishvasant"
+    },
+    {
+      "rank": 900,
+      "solved": 1,
+      "team": "olgunozoktas"
+    },
+    {
+      "rank": 901,
+      "solved": 1,
+      "team": "onblueroses"
+    },
+    {
+      "rank": 902,
+      "solved": 2,
+      "team": "Flo5k5"
+    },
+    {
+      "rank": 903,
+      "solved": 1,
+      "team": "agentjacker"
+    },
+    {
+      "rank": 904,
+      "solved": 1,
+      "team": "Sunsilkk"
+    },
+    {
+      "rank": 905,
+      "solved": 2,
+      "team": "RobotDeveloper1"
+    },
+    {
+      "rank": 906,
+      "solved": 4,
+      "team": "ian-Oni1"
+    },
+    {
+      "rank": 907,
+      "solved": 2,
+      "team": "gowthamswe"
+    },
+    {
+      "rank": 908,
+      "solved": 4,
+      "team": "motobob"
+    },
+    {
+      "rank": 909,
+      "solved": 4,
+      "team": "YogeshPandar"
+    },
+    {
+      "rank": 910,
+      "solved": 4,
+      "team": "QuaanNguyen"
+    },
+    {
+      "rank": 911,
+      "solved": 2,
+      "team": "dawksh"
+    },
+    {
+      "rank": 912,
+      "solved": 3,
+      "team": "erans"
+    },
+    {
+      "rank": 913,
+      "solved": 2,
+      "team": "0xprames"
+    },
+    {
+      "rank": 914,
+      "solved": 1,
+      "team": "townie"
+    },
+    {
+      "rank": 915,
+      "solved": 4,
+      "team": "harsha-gouru"
+    },
+    {
+      "rank": 916,
+      "solved": 1,
+      "team": "mukeshkbj"
+    },
+    {
+      "rank": 917,
+      "solved": 3,
+      "team": "BishalJena"
+    },
+    {
+      "rank": 918,
+      "solved": 4,
+      "team": "rishiw"
+    },
+    {
+      "rank": 919,
+      "solved": 3,
+      "team": "guangyusong"
+    },
+    {
+      "rank": 920,
+      "solved": 3,
+      "team": "ParamThakkar123"
+    },
+    {
+      "rank": 921,
+      "solved": 2,
+      "team": "Junyi-99"
+    },
+    {
+      "rank": 922,
+      "solved": 4,
+      "team": "farzeenilyaszargar"
+    },
+    {
+      "rank": 923,
+      "solved": 4,
+      "team": "dannyadkins"
+    },
+    {
+      "rank": 924,
+      "solved": 1,
+      "team": "art049"
+    },
+    {
+      "rank": 925,
+      "solved": 4,
+      "team": "arygupt"
+    },
+    {
+      "rank": 926,
+      "solved": 4,
+      "team": "agenticmarc"
+    },
+    {
+      "rank": 927,
+      "solved": 4,
+      "team": "nadavbarak14"
+    },
+    {
+      "rank": 928,
+      "solved": 4,
+      "team": "Eng-Ahmd"
+    },
+    {
+      "rank": 929,
+      "solved": 1,
+      "team": "areu01or00"
+    },
+    {
+      "rank": 930,
+      "solved": 4,
+      "team": "scottilee"
+    },
+    {
+      "rank": 931,
+      "solved": 4,
+      "team": "im0xMagnus"
+    },
+    {
+      "rank": 932,
+      "solved": 2,
+      "team": "JaharshKotha"
+    },
+    {
+      "rank": 933,
+      "solved": 4,
+      "team": "forecasterk8s"
+    },
+    {
+      "rank": 934,
+      "solved": 1,
+      "team": "FakeTonyV2"
+    },
+    {
+      "rank": 935,
+      "solved": 2,
+      "team": "vatsalkshah"
+    },
+    {
+      "rank": 936,
+      "solved": 1,
+      "team": "CarlBeek"
+    },
+    {
+      "rank": 937,
+      "solved": 4,
+      "team": "saikrishnasaravanan"
+    },
+    {
+      "rank": 938,
+      "solved": 4,
+      "team": "j-z-w"
+    },
+    {
+      "rank": 939,
+      "solved": 3,
+      "team": "AnshulScodes"
+    },
+    {
+      "rank": 940,
+      "solved": 4,
+      "team": "emadbazmandegan"
+    },
+    {
+      "rank": 941,
+      "solved": 2,
+      "team": "DemolaJames"
+    },
+    {
+      "rank": 942,
+      "solved": 3,
+      "team": "mayank2130"
+    },
+    {
+      "rank": 943,
+      "solved": 1,
+      "team": "Biggles10-claude"
+    },
+    {
+      "rank": 944,
+      "solved": 3,
+      "team": "0xdiid"
+    },
+    {
+      "rank": 945,
+      "solved": 2,
+      "team": "zhizdev"
+    },
+    {
+      "rank": 946,
+      "solved": 1,
+      "team": "aviramha"
+    },
+    {
+      "rank": 947,
+      "solved": 2,
+      "team": "maxgrev"
+    },
+    {
+      "rank": 948,
+      "solved": 2,
+      "team": "prog529007"
+    },
+    {
+      "rank": 949,
+      "solved": 1,
+      "team": "push-xx"
+    },
+    {
+      "rank": 950,
+      "solved": 1,
+      "team": "RatanKokal"
+    },
+    {
+      "rank": 951,
+      "solved": 2,
+      "team": "akadirpamukcu"
+    },
+    {
+      "rank": 952,
+      "solved": 3,
+      "team": "saikeerthan-14"
+    },
+    {
+      "rank": 953,
+      "solved": 2,
+      "team": "tommyyliu"
+    },
+    {
+      "rank": 954,
+      "solved": 2,
+      "team": "7shantanu7"
+    },
+    {
+      "rank": 955,
+      "solved": 4,
+      "team": "yash-marathe"
+    },
+    {
+      "rank": 956,
+      "solved": 4,
+      "team": "mohamedmansour"
+    },
+    {
+      "rank": 957,
+      "solved": 2,
+      "team": "ipco1"
+    },
+    {
+      "rank": 958,
+      "solved": 4,
+      "team": "harshvardhanchand"
+    },
+    {
+      "rank": 959,
+      "solved": 1,
+      "team": "adi-suresh01"
+    },
+    {
+      "rank": 960,
+      "solved": 1,
+      "team": "MooMeACow"
+    },
+    {
+      "rank": 961,
+      "solved": 1,
+      "team": "JLake310"
+    },
+    {
+      "rank": 962,
+      "solved": 1,
+      "team": "MichaelS1011"
+    },
+    {
+      "rank": 963,
+      "solved": 4,
+      "team": "Shijas786"
+    },
+    {
+      "rank": 964,
+      "solved": 1,
+      "team": "keethesh"
+    },
+    {
+      "rank": 965,
+      "solved": 4,
+      "team": "mayank-0789"
+    },
+    {
+      "rank": 966,
+      "solved": 4,
+      "team": "pompompur-in"
+    },
+    {
+      "rank": 967,
+      "solved": 4,
+      "team": "JonoLF"
+    },
+    {
+      "rank": 968,
+      "solved": 1,
+      "team": "hieusats"
+    },
+    {
+      "rank": 969,
+      "solved": 1,
+      "team": "navsing"
+    },
+    {
+      "rank": 970,
+      "solved": 2,
+      "team": "1029online"
+    },
+    {
+      "rank": 971,
+      "solved": 1,
+      "team": "Kirkify"
+    },
+    {
+      "rank": 972,
+      "solved": 1,
+      "team": "waybarrios"
+    },
+    {
+      "rank": 973,
+      "solved": 2,
+      "team": "lalith0407"
+    },
+    {
+      "rank": 974,
+      "solved": 1,
+      "team": "TheSnakeFang"
+    },
+    {
+      "rank": 975,
+      "solved": 4,
+      "team": "nikebp"
+    },
+    {
+      "rank": 976,
+      "solved": 2,
+      "team": "iemAnshuman"
+    },
+    {
+      "rank": 977,
+      "solved": 1,
+      "team": "somaxbt"
+    },
+    {
+      "rank": 978,
+      "solved": 4,
+      "team": "penandlim"
+    },
+    {
+      "rank": 979,
+      "solved": 4,
+      "team": "kumarsankalpgh"
+    },
+    {
+      "rank": 980,
+      "solved": 2,
+      "team": "ayu-ch"
+    },
+    {
+      "rank": 981,
+      "solved": 1,
+      "team": "Sarthib7"
+    },
+    {
+      "rank": 982,
+      "solved": 2,
+      "team": "saifalharthi"
+    },
+    {
+      "rank": 983,
+      "solved": 4,
+      "team": "TheVibeCoder"
+    },
+    {
+      "rank": 984,
+      "solved": 4,
+      "team": "Rachasumanth"
+    },
+    {
+      "rank": 985,
+      "solved": 1,
+      "team": "theironcondor"
+    },
+    {
+      "rank": 986,
+      "solved": 1,
+      "team": "jkbpvsc"
+    },
+    {
+      "rank": 987,
+      "solved": 2,
+      "team": "jeremiahvuong"
+    },
+    {
+      "rank": 988,
+      "solved": 2,
+      "team": "Ash8755"
+    },
+    {
+      "rank": 989,
+      "solved": 1,
+      "team": "naklecha"
+    },
+    {
+      "rank": 990,
+      "solved": 2,
+      "team": "nnqtruong"
+    },
+    {
+      "rank": 991,
+      "solved": 2,
+      "team": "coldsundaynight"
+    },
+    {
+      "rank": 992,
+      "solved": 1,
+      "team": "spinualexandru"
+    },
+    {
+      "rank": 993,
+      "solved": 4,
+      "team": "chrismaddern"
+    },
+    {
+      "rank": 994,
+      "solved": 1,
+      "team": "devstar222696"
+    },
+    {
+      "rank": 995,
+      "solved": 1,
+      "team": "NewstellerBot"
+    },
+    {
+      "rank": 996,
+      "solved": 4,
+      "team": "albincsergo"
+    },
+    {
+      "rank": 997,
+      "solved": 1,
+      "team": "yxiaoGit"
+    },
+    {
+      "rank": 998,
+      "solved": 1,
+      "team": "anencore94"
+    },
+    {
+      "rank": 999,
+      "solved": 4,
+      "team": "Izecrypt"
+    },
+    {
+      "rank": 1000,
+      "solved": 1,
+      "team": "almogtavor"
+    },
+    {
+      "rank": 1001,
+      "solved": 1,
+      "team": "adjustsquare"
+    },
+    {
+      "rank": 1002,
+      "solved": 3,
+      "team": "22by7d"
+    },
+    {
+      "rank": 1003,
+      "solved": 3,
+      "team": "ihaveint"
+    },
+    {
+      "rank": 1004,
+      "solved": 1,
+      "team": "betitanx"
+    },
+    {
+      "rank": 1005,
+      "solved": 1,
+      "team": "fahrenheitjo"
+    },
+    {
+      "rank": 1006,
+      "solved": 3,
+      "team": "levensti"
+    },
+    {
+      "rank": 1007,
+      "solved": 4,
+      "team": "tonyd3"
+    },
+    {
+      "rank": 1008,
+      "solved": 2,
+      "team": "DarlanSchwartz"
+    },
+    {
+      "rank": 1009,
+      "solved": 1,
+      "team": "sanv725"
+    },
+    {
+      "rank": 1010,
+      "solved": 1,
+      "team": "JohnRSandoval"
+    },
+    {
+      "rank": 1011,
+      "solved": 1,
+      "team": "bobforeal"
+    },
+    {
+      "rank": 1012,
+      "solved": 1,
+      "team": "chenwainuo"
+    },
+    {
+      "rank": 1013,
+      "solved": 1,
+      "team": "BenjiMencer"
+    },
+    {
+      "rank": 1014,
+      "solved": 1,
+      "team": "dfields-1"
+    },
+    {
+      "rank": 1015,
+      "solved": 1,
+      "team": "1jmdev"
+    },
+    {
+      "rank": 1016,
+      "solved": 1,
+      "team": "FreshlyCooked"
+    },
+    {
+      "rank": 1017,
+      "solved": 1,
+      "team": "Arutselvan"
+    },
+    {
+      "rank": 1018,
+      "solved": 2,
+      "team": "thsanki"
+    },
+    {
+      "rank": 1019,
+      "solved": 1,
+      "team": "NathenFernandes"
+    },
+    {
+      "rank": 1020,
+      "solved": 1,
+      "team": "meiiie"
+    },
+    {
+      "rank": 1021,
+      "solved": 1,
+      "team": "hjb-w"
+    },
+    {
+      "rank": 1022,
+      "solved": 1,
+      "team": "yevhenx33"
+    },
+    {
+      "rank": 1023,
+      "solved": 1,
+      "team": "lecoqif"
+    },
+    {
+      "rank": 1024,
+      "solved": 1,
+      "team": "anshdadhich"
+    },
+    {
+      "rank": 1025,
+      "solved": 1,
+      "team": "tjiang-fair"
+    },
+    {
+      "rank": 1026,
+      "solved": 2,
+      "team": "aojugg"
+    },
+    {
+      "rank": 1027,
+      "solved": 1,
+      "team": "amithome10-glitch"
+    },
+    {
+      "rank": 1028,
+      "solved": 1,
+      "team": "HlaKarki"
+    },
+    {
+      "rank": 1029,
+      "solved": 1,
+      "team": "d42me"
+    },
+    {
+      "rank": 1030,
+      "solved": 2,
+      "team": "jungseoklee"
+    },
+    {
+      "rank": 1031,
+      "solved": 4,
+      "team": "mchen04"
+    },
+    {
+      "rank": 1032,
+      "solved": 2,
+      "team": "Makireddyvighnesh"
+    },
+    {
+      "rank": 1033,
+      "solved": 2,
+      "team": "Sagor0078"
+    },
+    {
+      "rank": 1034,
+      "solved": 3,
+      "team": "nyxiereal"
+    },
+    {
+      "rank": 1035,
+      "solved": 4,
+      "team": "valormarc"
+    },
+    {
+      "rank": 1036,
+      "solved": 1,
+      "team": "CHRV"
+    },
+    {
+      "rank": 1037,
+      "solved": 1,
+      "team": "dbuos"
+    },
+    {
+      "rank": 1038,
+      "solved": 1,
+      "team": "elitecoder"
+    },
+    {
+      "rank": 1039,
+      "solved": 1,
+      "team": "Wamarcaiceloff"
+    },
+    {
+      "rank": 1040,
+      "solved": 2,
+      "team": "sampritipanda"
+    },
+    {
+      "rank": 1041,
+      "solved": 1,
+      "team": "compusophy"
+    },
+    {
+      "rank": 1042,
+      "solved": 4,
+      "team": "dhruvildarji"
+    },
+    {
+      "rank": 1043,
+      "solved": 1,
+      "team": "vikram14s"
+    },
+    {
+      "rank": 1044,
+      "solved": 4,
+      "team": "jashshah999"
+    },
+    {
+      "rank": 1045,
+      "solved": 2,
+      "team": "ypatil12"
+    },
+    {
+      "rank": 1046,
+      "solved": 1,
+      "team": "AlbertSu123"
+    },
+    {
+      "rank": 1047,
+      "solved": 2,
+      "team": "Suryansh2seth"
+    },
+    {
+      "rank": 1048,
+      "solved": 2,
+      "team": "vyomakesh0728"
+    },
+    {
+      "rank": 1049,
+      "solved": 2,
+      "team": "akurathiswaraj"
+    },
+    {
+      "rank": 1050,
+      "solved": 2,
+      "team": "Konseptt"
+    },
+    {
+      "rank": 1051,
+      "solved": 1,
+      "team": "mnocito"
+    },
+    {
+      "rank": 1052,
+      "solved": 3,
+      "team": "premdevai"
+    },
+    {
+      "rank": 1053,
+      "solved": 1,
+      "team": "farnasirim"
+    },
+    {
+      "rank": 1054,
+      "solved": 2,
+      "team": "EnzoLanne"
+    },
+    {
+      "rank": 1055,
+      "solved": 4,
+      "team": "0xRomSec"
+    },
+    {
+      "rank": 1056,
+      "solved": 1,
+      "team": "mintychochip"
+    },
+    {
+      "rank": 1057,
+      "solved": 1,
+      "team": "Rastats"
+    },
+    {
+      "rank": 1058,
+      "solved": 4,
+      "team": "vaishaks"
+    },
+    {
+      "rank": 1059,
+      "solved": 1,
+      "team": "derpymerpy"
+    },
+    {
+      "rank": 1060,
+      "solved": 1,
+      "team": "omer1ben"
+    },
+    {
+      "rank": 1061,
+      "solved": 4,
+      "team": "opm06"
+    },
+    {
+      "rank": 1062,
+      "solved": 1,
+      "team": "tomerashkenazi-coder"
+    },
+    {
+      "rank": 1063,
+      "solved": 2,
+      "team": "mattqlf"
+    },
+    {
+      "rank": 1064,
+      "solved": 1,
+      "team": "Srikar-balusu123"
+    },
+    {
+      "rank": 1065,
+      "solved": 1,
+      "team": "zaghadon"
+    },
+    {
+      "rank": 1066,
+      "solved": 1,
+      "team": "pjsny"
+    },
+    {
+      "rank": 1067,
+      "solved": 4,
+      "team": "ImOphen"
+    },
+    {
+      "rank": 1068,
+      "solved": 1,
+      "team": "saulane"
+    },
+    {
+      "rank": 1069,
+      "solved": 1,
+      "team": "kevinmwangi"
+    },
+    {
+      "rank": 1070,
+      "solved": 1,
+      "team": "Yashism"
+    },
+    {
+      "rank": 1071,
+      "solved": 1,
+      "team": "levidiamode"
+    },
+    {
+      "rank": 1072,
+      "solved": 1,
+      "team": "maxilevi"
+    },
+    {
+      "rank": 1073,
+      "solved": 1,
+      "team": "Viraj12356"
+    },
+    {
+      "rank": 1074,
+      "solved": 2,
+      "team": "shauray8"
+    },
+    {
+      "rank": 1075,
+      "solved": 1,
+      "team": "subham-71"
+    },
+    {
+      "rank": 1076,
+      "solved": 2,
+      "team": "hetdev"
+    },
+    {
+      "rank": 1077,
+      "solved": 1,
+      "team": "zzj"
+    },
+    {
+      "rank": 1078,
+      "solved": 1,
+      "team": "JohnElysian"
+    },
+    {
+      "rank": 1079,
+      "solved": 3,
+      "team": "rodriguescarson"
+    },
+    {
+      "rank": 1080,
+      "solved": 2,
+      "team": "alexxale"
+    },
+    {
+      "rank": 1081,
+      "solved": 1,
+      "team": "nick-neely"
+    },
+    {
+      "rank": 1082,
+      "solved": 1,
+      "team": "JoaquinCampo"
+    },
+    {
+      "rank": 1083,
+      "solved": 2,
+      "team": "fxrdinxnd"
+    },
+    {
+      "rank": 1084,
+      "solved": 1,
+      "team": "outsourc-e"
+    },
+    {
+      "rank": 1085,
+      "solved": 1,
+      "team": "jonathansanger"
+    },
+    {
+      "rank": 1086,
+      "solved": 1,
+      "team": "RishiKakade"
+    },
+    {
+      "rank": 1087,
+      "solved": 1,
+      "team": "AhmadAllabadi1"
+    },
+    {
+      "rank": 1088,
+      "solved": 1,
+      "team": "dsh1376"
+    },
+    {
+      "rank": 1089,
+      "solved": 2,
+      "team": "Xuefeng-Zhu"
+    },
+    {
+      "rank": 1090,
+      "solved": 1,
+      "team": "michaelgao8"
+    },
+    {
+      "rank": 1091,
+      "solved": 1,
+      "team": "dovas-net"
+    },
+    {
+      "rank": 1092,
+      "solved": 2,
+      "team": "hydrogenbond007"
+    },
+    {
+      "rank": 1093,
+      "solved": 1,
+      "team": "devsharma8555"
+    },
+    {
+      "rank": 1094,
+      "solved": 1,
+      "team": "dev4st3d"
+    },
+    {
+      "rank": 1095,
+      "solved": 1,
+      "team": "dalisoft"
+    },
+    {
+      "rank": 1096,
+      "solved": 3,
+      "team": "jeevanpillay"
+    },
+    {
+      "rank": 1097,
+      "solved": 1,
+      "team": "kazim05"
+    },
+    {
+      "rank": 1098,
+      "solved": 1,
+      "team": "KoalaYuFeng"
+    },
+    {
+      "rank": 1099,
+      "solved": 1,
+      "team": "carsonpo"
+    },
+    {
+      "rank": 1100,
+      "solved": 1,
+      "team": "ank1015"
+    },
+    {
+      "rank": 1101,
+      "solved": 1,
+      "team": "atatess"
+    },
+    {
+      "rank": 1102,
+      "solved": 1,
+      "team": "nmxmxh"
+    },
+    {
+      "rank": 1103,
+      "solved": 1,
+      "team": "souvikrana"
+    },
+    {
+      "rank": 1104,
+      "solved": 1,
+      "team": "Sahilsingh75"
+    },
+    {
+      "rank": 1105,
+      "solved": 2,
+      "team": "tipsharsha"
+    },
+    {
+      "rank": 1106,
+      "solved": 1,
+      "team": "ericsun-pathos"
+    },
+    {
+      "rank": 1107,
+      "solved": 1,
+      "team": "hritikarya"
+    },
+    {
+      "rank": 1108,
+      "solved": 2,
+      "team": "boshd"
+    },
+    {
+      "rank": 1109,
+      "solved": 1,
+      "team": "caupcakes"
+    },
+    {
+      "rank": 1110,
+      "solved": 1,
+      "team": "philip621"
+    },
+    {
+      "rank": 1111,
+      "solved": 1,
+      "team": "shreeshiv"
+    },
+    {
+      "rank": 1112,
+      "solved": 1,
+      "team": "bnahor"
+    },
+    {
+      "rank": 1113,
+      "solved": 1,
+      "team": "darshitpatel1"
+    },
+    {
+      "rank": 1114,
+      "solved": 1,
+      "team": "etal37"
+    },
+    {
+      "rank": 1115,
+      "solved": 2,
+      "team": "YashRaghuvanshi25"
+    },
+    {
+      "rank": 1116,
+      "solved": 1,
+      "team": "NehharShah"
+    },
+    {
+      "rank": 1117,
+      "solved": 1,
+      "team": "benjaminpassmore"
+    },
+    {
+      "rank": 1118,
+      "solved": 1,
+      "team": "Naymmmm"
+    },
+    {
+      "rank": 1119,
+      "solved": 1,
+      "team": "BRIXWebsites"
+    },
+    {
+      "rank": 1120,
+      "solved": 1,
+      "team": "mw2000"
+    },
+    {
+      "rank": 1121,
+      "solved": 3,
+      "team": "Anon344"
+    },
+    {
+      "rank": 1122,
+      "solved": 1,
+      "team": "the-maker-00"
+    },
+    {
+      "rank": 1123,
+      "solved": 1,
+      "team": "waseemshahwan"
+    },
+    {
+      "rank": 1124,
+      "solved": 1,
+      "team": "zaixincheng174-ai"
+    },
+    {
+      "rank": 1125,
+      "solved": 1,
+      "team": "xeroxandrew"
+    },
+    {
+      "rank": 1126,
+      "solved": 1,
+      "team": "AnshMasand"
+    },
+    {
+      "rank": 1127,
+      "solved": 1,
+      "team": "anon5376"
+    },
+    {
+      "rank": 1128,
+      "solved": 1,
+      "team": "CodeMan62"
+    },
+    {
+      "rank": 1129,
+      "solved": 2,
+      "team": "typesparky"
+    },
+    {
+      "rank": 1130,
+      "solved": 1,
+      "team": "mayitayew"
+    },
+    {
+      "rank": 1131,
+      "solved": 1,
+      "team": "kedarpotdar-nv"
+    },
+    {
+      "rank": 1132,
+      "solved": 1,
+      "team": "richidubey"
+    },
+    {
+      "rank": 1133,
+      "solved": 1,
+      "team": "currybab"
+    },
+    {
+      "rank": 1134,
+      "solved": 4,
+      "team": "jyohukuchan"
+    },
+    {
+      "rank": 1135,
+      "solved": 2,
+      "team": "vn-envy"
+    },
+    {
+      "rank": 1136,
+      "solved": 1,
+      "team": "krish1236"
+    },
+    {
+      "rank": 1137,
+      "solved": 1,
+      "team": "proxylat"
+    },
+    {
+      "rank": 1138,
+      "solved": 2,
+      "team": "safarnejad"
+    },
+    {
+      "rank": 1139,
+      "solved": 1,
+      "team": "prakhar10"
+    },
+    {
+      "rank": 1140,
+      "solved": 1,
+      "team": "smritivs"
+    },
+    {
+      "rank": 1141,
+      "solved": 1,
+      "team": "noctswish"
+    },
+    {
+      "rank": 1142,
+      "solved": 1,
+      "team": "DaniilKurlovich"
+    },
+    {
+      "rank": 1143,
+      "solved": 1,
+      "team": "YounesElhjouji"
+    },
+    {
+      "rank": 1144,
+      "solved": 1,
+      "team": "bl791"
+    },
+    {
+      "rank": 1145,
+      "solved": 1,
+      "team": "deepnarainsingh"
+    },
+    {
+      "rank": 1146,
+      "solved": 1,
+      "team": "Prajna0106"
+    },
+    {
+      "rank": 1147,
+      "solved": 1,
+      "team": "ljz3"
+    },
+    {
+      "rank": 1148,
+      "solved": 1,
+      "team": "trieuat"
+    },
+    {
+      "rank": 1149,
+      "solved": 1,
+      "team": "cdr6934"
+    },
+    {
+      "rank": 1150,
+      "solved": 1,
+      "team": "khoanguyen0224-glitch"
+    },
+    {
+      "rank": 1151,
+      "solved": 1,
+      "team": "LamineKouissi"
+    },
+    {
+      "rank": 1152,
+      "solved": 1,
+      "team": "rsafier"
+    },
+    {
+      "rank": 1153,
+      "solved": 1,
+      "team": "christiankotait"
+    },
+    {
+      "rank": 1154,
+      "solved": 1,
+      "team": "anaqvi02"
+    },
+    {
+      "rank": 1155,
+      "solved": 1,
+      "team": "AatmanAJ"
+    },
+    {
+      "rank": 1156,
+      "solved": 1,
+      "team": "vracton"
+    },
+    {
+      "rank": 1157,
+      "solved": 1,
+      "team": "noamatia-pearl"
+    },
+    {
+      "rank": 1158,
+      "solved": 3,
+      "team": "holtwood"
+    },
+    {
+      "rank": 1159,
+      "solved": 1,
+      "team": "Anshtyagi1729"
+    },
+    {
+      "rank": 1160,
+      "solved": 1,
+      "team": "emiliocramer"
+    },
+    {
+      "rank": 1161,
+      "solved": 1,
+      "team": "Drice1999"
+    },
+    {
+      "rank": 1162,
+      "solved": 1,
+      "team": "quantshah"
+    },
+    {
+      "rank": 1163,
+      "solved": 1,
+      "team": "airajena"
+    },
+    {
+      "rank": 1164,
+      "solved": 1,
+      "team": "sumanthakella123"
+    },
+    {
+      "rank": 1165,
+      "solved": 1,
+      "team": "tensorfish"
+    },
+    {
+      "rank": 1166,
+      "solved": 1,
+      "team": "pjavanrood"
+    },
+    {
+      "rank": 1167,
+      "solved": 1,
+      "team": "borngraced"
+    },
+    {
+      "rank": 1168,
+      "solved": 1,
+      "team": "donald-lqs"
+    },
+    {
+      "rank": 1169,
+      "solved": 1,
+      "team": "WadeDavis"
+    },
+    {
+      "rank": 1170,
+      "solved": 1,
+      "team": "Ostailor"
+    },
+    {
+      "rank": 1171,
+      "solved": 1,
+      "team": "zaydaanjahangir"
+    },
+    {
+      "rank": 1172,
+      "solved": 1,
+      "team": "Max-sm-yc"
+    },
+    {
+      "rank": 1173,
+      "solved": 1,
+      "team": "TiwariAbhishek23"
+    },
+    {
+      "rank": 1174,
+      "solved": 1,
+      "team": "danyloooah-web"
+    },
+    {
+      "rank": 1175,
+      "solved": 1,
+      "team": "dlqs"
+    },
+    {
+      "rank": 1176,
+      "solved": 1,
+      "team": "KuNaL8103"
+    },
+    {
+      "rank": 1177,
+      "solved": 1,
+      "team": "MyTyrannosaurusBuddy"
+    },
+    {
+      "rank": 1178,
+      "solved": 1,
+      "team": "felixguerrero12"
+    },
+    {
+      "rank": 1179,
+      "solved": 1,
+      "team": "Ruloo13"
+    },
+    {
+      "rank": 1180,
+      "solved": 1,
+      "team": "Mikyx-1"
+    },
+    {
+      "rank": 1181,
+      "solved": 1,
+      "team": "somikdhar729"
+    },
+    {
+      "rank": 1182,
+      "solved": 1,
+      "team": "pavvann"
+    },
+    {
+      "rank": 1183,
+      "solved": 1,
+      "team": "cloverNJS"
+    },
+    {
+      "rank": 1184,
+      "solved": 1,
+      "team": "finlayiainmaclean"
+    },
+    {
+      "rank": 1185,
+      "solved": 1,
+      "team": "arudomanenko"
+    },
+    {
+      "rank": 1186,
+      "solved": 1,
+      "team": "Son-Of-Zeus"
+    },
+    {
+      "rank": 1187,
+      "solved": 1,
+      "team": "srichards2103"
+    },
+    {
+      "rank": 1188,
+      "solved": 1,
+      "team": "fizlip"
+    },
+    {
+      "rank": 1189,
+      "solved": 1,
+      "team": "cell-magic"
+    },
+    {
+      "rank": 1190,
+      "solved": 1,
+      "team": "deepak-jha-kgp"
+    },
+    {
+      "rank": 1191,
+      "solved": 1,
+      "team": "OctopusTakopi"
+    },
+    {
+      "rank": 1192,
+      "solved": 2,
+      "team": "specterstack"
+    },
+    {
+      "rank": 1193,
+      "solved": 1,
+      "team": "sofinvalery"
+    },
+    {
+      "rank": 1194,
+      "solved": 1,
+      "team": "Mfon-19"
+    },
+    {
+      "rank": 1195,
+      "solved": 1,
+      "team": "atimics"
+    },
+    {
+      "rank": 1196,
+      "solved": 1,
+      "team": "abozten"
+    },
+    {
+      "rank": 1197,
+      "solved": 1,
+      "team": "DenisDule"
+    },
+    {
+      "rank": 1198,
+      "solved": 2,
+      "team": "jk2500"
+    },
+    {
+      "rank": 1199,
+      "solved": 1,
+      "team": "BlackWingedKing"
+    },
+    {
+      "rank": 1200,
+      "solved": 1,
+      "team": "jakedrew"
+    },
+    {
+      "rank": 1201,
+      "solved": 1,
+      "team": "vladhimai"
+    },
+    {
+      "rank": 1202,
+      "solved": 1,
+      "team": "vineetrc"
+    },
+    {
+      "rank": 1203,
+      "solved": 1,
+      "team": "m-russ"
+    },
+    {
+      "rank": 1204,
+      "solved": 1,
+      "team": "zientesit"
+    },
+    {
+      "rank": 1205,
+      "solved": 1,
+      "team": "sebastian-morris"
+    },
+    {
+      "rank": 1206,
+      "solved": 1,
+      "team": "aflah02"
+    },
+    {
+      "rank": 1207,
+      "solved": 1,
+      "team": "yavuzsyildiz"
+    },
+    {
+      "rank": 1208,
+      "solved": 1,
+      "team": "shadowtechn"
+    },
+    {
+      "rank": 1209,
+      "solved": 2,
+      "team": "sidbharth"
+    },
+    {
+      "rank": 1210,
+      "solved": 1,
+      "team": "lokeshyadav559"
+    },
+    {
+      "rank": 1211,
+      "solved": 1,
+      "team": "tsdocode"
+    },
+    {
+      "rank": 1212,
+      "solved": 1,
+      "team": "ivnnv"
+    },
+    {
+      "rank": 1213,
+      "solved": 1,
+      "team": "tawfeks"
+    },
+    {
+      "rank": 1214,
+      "solved": 1,
+      "team": "caaatch22"
+    },
+    {
+      "rank": 1215,
+      "solved": 1,
+      "team": "youpesh"
+    },
+    {
+      "rank": 1216,
+      "solved": 1,
+      "team": "kkkamur07"
+    },
+    {
+      "rank": 1217,
+      "solved": 1,
+      "team": "seanwessmith"
+    },
+    {
+      "rank": 1218,
+      "solved": 1,
+      "team": "1-alexkarter"
+    },
+    {
+      "rank": 1219,
+      "solved": 1,
+      "team": "Galgol23"
+    },
+    {
+      "rank": 1220,
+      "solved": 1,
+      "team": "DhrumanGupta"
+    },
+    {
+      "rank": 1221,
+      "solved": 1,
+      "team": "mrzetti"
+    },
+    {
+      "rank": 1222,
+      "solved": 2,
+      "team": "narain1"
+    },
+    {
+      "rank": 1223,
+      "solved": 1,
+      "team": "serene-moore"
+    },
+    {
+      "rank": 1224,
+      "solved": 1,
+      "team": "NardoVanVuuren"
+    },
+    {
+      "rank": 1225,
+      "solved": 1,
+      "team": "SUSINDRAREDDY"
+    },
+    {
+      "rank": 1226,
+      "solved": 1,
+      "team": "DrunkTrader"
+    },
+    {
+      "rank": 1227,
+      "solved": 1,
+      "team": "flappybird1084"
+    },
+    {
+      "rank": 1228,
+      "solved": 1,
+      "team": "kathir-23s"
+    },
+    {
+      "rank": 1229,
+      "solved": 1,
+      "team": "FalseId0ls"
+    },
+    {
+      "rank": 1230,
+      "solved": 1,
+      "team": "ermolushka"
+    },
+    {
+      "rank": 1231,
+      "solved": 1,
+      "team": "datvodinh"
+    },
+    {
+      "rank": 1232,
+      "solved": 1,
+      "team": "aryan2305"
+    },
+    {
+      "rank": 1233,
+      "solved": 1,
+      "team": "Koomook"
+    },
+    {
+      "rank": 1234,
+      "solved": 1,
+      "team": "JeremyEspresso"
+    },
+    {
+      "rank": 1235,
+      "solved": 1,
+      "team": "Ritiky23"
+    },
+    {
+      "rank": 1236,
+      "solved": 1,
+      "team": "dmwong25"
+    },
+    {
+      "rank": 1237,
+      "solved": 1,
+      "team": "maliktanveerdhool"
+    },
+    {
+      "rank": 1238,
+      "solved": 1,
+      "team": "bikrammajhi"
+    },
+    {
+      "rank": 1239,
+      "solved": 1,
+      "team": "x-qedaudit"
+    },
+    {
+      "rank": 1240,
+      "solved": 1,
+      "team": "0x106"
+    },
+    {
+      "rank": 1241,
+      "solved": 1,
+      "team": "lalomorales22"
+    },
+    {
+      "rank": 1242,
+      "solved": 1,
+      "team": "AMX07"
+    },
+    {
+      "rank": 1243,
+      "solved": 1,
+      "team": "maulikmuchh0049-sys"
+    },
+    {
+      "rank": 1244,
+      "solved": 1,
+      "team": "bhagwat-rahul"
+    },
+    {
+      "rank": 1245,
+      "solved": 1,
+      "team": "igorovichvaleriy-cloud"
+    },
+    {
+      "rank": 1246,
+      "solved": 1,
+      "team": "kevalshah90"
+    },
+    {
+      "rank": 1247,
+      "solved": 1,
+      "team": "vnicula"
+    },
+    {
+      "rank": 1248,
+      "solved": 1,
+      "team": "ahmadmustafaanis"
+    },
+    {
+      "rank": 1249,
+      "solved": 1,
+      "team": "benjib-2"
+    },
+    {
+      "rank": 1250,
+      "solved": 1,
+      "team": "leakedweights"
+    },
+    {
+      "rank": 1251,
+      "solved": 1,
+      "team": "yaswanthreddyyyr"
+    },
+    {
+      "rank": 1252,
+      "solved": 1,
+      "team": "vedanth-jadhav"
+    },
+    {
+      "rank": 1253,
+      "solved": 1,
+      "team": "mrnetwork0001"
+    },
+    {
+      "rank": 1254,
+      "solved": 1,
+      "team": "rahulgarlapati14"
+    },
+    {
+      "rank": 1255,
+      "solved": 1,
+      "team": "stashuk-olek"
+    },
+    {
+      "rank": 1256,
+      "solved": 1,
+      "team": "Icefire113"
+    },
+    {
+      "rank": 1257,
+      "solved": 1,
+      "team": "marcpadz"
+    },
+    {
+      "rank": 1258,
+      "solved": 1,
+      "team": "abhay"
+    },
+    {
+      "rank": 1259,
+      "solved": 1,
+      "team": "kevincheng96"
+    },
+    {
+      "rank": 1260,
+      "solved": 1,
+      "team": "ozgureyilmaz"
+    },
+    {
+      "rank": 1261,
+      "solved": 1,
+      "team": "hertzfelt"
+    },
+    {
+      "rank": 1262,
+      "solved": 1,
+      "team": "omardardir"
+    },
+    {
+      "rank": 1263,
+      "solved": 1,
+      "team": "RiturajSingh2004"
+    },
+    {
+      "rank": 1264,
+      "solved": 1,
+      "team": "saiyambharara"
+    },
+    {
+      "rank": 1265,
+      "solved": 1,
+      "team": "bluusun"
+    },
+    {
+      "rank": 1266,
+      "solved": 1,
+      "team": "Shane12344321"
+    },
+    {
+      "rank": 1267,
+      "solved": 1,
+      "team": "Anthony-Sin"
+    },
+    {
+      "rank": 1268,
+      "solved": 1,
+      "team": "xxdydx"
+    },
+    {
+      "rank": 1269,
+      "solved": 1,
+      "team": "akshayparseja"
+    },
+    {
+      "rank": 1270,
+      "solved": 1,
+      "team": "deanodotdotdot"
+    },
+    {
+      "rank": 1271,
+      "solved": 1,
+      "team": "Zhuohengli03"
+    },
+    {
+      "rank": 1272,
+      "solved": 1,
+      "team": "SYMBaiEX"
+    },
+    {
+      "rank": 1273,
+      "solved": 1,
+      "team": "ql1max"
+    },
+    {
+      "rank": 1274,
+      "solved": 1,
+      "team": "karthikdwarakanath"
+    },
+    {
+      "rank": 1275,
+      "solved": 1,
+      "team": "Jinash-Rouniyar"
+    },
+    {
+      "rank": 1276,
+      "solved": 1,
+      "team": "ktamuly"
+    },
+    {
+      "rank": 1277,
+      "solved": 1,
+      "team": "joshuajerin"
+    },
+    {
+      "rank": 1278,
+      "solved": 1,
+      "team": "everyai-com"
+    },
+    {
+      "rank": 1279,
+      "solved": 1,
+      "team": "theexray"
+    },
+    {
+      "rank": 1280,
+      "solved": 1,
+      "team": "r2dev"
+    },
+    {
+      "rank": 1281,
+      "solved": 1,
+      "team": "gab709"
+    },
+    {
+      "rank": 1282,
+      "solved": 1,
+      "team": "peaceakame"
+    },
+    {
+      "rank": 1283,
+      "solved": 1,
+      "team": "Cab14bacc"
+    },
+    {
+      "rank": 1284,
+      "solved": 1,
+      "team": "Tetraslam"
+    },
+    {
+      "rank": 1285,
+      "solved": 1,
+      "team": "add-itya"
+    },
+    {
+      "rank": 1286,
+      "solved": 1,
+      "team": "sypsyp97"
+    },
+    {
+      "rank": 1287,
+      "solved": 1,
+      "team": "jennen-maelstromlabs"
+    },
+    {
+      "rank": 1288,
+      "solved": 1,
+      "team": "mohi-devhub"
+    },
+    {
+      "rank": 1289,
+      "solved": 2,
+      "team": "GPTwareAI"
+    },
+    {
+      "rank": 1290,
+      "solved": 1,
+      "team": "2020chris"
+    },
+    {
+      "rank": 1291,
+      "solved": 2,
+      "team": "Shiva-gsk"
+    },
+    {
+      "rank": 1292,
+      "solved": 1,
+      "team": "kennethkabogo"
+    },
+    {
+      "rank": 1293,
+      "solved": 1,
+      "team": "Neh2332"
+    },
+    {
+      "rank": 1294,
+      "solved": 1,
+      "team": "Derpedyea"
+    },
+    {
+      "rank": 1295,
+      "solved": 1,
+      "team": "mushyalpha"
+    },
+    {
+      "rank": 1296,
+      "solved": 1,
+      "team": "samridh10exe"
+    },
+    {
+      "rank": 1297,
+      "solved": 1,
+      "team": "enzodrovandi"
+    },
+    {
+      "rank": 1298,
+      "solved": 1,
+      "team": "utsav1033"
+    },
+    {
+      "rank": 1299,
+      "solved": 1,
+      "team": "Pleto"
+    },
+    {
+      "rank": 1300,
+      "solved": 1,
+      "team": "chiajung-wang"
+    },
+    {
+      "rank": 1301,
+      "solved": 1,
+      "team": "sultee"
+    },
+    {
+      "rank": 1302,
+      "solved": 1,
+      "team": "Pulsator01"
+    },
+    {
+      "rank": 1303,
+      "solved": 1,
+      "team": "sztok7"
+    },
+    {
+      "rank": 1304,
+      "solved": 1,
+      "team": "vrevolverrr"
+    },
+    {
+      "rank": 1305,
+      "solved": 1,
+      "team": "indextree"
+    },
+    {
+      "rank": 1306,
+      "solved": 2,
+      "team": "tanayarun"
+    },
+    {
+      "rank": 1307,
+      "solved": 1,
+      "team": "Diekope"
+    },
+    {
+      "rank": 1308,
+      "solved": 1,
+      "team": "paritoshmmmec"
+    },
+    {
+      "rank": 1309,
+      "solved": 1,
+      "team": "sdev138"
+    },
+    {
+      "rank": 1310,
+      "solved": 1,
+      "team": "MrRoboto11102003"
+    },
+    {
+      "rank": 1311,
+      "solved": 1,
+      "team": "videodanchik"
+    },
+    {
+      "rank": 1312,
+      "solved": 1,
+      "team": "vineetgupta1230"
+    },
+    {
+      "rank": 1313,
+      "solved": 1,
+      "team": "solomonwilsonr"
+    },
+    {
+      "rank": 1314,
+      "solved": 1,
+      "team": "VisH317"
+    },
+    {
+      "rank": 1315,
+      "solved": 1,
+      "team": "arj-sng"
+    },
+    {
+      "rank": 1316,
+      "solved": 1,
+      "team": "Infatoshi"
+    },
+    {
+      "rank": 1317,
+      "solved": 1,
+      "team": "fdamani"
+    },
+    {
+      "rank": 1318,
+      "solved": 1,
+      "team": "fecastillo"
+    },
+    {
+      "rank": 1319,
+      "solved": 1,
+      "team": "shariqnaiyer"
+    },
+    {
+      "rank": 1320,
+      "solved": 1,
+      "team": "tlmurphy"
+    },
+    {
+      "rank": 1321,
+      "solved": 1,
+      "team": "ygxio"
+    },
+    {
+      "rank": 1322,
+      "solved": 1,
+      "team": "neerajdad123-byte"
+    },
+    {
+      "rank": 1323,
+      "solved": 1,
+      "team": "andyocnz"
+    },
+    {
+      "rank": 1324,
+      "solved": 1,
+      "team": "ledbetterljoshua"
+    },
+    {
+      "rank": 1325,
+      "solved": 1,
+      "team": "mory91"
+    },
+    {
+      "rank": 1326,
+      "solved": 1,
+      "team": "PeesapatiRohithSharma"
+    },
+    {
+      "rank": 1327,
+      "solved": 1,
+      "team": "syedmujahedalih"
+    },
+    {
+      "rank": 1328,
+      "solved": 2,
+      "team": "Ananthoju-Pranav-Sai"
+    },
+    {
+      "rank": 1329,
+      "solved": 1,
+      "team": "goyaladitya05"
+    },
+    {
+      "rank": 1330,
+      "solved": 1,
+      "team": "karuiEden"
+    },
+    {
+      "rank": 1331,
+      "solved": 1,
+      "team": "cbarber1"
+    },
+    {
+      "rank": 1332,
+      "solved": 1,
+      "team": "netwrkerror"
+    },
+    {
+      "rank": 1333,
+      "solved": 1,
+      "team": "Rishit-Singh03"
+    },
+    {
+      "rank": 1334,
+      "solved": 1,
+      "team": "KIROKOWA"
+    },
+    {
+      "rank": 1335,
+      "solved": 1,
+      "team": "ai-hustler"
+    },
+    {
+      "rank": 1336,
+      "solved": 1,
+      "team": "BelixRogner"
+    },
+    {
+      "rank": 1337,
+      "solved": 1,
+      "team": "venkat1017"
+    },
+    {
+      "rank": 1338,
+      "solved": 1,
+      "team": "fabinulleins"
+    },
+    {
+      "rank": 1339,
+      "solved": 1,
+      "team": "szcheng0702"
+    },
+    {
+      "rank": 1340,
+      "solved": 1,
+      "team": "neocuella"
+    },
+    {
+      "rank": 1341,
+      "solved": 2,
+      "team": "Steve-CortesPineda"
+    },
+    {
+      "rank": 1342,
+      "solved": 1,
+      "team": "legchikov"
+    },
+    {
+      "rank": 1343,
+      "solved": 1,
+      "team": "dtenreiro"
+    },
+    {
+      "rank": 1344,
+      "solved": 1,
+      "team": "charleslansdowne5-ui"
+    },
+    {
+      "rank": 1345,
+      "solved": 1,
+      "team": "wuuthraad-x"
+    },
+    {
+      "rank": 1346,
+      "solved": 1,
+      "team": "rovirmani"
+    },
+    {
+      "rank": 1347,
+      "solved": 1,
+      "team": "jerry2247"
+    },
+    {
+      "rank": 1348,
+      "solved": 1,
+      "team": "matthieudebrion"
+    },
+    {
+      "rank": 1349,
+      "solved": 1,
+      "team": "skeehn"
+    },
+    {
+      "rank": 1350,
+      "solved": 1,
+      "team": "pipinthedev"
+    },
+    {
+      "rank": 1351,
+      "solved": 1,
+      "team": "Foshowithit"
+    },
+    {
+      "rank": 1352,
+      "solved": 1,
+      "team": "linson007"
+    },
+    {
+      "rank": 1353,
+      "solved": 1,
+      "team": "ChannyClaus"
+    },
+    {
+      "rank": 1354,
+      "solved": 1,
+      "team": "explise"
+    },
+    {
+      "rank": 1355,
+      "solved": 1,
+      "team": "symourjr"
+    },
+    {
+      "rank": 1356,
+      "solved": 1,
+      "team": "EnkiduHub"
+    },
+    {
+      "rank": 1357,
+      "solved": 1,
+      "team": "Jigar3"
+    },
+    {
+      "rank": 1358,
+      "solved": 1,
+      "team": "AlKeshi"
+    },
+    {
+      "rank": 1359,
+      "solved": 1,
+      "team": "bidah"
+    },
+    {
+      "rank": 1360,
+      "solved": 1,
+      "team": "abhishinde24"
+    },
+    {
+      "rank": 1361,
+      "solved": 1,
+      "team": "pseudolabel"
+    },
+    {
+      "rank": 1362,
+      "solved": 1,
+      "team": "gr225607"
+    },
+    {
+      "rank": 1363,
+      "solved": 2,
+      "team": "Killfear1"
+    },
+    {
+      "rank": 1364,
+      "solved": 1,
+      "team": "sasobhabha"
+    },
+    {
+      "rank": 1365,
+      "solved": 4,
+      "team": "system1970"
+    },
+    {
+      "rank": 1366,
+      "solved": 1,
+      "team": "vazw"
+    },
+    {
+      "rank": 1367,
+      "solved": 1,
+      "team": "amitds1997"
+    },
+    {
+      "rank": 1368,
+      "solved": 1,
+      "team": "sfroee"
+    },
+    {
+      "rank": 1369,
+      "solved": 1,
+      "team": "f-baig"
+    },
+    {
+      "rank": 1370,
+      "solved": 2,
+      "team": "shelbykb2"
+    },
+    {
+      "rank": 1371,
+      "solved": 1,
+      "team": "sarvanithin"
+    },
+    {
+      "rank": 1372,
+      "solved": 2,
+      "team": "jackahuston"
+    },
+    {
+      "rank": 1373,
+      "solved": 1,
+      "team": "yuan-alex"
+    },
+    {
+      "rank": 1374,
+      "solved": 1,
+      "team": "matandd"
+    },
+    {
+      "rank": 1375,
+      "solved": 1,
+      "team": "fortunexbt"
+    },
+    {
+      "rank": 1376,
+      "solved": 1,
+      "team": "Mithun-033"
+    },
+    {
+      "rank": 1377,
+      "solved": 4,
+      "team": "abaskabato"
+    },
+    {
+      "rank": 1378,
+      "solved": 1,
+      "team": "ByteJoseph"
+    },
+    {
+      "rank": 1379,
+      "solved": 2,
+      "team": "Jmanz0"
+    },
+    {
+      "rank": 1380,
+      "solved": 1,
+      "team": "lilaclilac09"
+    },
+    {
+      "rank": 1381,
+      "solved": 1,
+      "team": "chiragbiswas"
+    },
+    {
+      "rank": 1382,
+      "solved": 1,
+      "team": "Umesh-k26"
+    },
+    {
+      "rank": 1383,
+      "solved": 1,
+      "team": "wunderships"
+    },
+    {
+      "rank": 1384,
+      "solved": 1,
+      "team": "eaniket"
+    },
+    {
+      "rank": 1385,
+      "solved": 1,
+      "team": "bryxosmmm"
+    },
+    {
+      "rank": 1386,
+      "solved": 1,
+      "team": "Sineme01"
+    },
+    {
+      "rank": 1387,
+      "solved": 1,
+      "team": "Alon-Hagity"
+    },
+    {
+      "rank": 1388,
+      "solved": 1,
+      "team": "lanbur"
+    },
+    {
+      "rank": 1389,
+      "solved": 1,
+      "team": "camianunez"
+    },
+    {
+      "rank": 1390,
+      "solved": 1,
+      "team": "Nick-Nuon"
+    },
+    {
+      "rank": 1391,
+      "solved": 1,
+      "team": "nvppks"
+    },
+    {
+      "rank": 1392,
+      "solved": 1,
+      "team": "sahil280114"
+    },
+    {
+      "rank": 1393,
+      "solved": 1,
+      "team": "EmmaNguyen"
+    },
+    {
+      "rank": 1394,
+      "solved": 1,
+      "team": "knarf55"
+    },
+    {
+      "rank": 1395,
+      "solved": 1,
+      "team": "lstan44"
+    },
+    {
+      "rank": 1396,
+      "solved": 1,
+      "team": "Yashasv-Prajapati"
+    },
+    {
+      "rank": 1397,
+      "solved": 1,
+      "team": "bennys255"
+    },
+    {
+      "rank": 1398,
+      "solved": 1,
+      "team": "Sumhack"
+    },
+    {
+      "rank": 1399,
+      "solved": 1,
+      "team": "meresimplicity"
+    },
+    {
+      "rank": 1400,
+      "solved": 1,
+      "team": "CedrickArchin"
+    },
+    {
+      "rank": 1401,
+      "solved": 1,
+      "team": "log-prathm"
+    },
+    {
+      "rank": 1402,
+      "solved": 1,
+      "team": "dogfoodarchitect"
+    },
+    {
+      "rank": 1403,
+      "solved": 1,
+      "team": "tolgacangoz"
+    },
+    {
+      "rank": 1404,
+      "solved": 1,
+      "team": "mitadake"
+    },
+    {
+      "rank": 1405,
+      "solved": 1,
+      "team": "krzysztofgb"
+    },
+    {
+      "rank": 1406,
+      "solved": 1,
+      "team": "sukesan7"
+    },
+    {
+      "rank": 1407,
+      "solved": 1,
+      "team": "CardSorting"
+    },
+    {
+      "rank": 1408,
+      "solved": 1,
+      "team": "tomhaverford624"
+    },
+    {
+      "rank": 1409,
+      "solved": 4,
+      "team": "howdycarter"
+    },
+    {
+      "rank": 1410,
+      "solved": 1,
+      "team": "0xtitan6"
+    },
+    {
+      "rank": 1411,
+      "solved": 3,
+      "team": "yasarefe1"
+    },
+    {
+      "rank": 1412,
+      "solved": 1,
+      "team": "Chaudhary-Harshit"
+    },
+    {
+      "rank": 1413,
+      "solved": 1,
+      "team": "Jamie-Levinson"
+    },
+    {
+      "rank": 1414,
+      "solved": 1,
+      "team": "gpu004"
+    },
+    {
+      "rank": 1415,
+      "solved": 1,
+      "team": "viren711"
+    },
+    {
+      "rank": 1416,
+      "solved": 1,
+      "team": "saicherry93479"
+    },
+    {
+      "rank": 1417,
+      "solved": 1,
+      "team": "amitshenoy"
+    },
+    {
+      "rank": 1418,
+      "solved": 1,
+      "team": "leeex1"
+    },
+    {
+      "rank": 1419,
+      "solved": 1,
+      "team": "AlonKeren01"
+    },
+    {
+      "rank": 1420,
+      "solved": 2,
+      "team": "Kingisback01"
+    },
+    {
+      "rank": 1421,
+      "solved": 4,
+      "team": "Mugunth007"
+    },
+    {
+      "rank": 1422,
+      "solved": 1,
+      "team": "Nitin2489"
+    },
+    {
+      "rank": 1423,
+      "solved": 1,
+      "team": "lchi021497"
+    },
+    {
+      "rank": 1424,
+      "solved": 1,
+      "team": "vietthangif"
+    },
+    {
+      "rank": 1425,
+      "solved": 1,
+      "team": "Nicolaus93"
+    },
+    {
+      "rank": 1426,
+      "solved": 1,
+      "team": "ashusevim"
+    }
+  ]
+}

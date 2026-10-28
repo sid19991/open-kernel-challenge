@@ -1,0 +1,236 @@
+[
+  {
+    "rfilename": ".gitattributes"
+  },
+  {
+    "rfilename": "LICENSE.md"
+  },
+  {
+    "rfilename": "README.md"
+  },
+  {
+    "rfilename": "USE_POLICY.md"
+  },
+  {
+    "rfilename": "chat_template.jinja"
+  },
+  {
+    "rfilename": "config.json"
+  },
+  {
+    "rfilename": "generation_config.json"
+  },
+  {
+    "rfilename": "l4_200k_base"
+  },
+  {
+    "rfilename": "model-00001-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00002-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00003-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00004-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00005-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00006-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00007-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00008-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00009-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00010-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00011-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00012-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00013-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00014-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00015-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00016-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00017-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00018-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00019-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00020-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00021-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00022-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00023-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00024-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00025-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00026-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00027-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00028-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00029-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00030-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00031-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00032-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00033-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00034-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00035-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00036-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00037-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00038-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00039-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00040-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00041-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00042-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00043-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00044-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00045-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00046-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00047-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00048-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00049-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00050-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00051-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00052-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00053-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00054-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00055-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00056-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00057-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00058-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00059-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00060-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00061-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00062-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00063-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00064-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model-00065-of-00065.safetensors"
+  },
+  {
+    "rfilename": "model.safetensors.index.json"
+  },
+  {
+    "rfilename": "processor_config.json"
+  },
+  {
+    "rfilename": "special_tokens_map.json"
+  },
+  {
+    "rfilename": "tokenizer.json"
+  },
+  {
+    "rfilename": "tokenizer_config.json"
+  }
+]

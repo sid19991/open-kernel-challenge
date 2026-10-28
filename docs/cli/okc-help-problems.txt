@@ -1,0 +1,5 @@
+usage  okc problems [--json]
+
+list the problems and today's limits
+
+  --json   print JSON

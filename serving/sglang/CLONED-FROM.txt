@@ -1,0 +1,7 @@
+repository: https://github.com/sgl-project/sglang
+commit: a55ab7d5ae1bba59ac351e55026fe7f7644ecc5f
+message: Support Muse Spark Open
+fetched: 2026-10-28
+method: git fetch --depth 1 origin a55ab7d5ae1bba59ac351e55026fe7f7644ecc5f
+also produced by: okc serve init (same commit, branch my-patch)
+note: inner .git removed so this tree is tracked as normal files

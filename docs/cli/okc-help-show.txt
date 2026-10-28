@@ -1,0 +1,5 @@
+usage  okc show <problem> [--json]
+
+describe a problem
+
+  --json   print the problem as the API gives it

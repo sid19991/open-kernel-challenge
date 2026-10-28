@@ -1,0 +1,27 @@
+{
+  "repo": "RadixArk/Muse-Spark-Open-DFlash2",
+  "n_files": 4,
+  "total_bytes": 9774974861,
+  "files": [
+    {
+      "path": ".gitattributes",
+      "size": 1519,
+      "oid": "a6344aac8c09253b3b630fb776ae94478aa0275b"
+    },
+    {
+      "path": "README.md",
+      "size": 3847,
+      "oid": "d9e58055adc79080f7feb485054b40be603ad034"
+    },
+    {
+      "path": "config.json",
+      "size": 1423,
+      "oid": "c810ae2a467aaf39c7d51e3b57f15b0c3246c78c"
+    },
+    {
+      "path": "model.safetensors",
+      "size": 9774968072,
+      "oid": "f222320e99e158350218517183f7b0aaa63e51e1"
+    }
+  ]
+}

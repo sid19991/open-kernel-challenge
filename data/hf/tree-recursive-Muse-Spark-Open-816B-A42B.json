@@ -1,0 +1,2132 @@
+[
+  {
+    "type": "file",
+    "oid": "52373fe24473b1aa44333d318f578ae6bf04b49b",
+    "size": 1570,
+    "path": ".gitattributes",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "safe",
+        "message": "This file has no security findings.",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=52373fe24473b1aa44333d318f578ae6bf04b49b&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "safe",
+        "message": "No security issues detected",
+        "reportLink": "https://fdtn.ai/ai-supply-chain/hugging-face?utm_source=huggingface"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned"
+      },
+      "jFrogScan": {
+        "status": "unscanned",
+        "message": "Not a machine-learning model"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "425b4e8bd18106f70cc707f2717cdb81b252b020",
+    "size": 8299,
+    "path": "LICENSE.md",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=425b4e8bd18106f70cc707f2717cdb81b252b020&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "safe",
+        "message": "No security issues detected",
+        "reportLink": "https://fdtn.ai/ai-supply-chain/hugging-face?utm_source=huggingface"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned"
+      },
+      "jFrogScan": {
+        "status": "unscanned",
+        "message": "Not a machine-learning model"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "3ebebade889ff225ef0b3ea60ddd92e42044b5dc",
+    "size": 23318,
+    "path": "README.md",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=3ebebade889ff225ef0b3ea60ddd92e42044b5dc&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "safe",
+        "message": "",
+        "version": "1.5.4/28153"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned"
+      },
+      "jFrogScan": {
+        "status": "unscanned",
+        "message": "Not a machine-learning model"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "15a3a3891eb441b314ba8091e366fb38fe14a751",
+    "size": 4901,
+    "path": "USE_POLICY.md",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=15a3a3891eb441b314ba8091e366fb38fe14a751&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "safe",
+        "message": "No security issues detected",
+        "reportLink": "https://fdtn.ai/ai-supply-chain/hugging-face?utm_source=huggingface"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned"
+      },
+      "jFrogScan": {
+        "status": "unscanned",
+        "message": "Not a machine-learning model"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "2500a42b6dd93185735e6895a1a638f179592a4b",
+    "size": 16295,
+    "path": "chat_template.jinja",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=2500a42b6dd93185735e6895a1a638f179592a4b&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "safe",
+        "message": "No security issues detected",
+        "reportLink": "https://fdtn.ai/ai-supply-chain/hugging-face?utm_source=huggingface"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned"
+      },
+      "jFrogScan": {
+        "status": "unscanned",
+        "message": "Not a machine-learning model"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "e6df3a846ebfcb0d55c350c1e79e7886c65b7399",
+    "size": 7229,
+    "path": "config.json",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=e6df3a846ebfcb0d55c350c1e79e7886c65b7399&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "safe",
+        "message": "No security issues detected",
+        "reportLink": "https://fdtn.ai/ai-supply-chain/hugging-face?utm_source=huggingface"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned"
+      },
+      "jFrogScan": {
+        "status": "unscanned",
+        "message": "Not a machine-learning model"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "b79d6e4978ec47474ed7aa8f69cf192b9dea83cb",
+    "size": 200,
+    "path": "generation_config.json",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=b79d6e4978ec47474ed7aa8f69cf192b9dea83cb&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "safe",
+        "message": "No security issues detected",
+        "reportLink": "https://fdtn.ai/ai-supply-chain/hugging-face?utm_source=huggingface"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned"
+      },
+      "jFrogScan": {
+        "status": "unscanned",
+        "message": "Not a machine-learning model"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "6d1ad50551f0efec536ebd576778dece66c13b99",
+    "size": 3622230,
+    "path": "l4_200k_base",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "safe",
+        "message": "This file has no security findings.",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=6d1ad50551f0efec536ebd576778dece66c13b99&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "safe",
+        "message": "No security issues detected",
+        "reportLink": "https://fdtn.ai/ai-supply-chain/hugging-face?utm_source=huggingface"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned"
+      },
+      "jFrogScan": {
+        "status": "unscanned",
+        "message": "Not a machine-learning model"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "d893c68fd7b77a69198b4fceb33257e1b66d2d6e",
+    "size": 26373859072,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26373859072,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00001-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=d893c68fd7b77a69198b4fceb33257e1b66d2d6e&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/e327793a57a8dcbe3d457eb23ff34872c26109fce58fa648caa4801ff3cfa9e5?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "c5a561a90973b85ded5e9f94357876b74c4a03bf",
+    "size": 26315273424,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26315273424,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00002-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=c5a561a90973b85ded5e9f94357876b74c4a03bf&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/c005719b90443c59793738f49827c5c75da5e8ef177bbebd14b84676d6a95ebf?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "a29238e2d3e7a819a479cd8caefbc55d91e8489e",
+    "size": 26373883816,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26373883816,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00003-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=a29238e2d3e7a819a479cd8caefbc55d91e8489e&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/ea8268ba10a86da37e9e5b020ca38787b80bfe0993270ea135688f48267daf25?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "eb15280b4422cb9408c02aa2368a60e6e248537e",
+    "size": 26373900288,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26373900288,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00004-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=eb15280b4422cb9408c02aa2368a60e6e248537e&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/12a1e9c9c94a2dbf1248b4418a97d46a3e6b2a9d2d92d79d708bd489988a861c?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "341874aae2f0e4c05d4eb156674a56a1ce4cac92",
+    "size": 26306824744,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26306824744,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00005-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=341874aae2f0e4c05d4eb156674a56a1ce4cac92&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/8c0cfbad43c241045fbd5e0861f6caa995db041cf4cab5cf37ea374c11012594?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "6bcb93beed32144a71a3ce649e4364405cb8c840",
+    "size": 26373825888,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26373825888,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00006-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=6bcb93beed32144a71a3ce649e4364405cb8c840&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/6540e858ff24a96bdd827e5a6c1164b735370803cde94705ddba219c4915da21?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "3e47663d5c7a9465a4c27429e3ea0ac5bac2d245",
+    "size": 26306784320,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26306784320,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00007-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=3e47663d5c7a9465a4c27429e3ea0ac5bac2d245&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/5e1377981cca5c2c4dc82ee1bffd4f0e6e905592debf92892701bce3900e9592?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "b12e9e4719f3deae468e3995d307055e7296abe9",
+    "size": 26306727616,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26306727616,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00008-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=b12e9e4719f3deae468e3995d307055e7296abe9&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/f10a35b02b333d5f03f2f673fa13f75713d61191de9781d50b55702413c7d93e?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "7f7ee8d4eefc92a1c5e71c5a2a480c37aed4d733",
+    "size": 26323470640,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26323470640,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00009-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=7f7ee8d4eefc92a1c5e71c5a2a480c37aed4d733&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/5992a254d609a80b0d7f64ed6257907a1da16254b1a80b829dd40d39f0bc9473?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "d4fdf8904de0eb50375564ee4abdd2676050ea86",
+    "size": 26315163760,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26315163760,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00010-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=d4fdf8904de0eb50375564ee4abdd2676050ea86&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/caea3a69959d744976e135334bafd4b4ed54365294089d425111fed86d4d5554?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "e4f83b142ca96d663ea13a73ddc6b888e74d28ea",
+    "size": 26306692192,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26306692192,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00011-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=e4f83b142ca96d663ea13a73ddc6b888e74d28ea&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/880965c4c81d83c5cae9191d5931ea54c6aa36d0ee23dec6a650889acf488bfb?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "51176ee3ee2764504c549f31a36140917a6536d0",
+    "size": 26306800808,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26306800808,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00012-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=51176ee3ee2764504c549f31a36140917a6536d0&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/a98766b8220771ef9c3f24af895e5d17480abf1bea68a7df5f8ce8a48cb75fff?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "a9397dc09dc9cd90697d0c9c6765e49157f3e936",
+    "size": 26382348376,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26382348376,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00013-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=a9397dc09dc9cd90697d0c9c6765e49157f3e936&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/48fd88d75aad7e2ffa95f05c4729df52f0c0adfb68b083973ada2c49c4d11687?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "209b3cfffe6310405f4e26aca3803686c24e5db2",
+    "size": 26331928352,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26331928352,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00014-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=209b3cfffe6310405f4e26aca3803686c24e5db2&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/a674dc4f5e477794fe01f4bb5c6066bbb54c55f9273b672231202bbdd9532c52?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "03f4a50754aaf28beace1f1c8a5bf1aa7846204b",
+    "size": 26306717040,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26306717040,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00015-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=03f4a50754aaf28beace1f1c8a5bf1aa7846204b&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/5aa0d9616cd1b25e51421ba52d97377dd23b93a896a8943696248b4b7966fa2c?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "53fbede8365f46d264c53202cfe310cd58136199",
+    "size": 26390695432,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26390695432,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00016-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=53fbede8365f46d264c53202cfe310cd58136199&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/7b13a65c54979f353412d0c509181f4635d56de530a4707c9643803570cf0f25?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "71cf61c51b432c364d0ec28775377c5ba099f069",
+    "size": 26390614000,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26390614000,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00017-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=71cf61c51b432c364d0ec28775377c5ba099f069&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/a81bf5d5e1fe8f4f7276388d99ca09aa682fd7551ff07284bb8314c05ceb8636?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "bd752baa0250857664e98a07d0477989218d556e",
+    "size": 26382273664,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26382273664,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00018-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=bd752baa0250857664e98a07d0477989218d556e&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/4cd66c4e918d45bd7a5cc50b118b61266c533f4b01899e59a30f842d6feb70c4?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "b4a20b6e093f9263191569056745116bf2d32a14",
+    "size": 26382222832,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26382222832,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00019-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=b4a20b6e093f9263191569056745116bf2d32a14&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/d7dda39168f4e8261232e40bb0992fbd7067ca9c7ff47325f594a2cd3a3ffb8d?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "db1c083a9f6a2e36bd7b5dccb6ba78b4970585d0",
+    "size": 26315106928,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26315106928,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00020-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=db1c083a9f6a2e36bd7b5dccb6ba78b4970585d0&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/e90393973439ff348a9a468dd5a9555bc24ff28440609365cfb8f1be62c9eff6?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "c6d898a67801dad215ac4e80efefebee6d710440",
+    "size": 26340365328,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26340365328,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00021-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=c6d898a67801dad215ac4e80efefebee6d710440&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/0620940b6ce2212d3a8e8d42467eee82d527e35cd41f38baf4875172ed940a9c?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "9e2beeac7c6b646b2a898d549a98e5ef84186463",
+    "size": 26315115232,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26315115232,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00022-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=9e2beeac7c6b646b2a898d549a98e5ef84186463&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/208aa8742719ee70eb0a1e603bacf1e2a7a51e56c2fd9074b3eb5eed6156265f?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "ba0e18e1d339e65db7a54d8d3fd256a9896fb40d",
+    "size": 26382292584,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26382292584,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00023-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=ba0e18e1d339e65db7a54d8d3fd256a9896fb40d&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/c9826b54f6487368785f3175de17d6c38dd74e03742656fb4f7f701db853c336?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "81ad923c1109ea2f09db848029b106f064f4a4fd",
+    "size": 26315123720,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26315123720,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00024-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=81ad923c1109ea2f09db848029b106f064f4a4fd&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/864950065203e039c58ba4c191ee605ee23071689e12da709f2be080406d6475?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "ee308f839b56336f57f17fe1a18a0b6253d55c81",
+    "size": 26390670712,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26390670712,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00025-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=ee308f839b56336f57f17fe1a18a0b6253d55c81&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/37350c0622428cbb4288e9b90e175323c02ccbd97a254d293e30b7ccf6957975?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "21a6bb69cd8fafe0a20f7eec8e0799cebc471469",
+    "size": 26323630096,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26323630096,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00026-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=21a6bb69cd8fafe0a20f7eec8e0799cebc471469&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/713219104e98a2da323c49d4a33cc13b1a7b89447c0c73d814960249d8ec80aa?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "a6863762953756d2c48db9d7eb80ebd56a2e3900",
+    "size": 26315196824,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26315196824,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00027-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=a6863762953756d2c48db9d7eb80ebd56a2e3900&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/5591596f06bc3c218585c578b664ff0cb17b75160267f51c0b6161da3aceb666?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "396729a4f7c0449cee4bccbc6bf49ea040ab355e",
+    "size": 26306708568,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26306708568,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00028-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=396729a4f7c0449cee4bccbc6bf49ea040ab355e&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/dea349321c7b44ae003f6e79be77845e9a520d549a3fcb52aeec8f30fd03fd5e?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "0f7f26ccd281454607278808b728ff504937c861",
+    "size": 26340313768,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26340313768,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00029-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=0f7f26ccd281454607278808b728ff504937c861&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/830404baab17c9129aaa1352808522fbc6f789db3a1e658b134db9328272aa2e?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "d2358ea3db73170d47b727402a6e89e99c51ed35",
+    "size": 26331970136,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26331970136,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00030-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=d2358ea3db73170d47b727402a6e89e99c51ed35&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/7f71c1bd7c036b0eb09e35e074dcee00a011024771850be4f1b24c8ed611cee0?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "b823cd5f3805cc6ff57e8deefbe6d551c6e12399",
+    "size": 26365549656,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26365549656,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00031-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=b823cd5f3805cc6ff57e8deefbe6d551c6e12399&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/532aa944130ce73da12332786cc69a792e7cd475192136310ee94592d25e72a0?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "1f1b97ec4c4429e85a85e929d67c3a989b813c79",
+    "size": 26323504432,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26323504432,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00032-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=1f1b97ec4c4429e85a85e929d67c3a989b813c79&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/d4a6be8f9ea370cd3bdc8bd096cf478d8217eb5107395356fb53b03313e49bcd?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "45bb30cee9fcd365ec3cab58d268c60cc64083ba",
+    "size": 29600276792,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 29600276792,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00033-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=45bb30cee9fcd365ec3cab58d268c60cc64083ba&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/c265bce450d51d4219fe36abf8926e143f0981539eb2671e62a2ac3685c54c7e?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "058adf0e09e38459658233fdf2a008581c376ed0",
+    "size": 26289948304,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26289948304,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00034-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=058adf0e09e38459658233fdf2a008581c376ed0&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/020cb529168a76799ed58ad7db326e32d2663250838c578dfad45f2e3201a10b?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "5fc3ea7f71ace2dec29528b9d092eb48fd6fac1b",
+    "size": 26315156208,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26315156208,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00035-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=5fc3ea7f71ace2dec29528b9d092eb48fd6fac1b&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/34c825e74c982aa4884825c4a832178b3e32fd63b4d3a0077fa1c566ce9a772b?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "77d66915850434ecc2e02bf722f3f264368ec561",
+    "size": 29600269920,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 29600269920,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00036-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=77d66915850434ecc2e02bf722f3f264368ec561&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/918cd2290e60bade0e24629edb03d448e1ebfe0016727e91500879773f3ffcd5?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "8d0ee1c30724d5e2903b53fc4093722a8fccb7ca",
+    "size": 26373900448,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26373900448,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00037-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=8d0ee1c30724d5e2903b53fc4093722a8fccb7ca&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/944b468b7954efdc2afebb8d5b5fd229360644531eabc42447aa93c2d6a18a28?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "32f3a1d29117b53246dec7513cf0bc4dd56c17a2",
+    "size": 26315172960,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26315172960,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00038-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=32f3a1d29117b53246dec7513cf0bc4dd56c17a2&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/0773d1d9caec8a854f8e53df5d61080c1342b712eef140e03fd49a4b1712014d?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "69a50ac5587a6531dda44cc3d9caf831521594ef",
+    "size": 26306784264,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26306784264,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00039-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=69a50ac5587a6531dda44cc3d9caf831521594ef&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/0964d9a25909218be59475fa6b731e9a64cba3ffe157baeddab3851e767990c2?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "06f9ce50293ea6e17591c61fc8f8eea9d005c0b6",
+    "size": 26382365752,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26382365752,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00040-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=06f9ce50293ea6e17591c61fc8f8eea9d005c0b6&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/ad56e5b3389daecb99dac918a2dd26f9f6f6d5f111d5b51454811058d3169fcb?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "09e6cfe465b310e0018e8e8824599c48a669e73d",
+    "size": 26332025296,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26332025296,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00041-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=09e6cfe465b310e0018e8e8824599c48a669e73d&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/30a4b7d0a43613de255b4b4594cb11a486927d3d312f78593ce2620c34642109?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "ff004d681cb5bcdf68bf0d9f92818af9946f53ec",
+    "size": 26390687376,
+    "lfs": {
+      "oid": "****************************************************************",
+      "size": 26390687376,
+      "pointerSize": 136
+    },
+    "xetHash": "****************************************************************",
+    "path": "model-00042-of-00065.safetensors",
+    "lastCommit": {
+      "id": "0fb02478b02565b2ce7fc57e6051c91172774ac9",
+      "title": "Muse Spark Open release",
+      "date": "2026-10-15T15:46:43.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/meta-models/Muse-Spark-Open-816B-A42B/0fb02478b02565b2ce7fc57e6051c91172774ac9/files?blob-id=ff004d681cb5bcdf68bf0d9f92818af9946f53ec&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28141"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/2c816c3f691083c31dfc73f7e4e94e6cfa8e8875907c8b3da188e6bf0f32f5e6?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  }
+]

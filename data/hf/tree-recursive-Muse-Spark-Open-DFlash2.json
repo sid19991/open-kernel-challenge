@@ -1,0 +1,152 @@
+[
+  {
+    "type": "file",
+    "oid": "a6344aac8c09253b3b630fb776ae94478aa0275b",
+    "size": 1519,
+    "path": ".gitattributes",
+    "lastCommit": {
+      "id": "46c90f412549c472941a68382d91a99e5e6372a0",
+      "title": "Muse-Spark-Open-DFlash2",
+      "date": "2026-10-15T03:33:03.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "safe",
+        "message": "This file has no security findings.",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/RadixArk/Muse-Spark-Open-DFlash2/46c90f412549c472941a68382d91a99e5e6372a0/files?blob-id=a6344aac8c09253b3b630fb776ae94478aa0275b&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "safe",
+        "message": "No security issues detected",
+        "reportLink": "https://fdtn.ai/ai-supply-chain/hugging-face?utm_source=huggingface"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned"
+      },
+      "jFrogScan": {
+        "status": "unscanned",
+        "message": "Not a machine-learning model"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "d9e58055adc79080f7feb485054b40be603ad034",
+    "size": 3847,
+    "path": "README.md",
+    "lastCommit": {
+      "id": "46c90f412549c472941a68382d91a99e5e6372a0",
+      "title": "Muse-Spark-Open-DFlash2",
+      "date": "2026-10-15T03:33:03.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/RadixArk/Muse-Spark-Open-DFlash2/46c90f412549c472941a68382d91a99e5e6372a0/files?blob-id=d9e58055adc79080f7feb485054b40be603ad034&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "safe",
+        "message": "",
+        "version": "1.5.4/28153"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned"
+      },
+      "jFrogScan": {
+        "status": "unscanned",
+        "message": "Not a machine-learning model"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "c810ae2a467aaf39c7d51e3b57f15b0c3246c78c",
+    "size": 1423,
+    "path": "config.json",
+    "lastCommit": {
+      "id": "46c90f412549c472941a68382d91a99e5e6372a0",
+      "title": "Muse-Spark-Open-DFlash2",
+      "date": "2026-10-15T03:33:03.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/RadixArk/Muse-Spark-Open-DFlash2/46c90f412549c472941a68382d91a99e5e6372a0/files?blob-id=c810ae2a467aaf39c7d51e3b57f15b0c3246c78c&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "safe",
+        "message": "",
+        "version": "1.5.4/28123"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned"
+      },
+      "jFrogScan": {
+        "status": "unscanned",
+        "message": "Not a machine-learning model"
+      }
+    }
+  },
+  {
+    "type": "file",
+    "oid": "f222320e99e158350218517183f7b0aaa63e51e1",
+    "size": 9774968072,
+    "lfs": {
+      "oid": "06d5a6f7b9658d53eb484d1b692cb923975b29f49546e3af7805995f2a4e5feb",
+      "size": 9774968072,
+      "pointerSize": 135
+    },
+    "xetHash": "671ee74b62949a52b86345f24192da7b9e85b35da093c3b317719c8b0d89d80c",
+    "path": "model.safetensors",
+    "lastCommit": {
+      "id": "46c90f412549c472941a68382d91a99e5e6372a0",
+      "title": "Muse-Spark-Open-DFlash2",
+      "date": "2026-10-15T03:33:03.000Z"
+    },
+    "securityFileStatus": {
+      "status": "safe",
+      "protectAiScan": {
+        "status": "unscanned",
+        "reportLink": "https://insights-db.paloaltonetworks.com/models/RadixArk/Muse-Spark-Open-DFlash2/46c90f412549c472941a68382d91a99e5e6372a0/files?blob-id=f222320e99e158350218517183f7b0aaa63e51e1&utm_source=huggingface"
+      },
+      "avScan": {
+        "status": "unscanned",
+        "message": "",
+        "version": "1.5.4/28148"
+      },
+      "pickleImportScan": {
+        "status": "unscanned",
+        "pickleImports": [],
+        "version": "0.0.0"
+      },
+      "virusTotalScan": {
+        "status": "unscanned",
+        "message": "File not scanned in VirusTotal",
+        "reportLink": "https://www.virustotal.com/gui/file/06d5a6f7b9658d53eb484d1b692cb923975b29f49546e3af7805995f2a4e5feb?utm_source=huggingface"
+      },
+      "jFrogScan": {
+        "status": "safe",
+        "message": "Safe model, does not support code execution on load.",
+        "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+      }
+    }
+  }
+]

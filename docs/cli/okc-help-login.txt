@@ -1,0 +1,5 @@
+usage  okc login [--force]
+
+accept the rules, then sign in with GitHub
+
+  --force   sign in again even if this machine is signed in

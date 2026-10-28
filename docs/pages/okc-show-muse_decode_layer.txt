@@ -1,0 +1,147 @@
+◆ muse_decode_layer
+
+Whole decoder layer. Everything one GPU does for one layer of Muse Spark Open
+under TP8/EP8: the projections, attention, the router and experts, and every
+norm and residual in between.
+
+  SGLang      22.62 ms  per decode step
+  GPU         H200  one, no network
+  Limits      10 runs and 20 checks a day
+
+Computation
+  # x: attention input [T, 8192] BF16   s: residual stream FP32
+  q, k, v, g = split(x @ qkv_gate.T);  QK-norm, RoPE, write fp8(k), fp8(v)
+  a = (rmsnorm(attention(q)) * sigmoid(g)) @ o.T     # all-reduce: identity
+  s = α1 * s + β1 * rmsnorm(a);  h = rmsnorm(s) * (1 + w)
+  experts = top8(sigmoid(0.177 * h @ router.T) + bias)
+  y = local experts(rmsnorm(h @ pooler.T) * (1 + w))  # all-reduce: identity
+  f = y @ unpooler.T   # T ≤ 8: [y @ unpooler[:1024].T, 0, …, 0]
+  s = α2 * s + β2 * rmsnorm(f * (1 + w))
+  return rmsnorm(s) * (1 + w), s, experts
+
+Inputs
+  kernel_fn(data: Inputs, state) returns (bfloat16 [T, 8192], float32 [T, 8192],
+  int32 [T, 8]). state is what prepare(weights) returned.
+
+  class Inputs(TypedDict):
+      stream: torch.Tensor      # float32 [T, 8192], the residual stream
+      # bfloat16 [T, 8192], the normalized stream (the previous layer's boundary
+      # wrote it)
+      attn_input: torch.Tensor
+      # float8_e4m3fn [pages, page_size, 2, 64], written in place
+      k_cache: torch.Tensor
+      # float8_e4m3fn [pages, page_size, 2, 64], written in place
+      v_cache: torch.Tensor
+      # int64 [T], each new token's position (seq_lens[b] + i)
+      positions: torch.Tensor
+      # int64 [T], each new token's flat cache row (page * page_size + offset)
+      cache_loc: torch.Tensor
+      cache_seqlens: torch.Tensor  # int32 [B], seq_lens + L
+      cu_seqlens_q: torch.Tensor   # int32 [B+1], 0, L, 2L, ...
+      # int32, FA3's tile schedule (get_scheduler_metadata) on full-attention
+      # decode steps, else None
+      scheduler_metadata: torch.Tensor | None
+      # float32 [], key = e4m3 * k_scale: 1 in the scored cases, 1/64 in some
+      # tests
+      k_scale: torch.Tensor
+      v_scale: torch.Tensor     # float32 []
+      # int32 [B, max_pages], physical page of each logical page (-1 unused)
+      page_table: torch.Tensor
+      # int32 [B], cached tokens per request; the block starts at this position
+      seq_lens: torch.Tensor
+      # int32 [1], this GPU's first expert (a multiple of 32; its weights are
+      # w13[0], ...)
+      local_start: torch.Tensor
+      config: Config
+
+  class Weights(TypedDict):
+      # bfloat16 [2304, 8192]: q 16x64, k 2x64, v 2x64, output gate 16x64
+      qkv_gate: torch.Tensor
+      o: torch.Tensor                   # bfloat16 [8192, 1024]
+      # bfloat16 [8192], the post-attention residual gate's weight
+      attn_residual_gate: torch.Tensor
+      pre_ffn_norm: torch.Tensor        # bfloat16 [8192] (applied as 1 + w)
+      router: torch.Tensor              # float32 [256, 8192]
+      # float32 [256], added to the scores only to choose experts
+      router_bias: torch.Tensor
+      pooler: torch.Tensor              # bfloat16 [4096, 8192]
+      pre_expert_norm: torch.Tensor     # bfloat16 [4096] (applied as 1 + w)
+      # uint8 [32, 8192, 2048]: this GPU's experts, gate then up rows, packed
+      # E2M1
+      w13: torch.Tensor
+      w13_sf: torch.Tensor              # float8_e4m3fn [32, 8192, 256]
+      w13_gs: torch.Tensor              # float32 [32]
+      w2: torch.Tensor                  # uint8 [32, 4096, 2048]
+      w2_sf: torch.Tensor               # float8_e4m3fn [32, 4096, 256]
+      w2_gs: torch.Tensor               # float32 [32]
+      # bfloat16 [4096] (applied as 1 + w, before normalizing)
+      post_expert_norm: torch.Tensor
+      # bfloat16 [8192, 4096]; up to 8 tokens only rows 0-1023 (this GPU's
+      # slice)
+      unpooler: torch.Tensor
+      # bfloat16 [8192] (applied as 1 + w, before normalizing)
+      post_ffn_norm: torch.Tensor
+      ffn_residual_gate: torch.Tensor   # bfloat16 [8192]
+      # bfloat16 [8192], the next layer's input norm (applied as 1 + w)
+      next_pre_attn_norm: torch.Tensor
+
+  class Config(TypedDict):
+      batch: int            # B sequences
+      # L: 1 for decode, 8 for a verify block (causal inside it); 200-16384 on
+      # muse_prefill_layer
+      q_len: int
+      tokens: int           # T = B * L, request-major
+      hidden: int           # 8192
+      num_q_heads: int      # 16 per GPU under TP8
+      num_kv_heads: int     # 2
+      head_dim: int         # 64
+      # 1 in the scored cases (as SGLang serves Muse on H200), 64 in some tests
+      page_size: int
+      # 2048 on sliding-window layers (a token and the 2,047 before it); 0 = all
+      window: int
+      # 500000 on sliding-window layers (interleaved RoPE); 0 = no RoPE
+      rope_theta: float
+      qk_scale_factor: float
+      sm_scale: float       # 1/8
+      # the cache scales' value: 1 in the scored cases (SGLang leaves them
+      # unset)
+      kv_scale: float
+      n_experts: int        # 256
+      top_k: int            # 8
+      # 32: this GPU computes experts local_start .. local_start + 31
+      local_experts: int
+
+Scored shapes
+  load        batch   layer     q_len   weight
+  ────────────────────────────────────────────
+  decode 1    1       sliding   1       46
+  decode 1    1       full      1       16
+  decode 16   16      sliding   1       46
+  decode 16   16      full      1       16
+  decode 32   32      sliding   1       46
+  decode 32   32      full      1       16
+  verify 1    1       sliding   8       46
+  verify 1    1       full      8       16
+  verify 16   16      sliding   8       46
+  verify 16   16      full      8       16
+  verify 32   32      sliding   8       46
+  verify 32   32      full      8       16
+
+  T is the tokens per step, batch × q_len (B × L). Each load times a
+  sliding-window and a full-attention layer, at contexts around 80K tokens.
+
+  Communication is left out: each all-reduce and all-gather is the identity on
+  this GPU’s partial result, as if the other seven GPUs contributed nothing.
+
+  `scheduler_metadata` is FA3's tile schedule for the step, built from its
+  lengths as SGLang does: set on full-attention decode steps, None on sliding
+  layers and verify blocks. Kernels that don't use FA3 can ignore it.
+
+  Routing is skewed, as in the real model; a few experts per layer take most
+  tokens.
+
+  Decode loads are SGLang serving with speculative decoding off; verify loads
+  are its default recipe, which checks each request's 8-token draft in one step.
+
+next  okc init muse_decode_layer
+      okc leaderboard muse_decode_layer

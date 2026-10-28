@@ -1,0 +1,5 @@
+repository: https://github.com/gpu-mode/kernelbot
+fetched: 2026-10-28
+method: git clone --depth 1
+why: credited on https://openkernelchallenge.dev/rules as the judge's starting point
+note: inner .git removed so this tree is tracked as normal files

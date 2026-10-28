@@ -1,0 +1,5 @@
+usage  okc serve leaderboard [--json]
+
+show the serving board
+
+  --json   print JSON

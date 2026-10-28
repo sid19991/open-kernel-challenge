@@ -1,0 +1,3 @@
+usage  okc update
+
+update okc to the latest release

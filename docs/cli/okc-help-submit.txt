@@ -1,0 +1,6 @@
+usage  okc submit [problem] <file> [--no-wait] [--json]
+
+test a kernel, then time it against SGLang
+
+  --no-wait   return once it's submitted
+  --json      print JSON
