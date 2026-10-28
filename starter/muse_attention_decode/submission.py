@@ -1,57 +1,51 @@
 # okc: problem=muse_attention_decode
-"""Paged FP8 GQA decode/verify for H200 CUDA-graph replay.
+"""Paged FP8 GQA for H200 CUDA-graph replay.
 
-SGLang's FA3 path is the baseline, but page_size=1 (the scored shape) turns
-every KV token into a page-table lookup and leaves Hopper TMA on the table.
-This kernel keeps the fused QK-norm / cache-store / gated RMSNorm from SGLang
-and replaces decode (q_len=1) with Triton's split-K flash-decode, which is
-written for page_size=1. Speculative verify (q_len=8) stays on FA3, which
-reuses KV loads across the draft tokens.
+FA3 is the SGLang baseline and already strong on Hopper, but page_size=1 is a
+random 64-byte gather per token. This kernel keeps FusedQKNorm / store_cache /
+rms_norm_gate and, on page_size=1, runs a specialized split-K GQA kernel that
+indexes the page table directly (no CSR) and reuses each KV load across the
+verify block's L queries. page_size=64 and compile failure fall back to FA3.
 """
 
 from typing import TypedDict
 
 import torch
 from sgl_kernel.flash_attn import flash_attn_with_kvcache
+from torch.utils.cpp_extension import load_inline
 
-from sglang.kernels.jit.utils import is_arch_support_pdl
-from sglang.kernels.ops.attention.decode_attention import decode_attention_fwd
-from sglang.kernels.ops.kvcache.kv_indices import (
-    create_flashinfer_kv_indices_triton,
-    kv_indices_num_token_blocks,
-)
 from sglang.kernels.ops.kvcache.kvcache import store_cache
 from sglang.kernels.ops.muse_spark_v12.fused_qk_norm import FusedQKNorm
 from sglang.kernels.ops.muse_spark_v12.norm_gate import rms_norm_gate
 
 
 class Config(TypedDict):
-    batch: int            # B
-    q_len: int            # L: 1 for decode, 8 for a speculative verify block (causal inside it)
-    num_q_heads: int      # Hq: 16 per GPU under TP8
-    num_kv_heads: int     # Hkv: 2; each serves Hq / Hkv query heads
-    head_dim: int         # 64
-    page_size: int        # 1 in the scored cases (as SGLang serves Muse on H200), 64 in some tests
-    window: int           # 2048 on sliding-window layers (a token and the 2,047 before it); 0 = all
-    rope_theta: float     # 500000 on sliding-window layers; 0 = no RoPE
+    batch: int
+    q_len: int
+    num_q_heads: int
+    num_kv_heads: int
+    head_dim: int
+    page_size: int
+    window: int
+    rope_theta: float
     qk_scale_factor: float
-    sm_scale: float       # 1/8
-    kv_scale: float       # the cache scales' value: 1 in the scored cases (SGLang leaves them unset)
+    sm_scale: float
+    kv_scale: float
 
 
 class Inputs(TypedDict):
-    qkv: torch.Tensor          # bfloat16 [B, L, (2*Hq + 2*Hkv)*64]
-    positions: torch.Tensor    # int64 [B*L]
-    cache_loc: torch.Tensor    # int64 [B*L]
-    cache_seqlens: torch.Tensor  # int32 [B]
-    cu_seqlens_q: torch.Tensor   # int32 [B+1]
+    qkv: torch.Tensor
+    positions: torch.Tensor
+    cache_loc: torch.Tensor
+    cache_seqlens: torch.Tensor
+    cu_seqlens_q: torch.Tensor
     scheduler_metadata: torch.Tensor | None
-    k_cache: torch.Tensor     # float8_e4m3fn [pages, page_size, Hkv, 64]
-    v_cache: torch.Tensor     # float8_e4m3fn [pages, page_size, Hkv, 64]
-    k_scale: torch.Tensor     # float32 []
-    v_scale: torch.Tensor     # float32 []
-    page_table: torch.Tensor  # int32 [B, max_pages]
-    seq_lens: torch.Tensor    # int32 [B]
+    k_cache: torch.Tensor
+    v_cache: torch.Tensor
+    k_scale: torch.Tensor
+    v_scale: torch.Tensor
+    page_table: torch.Tensor
+    seq_lens: torch.Tensor
     config: Config
 
 
@@ -59,16 +53,11 @@ RMS_EPS = 1e-5
 FP8 = torch.float8_e4m3fn
 H200_SMS = 132
 ROPE_POSITIONS = 1 << 21
-_GROUPED_BLOCK_H = 16
-try:
-    _PDL = bool(is_arch_support_pdl())
-except Exception:
-    _PDL = False
 
 _NORMS = {}
 _ROPE = {}
 _WS = {}
-_POOL = {}
+_CUDA = None
 
 
 def _qk_norm(hq, hkv, d):
@@ -88,7 +77,6 @@ def _cos_sin(theta, d, device):
 
 
 def _buf(tag, shape, dtype, device):
-    """Grow-only workspace. Sized from tensor shapes / config, never from values."""
     n = 1
     for s in shape:
         n *= int(s)
@@ -100,50 +88,266 @@ def _buf(tag, shape, dtype, device):
     return t[:n].view(*shape)
 
 
-def _req_pool(batch, device):
-    key = (batch, device)
-    t = _POOL.get(key)
-    if t is None:
-        t = torch.arange(batch, dtype=torch.int32, device=device)
-        _POOL[key] = t
-    return t
+_CUDA_SRC = r"""
+#include <torch/extension.h>
+#include <ATen/cuda/CUDAContext.h>
+#include <cuda_fp16.h>
+#include <cuda_bf16.h>
+#include <cuda_fp8.h>
+#include <cstdint>
+#include <algorithm>
+#include <cmath>
+
+constexpr int kD = 64;
+constexpr int kMaxL = 8;
+
+__device__ __forceinline__ float fp8_to_f(uint8_t x) {
+    return __half2float(__nv_cvt_fp8_to_halfraw(
+        static_cast<__nv_fp8_storage_t>(x), __NV_E4M3));
+}
+
+__device__ __forceinline__ float warp_sum(float x) {
+#pragma unroll
+    for (int m = 16; m > 0; m >>= 1) {
+        x += __shfl_xor_sync(0xffffffff, x, m);
+    }
+    return x;
+}
+
+// One warp per query-head of a GQA group. Block = G warps = one (b, kv_head, split).
+// Q layout [B, L, Hq, 64] BF16. K/V: flat rows [row, Hkv, 64] FP8. page_size=1.
+template <int L, int G>
+__global__ void paged_gqa_fwd_kernel(
+        const __nv_bfloat16* __restrict__ q,
+        const uint8_t* __restrict__ k_cache,
+        const uint8_t* __restrict__ v_cache,
+        const int* __restrict__ page_table,
+        const int* __restrict__ cache_seqlens,
+        float* __restrict__ part_o,
+        float* __restrict__ part_m,
+        float* __restrict__ part_l,
+        int B, int Hq, int Hkv, int pt_stride,
+        int window, int splits, float sm_scale, float k_scale) {
+    const int split = blockIdx.z;
+    const int kv_h = blockIdx.y;
+    const int b = blockIdx.x;
+    const int g = threadIdx.x >> 5;          // warp = GQA member
+    const int lane = threadIdx.x & 31;
+    if (g >= G) return;
+
+    const int q_h = kv_h * G + g;
+    const int kv_len = cache_seqlens[b];
+    const int t_lo = window > 0 ? max(0, kv_len - window) : 0;
+    const int t_hi = kv_len;
+    const int span = t_hi - t_lo;
+    const int chunk = (span + splits - 1) / splits;
+    const int s0 = t_lo + split * chunk;
+    const int s1 = min(s0 + chunk, t_hi);
+
+    float q0[L], q1[L];
+#pragma unroll
+    for (int j = 0; j < L; ++j) {
+        const __nv_bfloat16* qj = q + (((b * L + j) * Hq + q_h) * kD);
+        q0[j] = __bfloat162float(qj[lane]);
+        q1[j] = __bfloat162float(qj[lane + 32]);
+    }
+
+    float acc0[L], acc1[L], m[L], ell[L];
+#pragma unroll
+    for (int j = 0; j < L; ++j) {
+        acc0[j] = 0.f;
+        acc1[j] = 0.f;
+        m[j] = -INFINITY;
+        ell[j] = 0.f;
+    }
+
+    const int* pt = page_table + b * pt_stride;
+    const int kv_row = Hkv * kD;
+
+    for (int t = s0; t < s1; ++t) {
+        const int page = pt[t];
+        if (page < 0) continue;
+        const uint8_t* kptr = k_cache + (static_cast<long long>(page) * kv_row + kv_h * kD);
+        const uint8_t* vptr = v_cache + (static_cast<long long>(page) * kv_row + kv_h * kD);
+        const float k0 = fp8_to_f(kptr[lane]);
+        const float k1 = fp8_to_f(kptr[lane + 32]);
+        const float v0 = fp8_to_f(vptr[lane]);
+        const float v1 = fp8_to_f(vptr[lane + 32]);
+
+#pragma unroll
+        for (int j = 0; j < L; ++j) {
+            const int pos = kv_len - L + j;
+            if (t > pos) continue;
+            if (window > 0 && t < pos - window + 1) continue;
+            float qk = (q0[j] * k0 + q1[j] * k1);
+            qk = warp_sum(qk) * sm_scale * k_scale;
+            const float m_new = fmaxf(m[j], qk);
+            const float e = __expf(qk - m_new);
+            const float alpha = __expf(m[j] - m_new);
+            acc0[j] = acc0[j] * alpha + e * v0;
+            acc1[j] = acc1[j] * alpha + e * v1;
+            ell[j] = ell[j] * alpha + e;
+            m[j] = m_new;
+        }
+    }
+
+    // part_o: [splits, B, L, Hq, D]
+    const long long base = ((((static_cast<long long>(split) * B + b) * L) * Hq + q_h) * kD);
+#pragma unroll
+    for (int j = 0; j < L; ++j) {
+        const long long off = base + static_cast<long long>(j) * Hq * kD;
+        part_o[off + lane] = acc0[j];
+        part_o[off + lane + 32] = acc1[j];
+        if (lane == 0) {
+            const long long ml = (((static_cast<long long>(split) * B + b) * L + j) * Hq + q_h);
+            part_m[ml] = m[j];
+            part_l[ml] = ell[j];
+        }
+    }
+}
+
+__global__ void paged_gqa_reduce_kernel(
+        const float* __restrict__ part_o,
+        const float* __restrict__ part_m,
+        const float* __restrict__ part_l,
+        __nv_bfloat16* __restrict__ o,
+        int B, int L, int Hq, int splits, float v_scale) {
+    // One warp per (b, j, q_h)
+    const int idx = blockIdx.x * (blockDim.x >> 5) + (threadIdx.x >> 5);
+    const int nout = B * L * Hq;
+    if (idx >= nout) return;
+    const int lane = threadIdx.x & 31;
+    const int q_h = idx % Hq;
+    const int tmp = idx / Hq;
+    const int j = tmp % L;
+    const int b = tmp / L;
+
+    float m = -INFINITY, ell = 0.f, acc0 = 0.f, acc1 = 0.f;
+    for (int s = 0; s < splits; ++s) {
+        const long long ml = (((static_cast<long long>(s) * B + b) * L + j) * Hq + q_h);
+        const float ms = part_m[ml];
+        if (!isfinite(ms)) continue;
+        const long long off = ((((static_cast<long long>(s) * B + b) * L + j) * Hq + q_h) * kD);
+        const float a0 = part_o[off + lane];
+        const float a1 = part_o[off + lane + 32];
+        const float ls = part_l[ml];
+        const float m_new = fmaxf(m, ms);
+        const float a = __expf(m - m_new);
+        const float bsc = __expf(ms - m_new);
+        acc0 = acc0 * a + a0 * bsc;
+        acc1 = acc1 * a + a1 * bsc;
+        ell = ell * a + ls * bsc;
+        m = m_new;
+    }
+    const float inv = (ell > 0.f) ? (v_scale / ell) : 0.f;
+    __nv_bfloat16* oj = o + ((b * L + j) * Hq + q_h) * kD;
+    oj[lane] = __float2bfloat16(acc0 * inv);
+    oj[lane + 32] = __float2bfloat16(acc1 * inv);
+}
+
+void paged_gqa(
+        torch::Tensor q,          // [B, L, Hq, 64] bf16
+        torch::Tensor k_cache,    // [rows, Hkv, 64] float8
+        torch::Tensor v_cache,
+        torch::Tensor page_table, // int32 [B, max_pages]
+        torch::Tensor cache_seqlens,
+        torch::Tensor part_o,
+        torch::Tensor part_m,
+        torch::Tensor part_l,
+        torch::Tensor o,          // [B, L, Hq, 64] bf16
+        int window, int splits, float sm_scale, float k_scale, float v_scale) {
+    const int B = q.size(0);
+    const int L = q.size(1);
+    const int Hq = q.size(2);
+    const int Hkv = k_cache.size(1);
+    const int G = Hq / Hkv;
+    TORCH_CHECK(q.size(3) == kD, "head_dim");
+    TORCH_CHECK(L >= 1 && L <= kMaxL, "q_len");
+    TORCH_CHECK(G >= 1 && G <= 16, "gqa");
+
+    auto stream = at::cuda::getCurrentCUDAStream();
+    dim3 grid(B, Hkv, splits);
+    dim3 block(G * 32);
+
+    auto launch = [&](auto kernel) {
+        kernel<<<grid, block, 0, stream>>>(
+            reinterpret_cast<const __nv_bfloat16*>(q.data_ptr()),
+            reinterpret_cast<const uint8_t*>(k_cache.data_ptr()),
+            reinterpret_cast<const uint8_t*>(v_cache.data_ptr()),
+            page_table.data_ptr<int>(),
+            cache_seqlens.data_ptr<int>(),
+            part_o.data_ptr<float>(),
+            part_m.data_ptr<float>(),
+            part_l.data_ptr<float>(),
+            B, Hq, Hkv, (int)page_table.stride(0),
+            window, splits, sm_scale, k_scale);
+    };
+
+    if (L == 1 && G == 8) launch(paged_gqa_fwd_kernel<1, 8>);
+    else if (L == 8 && G == 8) launch(paged_gqa_fwd_kernel<8, 8>);
+    else if (L == 1 && G == 16) launch(paged_gqa_fwd_kernel<1, 16>);
+    else if (L == 8 && G == 16) launch(paged_gqa_fwd_kernel<8, 16>);
+    else if (L == 1 && G == 4) launch(paged_gqa_fwd_kernel<1, 4>);
+    else if (L == 8 && G == 4) launch(paged_gqa_fwd_kernel<8, 4>);
+    else TORCH_CHECK(false, "unsupported L/G");
+
+    const int nout = B * L * Hq;
+    const int warps = 8;
+    const int rblocks = (nout + warps - 1) / warps;
+    paged_gqa_reduce_kernel<<<rblocks, warps * 32, 0, stream>>>(
+        part_o.data_ptr<float>(),
+        part_m.data_ptr<float>(),
+        part_l.data_ptr<float>(),
+        reinterpret_cast<__nv_bfloat16*>(o.data_ptr()),
+        B, L, Hq, splits, v_scale);
+}
+"""
 
 
-def _split_count(batch, hq, hkv, window):
-    """Stage-1 grid is (B, head_tiles, splits). Size splits from config only."""
-    group = max(1, hq // max(1, hkv))
-    block_h = min(_GROUPED_BLOCK_H, group)
-    head_tiles = (hq + block_h - 1) // block_h
-    token_grid = max(1, batch * head_tiles)
-    splits = max(4, min(128, (H200_SMS * 4) // token_grid))
+def _cuda():
+    global _CUDA
+    if _CUDA is False:
+        return None
+    if _CUDA is None:
+        try:
+            _CUDA = load_inline(
+                name="muse_attn_paged_gqa",
+                cpp_sources="""
+#include <torch/extension.h>
+void paged_gqa(torch::Tensor q, torch::Tensor k_cache, torch::Tensor v_cache,
+    torch::Tensor page_table, torch::Tensor cache_seqlens,
+    torch::Tensor part_o, torch::Tensor part_m, torch::Tensor part_l,
+    torch::Tensor o, int window, int splits, float sm_scale, float k_scale, float v_scale);
+""",
+                cuda_sources=_CUDA_SRC,
+                functions=["paged_gqa"],
+                extra_cuda_cflags=[
+                    "-O3",
+                    "--use_fast_math",
+                    "-lineinfo",
+                    "-U__CUDA_NO_HALF_OPERATORS__",
+                    "-U__CUDA_NO_HALF_CONVERSIONS__",
+                    "-U__CUDA_NO_BFLOAT16_OPERATORS__",
+                    "-U__CUDA_NO_BFLOAT16_CONVERSIONS__",
+                    "-U__CUDA_NO_BFLOAT16_CONVERSIONS_FUNCTION__",
+                ],
+                verbose=False,
+            )
+        except Exception as e:
+            print("paged_gqa compile failed:", type(e).__name__, e)
+            _CUDA = False
+            return None
+    return _CUDA
+
+
+def _split_count(batch, hkv, window, q_len):
+    work = max(1, batch * hkv)
+    splits = max(1, min(64, (H200_SMS * 4) // work))
     if window:
+        splits = min(splits, 16)
+    if q_len > 1:
         splits = min(splits, 32)
-    p2 = 4
-    while p2 < splits:
-        p2 *= 2
-    return min(p2, 128)
-
-
-def _fill_csr(page_table, page, req_pool, kv_start, kv_lens, kv_indptr, kv_indices):
-    """page_table -> ragged token-level physical rows. Graph-safe, no host reads."""
-    batch = kv_lens.shape[0]
-    kv_indptr.zero_()
-    torch.cumsum(kv_lens, dim=0, out=kv_indptr[1:])
-    max_tokens = page_table.shape[1] * page
-    nblk = kv_indices_num_token_blocks(max_tokens, batch)
-    parallel = nblk > 1
-    grid = (batch, nblk) if parallel else (batch,)
-    create_flashinfer_kv_indices_triton[grid](
-        page_table,
-        req_pool,
-        kv_lens,
-        kv_indptr,
-        kv_start,
-        kv_indices,
-        page_table.stride(0),
-        ENTRY_PAGE_SIZE=page,
-        TOKEN_BLOCK_PARALLEL=parallel,
-    )
+    return max(1, splits)
 
 
 def _fa3(q, k_cache, v_cache, data, cfg, tokens, hq, d, length, scaled):
@@ -168,7 +372,6 @@ def _fa3(q, k_cache, v_cache, data, cfg, tokens, hq, d, length, scaled):
         causal=True,
         window_size=(window - 1, 0) if window else (-1, -1),
         scheduler_metadata=data["scheduler_metadata"],
-        pack_gqa=True,
         **descale,
     )
     if isinstance(out, tuple):
@@ -176,52 +379,33 @@ def _fa3(q, k_cache, v_cache, data, cfg, tokens, hq, d, length, scaled):
     return out
 
 
-def _decode(q, k_cache, v_cache, data, cfg, batch, hq, hkv, d, page):
-    """Split-K flash-decode over the paged FP8 cache. q is [B, Hq, D]."""
-    window = cfg["window"]
-    cache_seqlens = data["cache_seqlens"]
-    page_table = data["page_table"]
-    device = q.device
-    max_tokens = page_table.shape[1] * page
-    splits = _split_count(batch, hq, hkv, window)
-
-    kv_lens = _buf("kv_lens", (batch,), torch.int32, device)
-    kv_start = _buf("kv_start", (batch,), torch.int32, device)
-    if window:
-        kv_lens.copy_(cache_seqlens.clamp(max=window))
-    else:
-        kv_lens.copy_(cache_seqlens)
-    kv_start.copy_(cache_seqlens - kv_lens)
-
-    kv_indptr = _buf("kv_indptr", (batch + 1,), torch.int32, device)
-    kv_indices = _buf("kv_indices", (batch * max_tokens,), torch.int64, device)
-    _fill_csr(page_table, page, _req_pool(batch, device), kv_start, kv_lens, kv_indptr, kv_indices)
-
-    attn_logits = _buf("attn_logits", (batch, hq, splits, d), torch.float32, device)
-    attn_lse = _buf("attn_lse", (batch, hq, splits), torch.float32, device)
-    num_kv_splits = _buf("num_kv_splits", (batch,), torch.int32, device)
-    num_kv_splits.fill_(splits)
-    o = _buf("attn_o", (batch, hq, d), torch.bfloat16, device)
-
-    k_buf = k_cache.reshape(-1, hkv, d)
-    v_buf = v_cache.reshape(-1, hkv, d)
-    decode_attention_fwd(
-        q,
-        k_buf,
-        v_buf,
+def _paged_cuda(q, k_cache, v_cache, data, cfg, batch, length, hq, hkv, d):
+    mod = _cuda()
+    if mod is None:
+        return None
+    splits = _split_count(batch, hkv, cfg["window"], length)
+    q4 = q.view(batch, length, hq, d).contiguous()
+    k_rows = k_cache.reshape(-1, hkv, d)
+    v_rows = v_cache.reshape(-1, hkv, d)
+    part_o = _buf("part_o", (splits, batch, length, hq, d), torch.float32, q.device)
+    part_m = _buf("part_m", (splits, batch, length, hq), torch.float32, q.device)
+    part_l = _buf("part_l", (splits, batch, length, hq), torch.float32, q.device)
+    o = _buf("attn_o", (batch, length, hq, d), torch.bfloat16, q.device)
+    mod.paged_gqa(
+        q4,
+        k_rows,
+        v_rows,
+        data["page_table"],
+        data["cache_seqlens"],
+        part_o,
+        part_m,
+        part_l,
         o,
-        kv_indptr,
-        kv_indices,
-        attn_logits,
-        attn_lse,
-        num_kv_splits,
-        splits,
-        cfg["sm_scale"] * cfg["qk_scale_factor"],
-        cfg["kv_scale"],
-        cfg["kv_scale"],
-        use_pdl=_PDL,
-        page_size=1,
-        enable_lean=False,
+        int(cfg["window"]),
+        int(splits),
+        float(cfg["sm_scale"] * cfg["qk_scale_factor"]),
+        float(cfg["kv_scale"]),
+        float(cfg["kv_scale"]),
     )
     return o
 
@@ -230,7 +414,6 @@ def kernel_fn(data):
     cfg = data["config"]
     batch, length = cfg["batch"], cfg["q_len"]
     hq, hkv, d = cfg["num_q_heads"], cfg["num_kv_heads"], cfg["head_dim"]
-    page = cfg["page_size"]
     tokens = batch * length
     qkv = data["qkv"].view(tokens, -1)
     device = qkv.device
@@ -246,8 +429,6 @@ def kernel_fn(data):
     k = k.reshape(tokens, hkv * d)
     if scaled:
         k, v = k / data["k_scale"], v / data["v_scale"]
-    # Slot 0 is a live row here (SGLang reserves it for padding). FusedQKNorm's
-    # kv_store skips loc==0, so the store stays a separate kernel.
     store_cache(
         k.to(FP8).view(torch.uint8),
         v.to(FP8).view(torch.uint8),
@@ -257,20 +438,17 @@ def kernel_fn(data):
         reserved_skip_index=-1,
     )
 
-    if length == 1:
-        out = _decode(
-            q.view(batch, hq, d),
-            k_cache,
-            v_cache,
-            data,
-            cfg,
-            batch,
-            hq,
-            hkv,
-            d,
-            page,
-        )
-    else:
+    use_cuda = (
+        cfg["page_size"] == 1
+        and d == 64
+        and length in (1, 8)
+        and hq % hkv == 0
+        and (hq // hkv) in (4, 8, 16)
+    )
+    out = None
+    if use_cuda:
+        out = _paged_cuda(q, k_cache, v_cache, data, cfg, batch, length, hq, hkv, d)
+    if out is None:
         out = _fa3(q, k_cache, v_cache, data, cfg, tokens, hq, d, length, scaled)
 
     gate = qkv[:, (hq + 2 * hkv) * d:]
