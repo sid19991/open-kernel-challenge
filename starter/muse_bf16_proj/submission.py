@@ -466,10 +466,6 @@ def _pooler_cuda(x: torch.Tensor, w: torch.Tensor, m: int) -> Optional[torch.Ten
 
 def _bf16_forward(x: torch.Tensor, w: torch.Tensor, wt: torch.Tensor, m: int) -> torch.Tensor:
     n, k = w.shape
-    if n == POOLER_N and k == POOLER_K:
-        y = _pooler_cuda(x, w, m)
-        if y is not None:
-            return y
     if m == 1 and _hopper_gemv and _use_hopper_gemv(1, n, k):
         return _hopper_gemv(x, w)
     if _use_tiny(n, k, m):
