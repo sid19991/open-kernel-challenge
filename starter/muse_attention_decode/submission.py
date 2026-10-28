@@ -100,6 +100,7 @@ _CUDA_SRC = r"""
 
 constexpr int kD = 64;
 constexpr int kMaxL = 8;
+constexpr int kTile = 32;
 
 __device__ __forceinline__ float fp8_to_f(uint8_t x) {
     return __half2float(__nv_cvt_fp8_to_halfraw(
@@ -112,6 +113,20 @@ __device__ __forceinline__ float warp_sum(float x) {
         x += __shfl_xor_sync(0xffffffff, x, m);
     }
     return x;
+}
+
+__device__ __forceinline__ void load_fp8_row(uint8_t* dst, const uint8_t* src) {
+    *reinterpret_cast<uint4*>(dst) = *reinterpret_cast<const uint4*>(src);
+    *reinterpret_cast<uint4*>(dst + 16) = *reinterpret_cast<const uint4*>(src + 16);
+    *reinterpret_cast<uint4*>(dst + 32) = *reinterpret_cast<const uint4*>(src + 32);
+    *reinterpret_cast<uint4*>(dst + 48) = *reinterpret_cast<const uint4*>(src + 48);
+}
+
+__device__ __forceinline__ void zero_fp8_row(uint8_t* dst) {
+    *reinterpret_cast<uint4*>(dst) = uint4{0, 0, 0, 0};
+    *reinterpret_cast<uint4*>(dst + 16) = uint4{0, 0, 0, 0};
+    *reinterpret_cast<uint4*>(dst + 32) = uint4{0, 0, 0, 0};
+    *reinterpret_cast<uint4*>(dst + 48) = uint4{0, 0, 0, 0};
 }
 
 // One warp per query-head of a GQA group. Block = G warps = one (b, kv_head, split).
@@ -163,32 +178,52 @@ __global__ void paged_gqa_fwd_kernel(
 
     const int* pt = page_table + b * pt_stride;
     const int kv_row = Hkv * kD;
+    __shared__ uint8_t smk[kTile][kD];
+    __shared__ uint8_t smv[kTile][kD];
 
-    for (int t = s0; t < s1; ++t) {
-        const int page = pt[t];
-        if (page < 0) continue;
-        const uint8_t* kptr = k_cache + (static_cast<long long>(page) * kv_row + kv_h * kD);
-        const uint8_t* vptr = v_cache + (static_cast<long long>(page) * kv_row + kv_h * kD);
-        const float k0 = fp8_to_f(kptr[lane]);
-        const float k1 = fp8_to_f(kptr[lane + 32]);
-        const float v0 = fp8_to_f(vptr[lane]);
-        const float v1 = fp8_to_f(vptr[lane + 32]);
-
-#pragma unroll
-        for (int j = 0; j < L; ++j) {
-            const int pos = kv_len - L + j;
-            if (t > pos) continue;
-            if (window > 0 && t < pos - window + 1) continue;
-            float qk = (q0[j] * k0 + q1[j] * k1);
-            qk = warp_sum(qk) * sm_scale * k_scale;
-            const float m_new = fmaxf(m[j], qk);
-            const float e = __expf(qk - m_new);
-            const float alpha = __expf(m[j] - m_new);
-            acc0[j] = acc0[j] * alpha + e * v0;
-            acc1[j] = acc1[j] * alpha + e * v1;
-            ell[j] = ell[j] * alpha + e;
-            m[j] = m_new;
+    for (int t0 = s0; t0 < s1; t0 += kTile) {
+        const int n = min(kTile, s1 - t0);
+        if (g == 0 && lane < n) {
+            const int page = pt[t0 + lane];
+            if (page >= 0) {
+                load_fp8_row(smk[lane], k_cache + (static_cast<long long>(page) * kv_row + kv_h * kD));
+            } else {
+                zero_fp8_row(smk[lane]);
+            }
         }
+        if (g == 1 && lane < n) {
+            const int page = pt[t0 + lane];
+            if (page >= 0) {
+                load_fp8_row(smv[lane], v_cache + (static_cast<long long>(page) * kv_row + kv_h * kD));
+            } else {
+                zero_fp8_row(smv[lane]);
+            }
+        }
+        __syncthreads();
+
+        for (int i = 0; i < n; ++i) {
+            const int t = t0 + i;
+            const float k0 = fp8_to_f(smk[i][lane]);
+            const float k1 = fp8_to_f(smk[i][lane + 32]);
+            const float v0 = fp8_to_f(smv[i][lane]);
+            const float v1 = fp8_to_f(smv[i][lane + 32]);
+#pragma unroll
+            for (int j = 0; j < L; ++j) {
+                const int pos = kv_len - L + j;
+                if (t > pos) continue;
+                if (window > 0 && t < pos - window + 1) continue;
+                float qk = (q0[j] * k0 + q1[j] * k1);
+                qk = warp_sum(qk) * sm_scale * k_scale;
+                const float m_new = fmaxf(m[j], qk);
+                const float e = __expf(qk - m_new);
+                const float alpha = __expf(m[j] - m_new);
+                acc0[j] = acc0[j] * alpha + e * v0;
+                acc1[j] = acc1[j] * alpha + e * v1;
+                ell[j] = ell[j] * alpha + e;
+                m[j] = m_new;
+            }
+        }
+        __syncthreads();
     }
 
     // part_o: [splits, B, L, Hq, D]
@@ -342,11 +377,9 @@ void paged_gqa(torch::Tensor q, torch::Tensor k_cache, torch::Tensor v_cache,
 
 def _split_count(batch, hkv, window, q_len):
     work = max(1, batch * hkv)
-    splits = max(1, min(64, (H200_SMS * 4) // work))
+    splits = max(4, min(32, (H200_SMS * 8) // work))
     if window:
-        splits = min(splits, 16)
-    if q_len > 1:
-        splits = min(splits, 32)
+        splits = min(splits, 8)
     return max(1, splits)
 
 
