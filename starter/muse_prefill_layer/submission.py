@@ -136,18 +136,17 @@ ROUTER_FP32_MAX_TOKENS = 8
 SLICED_UNPOOL_MAX_TOKENS = 8
 UNPOOL_SLICE = HIDDEN // 8
 HUMMING_COMPUTE = json.dumps({"use_f16_accum": False, "gemm_type": GemmType.INDEXED.value})
-HUMMING_SMALL_M = 64
+# One humming tile for every prefill shape (best in-layer on H200 from 753 to 16K tokens). Block M
+# tiles one expert's rows, and the busiest GPU's experts are uneven, so stream-K stays on.
+HUMMING_BLOCK_M = 128
+HUMMING_TILE = json.dumps([[0, 1 << 30, {"block_shape": [HUMMING_BLOCK_M, 256, 64], "warp_shape": [HUMMING_BLOCK_M, 32, 64],
+                                         "use_stream_k": True, "use_f16_accum": False, "num_stages": 4}]])
 ROPE_POSITIONS = 1 << 21
 ROPE_THETA = 500_000.0
 
 
 def _gemm(x, w):
     return _bf16_gemm_dispatch_impl(x, w, None)
-
-
-# humming W4A16 tiles ((block M, N, K), stages) by token count, from in-layer H200 runs. Block M
-# tiles one expert's rows; the busiest GPU's experts are uneven, so stream-K stays on.
-HUMMING_TILES = ((1024, ((HUMMING_SMALL_M, 256, 64), 4)), (1 << 30, ((128, 256, 64), 4)))
 
 
 def _param(w):
@@ -202,12 +201,10 @@ def _experts(x, topk_weights, local_ids, state):
     """The local experts (ids 0-31; -1 elsewhere) with humming's indexed W4A16 GEMMs, then
     MuseSpark1xFp4Experts' post-expert-norm weighted sum."""
     num_tokens = x.shape[0]
-    (bm, bn, bk), stages = next(tile for limit, tile in HUMMING_TILES if num_tokens <= limit)
-    tile = json.dumps([[0, 1 << 30, {"block_shape": [bm, bn, bk], "warp_shape": [bm, 32, 64], "use_stream_k": True,
-                                     "use_f16_accum": False, "num_stages": stages}]])
-    sorted_ids, expert_ids, n_padded = moe_align_block_size(local_ids, bm, LOCAL_EXPERTS, ignore_invalid_expert=True)
+    sorted_ids, expert_ids, n_padded = moe_align_block_size(local_ids, HUMMING_BLOCK_M, LOCAL_EXPERTS,
+                                                            ignore_invalid_expert=True)
     common = dict(sorted_ids=sorted_ids, expert_ids=expert_ids, num_tokens_padded=n_padded,
-                  compute_config=HUMMING_COMPUTE, valid_shape_m=local_ids.numel(), tuning_config=tile)
+                  compute_config=HUMMING_COMPUTE, valid_shape_m=local_ids.numel(), tuning_config=HUMMING_TILE)
     layer = state["humming"]
     h = torch.empty((num_tokens * TOP_K, 2 * D_EXPERT), device=x.device, dtype=x.dtype)
     HummingMethod.forward_layer(layer=layer, inputs=x, input_scale=None, outputs=h, sublayer_name="w13", top_k=TOP_K,
