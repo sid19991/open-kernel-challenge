@@ -308,6 +308,8 @@ MARLIN_MAX_TOKENS = 1024
 GMM_MIN_TOKENS = 4097
 # (BLOCK_M, BLOCK_N, BLOCK_K, warps, stages) of _nvfp4_moe_gemm between the two.
 FUSED_CFG = (128, 128, 64, 4, 4)
+# humming's tile config is picked for T * 8 * 32 / 256 routes times this.
+HUMMING_ROUTES_FACTOR = 1.0
 
 
 def _param(w):
@@ -364,6 +366,153 @@ def _report_toolchain():
           flush=True)
 
 
+def _humming_layer(weights):
+    """The local experts as a humming W4A16 MoE layer, from the ModelOpt NVFP4 tensors."""
+    from humming.layer import HummingInputSchema, HummingMethod
+    from humming.schema import BaseWeightSchema
+
+    layer = nn.Module()
+    layer.num_local_experts = LOCAL_EXPERTS
+    layer.params_dtype = torch.bfloat16
+    layer.with_bias = False
+    for name in ("w13", "w2"):
+        layer.register_parameter(f"{name}_weight", _param(weights[name].clone()))
+        layer.register_parameter(f"{name}_weight_scale", _param(weights[f"{name}_sf"].clone()))
+        layer.register_parameter(f"{name}_weight_scale_2", _param(weights[f"{name}_gs"].float().clone()))
+    schema = BaseWeightSchema.from_config({"quant_method": "modelopt", "quant_algo": "NVFP4", "group_size": 16})
+    print(f"[humming] checkpoint schema {type(schema).__name__}: {schema}", flush=True)
+    shapes = {"w13": (2 * D_EXPERT, D_EXPERT), "w2": (D_EXPERT, D_EXPERT)}
+    for sub, (shape_n, shape_k) in shapes.items():
+        tensors = {k.removeprefix(sub + "_"): v for k, v in layer.state_dict().items() if k.startswith(sub + "_")}
+        stacks = [shape_n // 2] * 2 if sub == "w13" else [shape_n]
+        new_schema, tensors = schema.convert_humming(tensors=tensors, shape_n_stacks=stacks, shape_k_stacks=[shape_k],
+                                                     num_experts=LOCAL_EXPERTS, param_dtype=torch.bfloat16)
+        print(f"[humming] {sub} schema {new_schema} tensors "
+              f"{ {k: (tuple(v.shape), str(v.dtype)) for k, v in tensors.items()} }", flush=True)
+        for name, _ in list(layer.named_parameters()):
+            if name.startswith(sub + "_"):
+                delattr(layer, name)
+        for name, tensor in tensors.items():
+            setattr(layer, f"{sub}_{name}", nn.Parameter(tensor, requires_grad=False))
+        HummingMethod.prepare_layer_meta(layer=layer, shape_n=shape_n, shape_k=shape_k, pad_n_to_multiple=256,
+                                         pad_k_to_multiple=128, input_schema=HummingInputSchema(),
+                                         weight_schema=new_schema, has_bias=False, num_experts=LOCAL_EXPERTS,
+                                         torch_dtype=torch.bfloat16, sublayer_name=sub)
+        HummingMethod.transform_humming_layer(layer, sublayer_name=sub)
+    layer.register_buffer("locks", torch.zeros(1024, dtype=torch.int32, device=weights["w13"].device))
+    return layer
+
+
+def _pick(cfg_list, m):
+    return next((c for lo, hi, c in cfg_list if lo < m <= hi), cfg_list[-1][2])
+
+
+def _humming_outputs(x, local_ids, layer, cfgs, routes_factor=HUMMING_ROUTES_FACTOR):
+    """Per-slot expert outputs [T * 8, 4096] (rows of non-local slots unset). The tile config is
+    chosen for the expected routes on this GPU's experts (about T), not SGLang's T * 8 bound."""
+    import json
+
+    from humming.layer import HummingMethod
+
+    num_tokens = x.shape[0]
+    expect_m = max(1, int(num_tokens * TOP_K * LOCAL_EXPERTS / N_EXPERTS * routes_factor))
+    w13_cfg, w2_cfg = _pick(cfgs["w13"], expect_m), _pick(cfgs["w2"], expect_m)
+    sorted_ids, expert_ids, n_padded = moe_align_block_size(local_ids, w13_cfg["block_shape"][0], LOCAL_EXPERTS,
+                                                            ignore_invalid_expert=True)
+    common = dict(sorted_ids=sorted_ids, expert_ids=expert_ids, num_tokens_padded=n_padded,
+                  compute_config=cfgs["compute"], valid_shape_m=local_ids.numel())
+    big = 1 << 30
+    h = torch.empty((num_tokens * TOP_K, 2 * D_EXPERT), device=x.device, dtype=x.dtype)
+    HummingMethod.forward_layer(layer=layer, inputs=x, input_scale=None, outputs=h, sublayer_name="w13",
+                                top_k=TOP_K, tuning_config=json.dumps([[0, big, w13_cfg]]), **common)
+    inter = torch.empty((num_tokens * TOP_K, D_EXPERT), device=x.device, dtype=x.dtype)
+    silu_and_mul(h, inter, expert_ids=local_ids.view(-1), expert_step=1)
+    y = torch.empty((num_tokens * TOP_K, D_EXPERT), device=x.device, dtype=x.dtype)
+    w2_cfg = dict(w2_cfg, block_shape=[w13_cfg["block_shape"][0]] + list(w2_cfg["block_shape"][1:]),
+                  warp_shape=[w13_cfg["block_shape"][0]] + list(w2_cfg["warp_shape"][1:]))
+    HummingMethod.forward_layer(layer=layer, inputs=inter, input_scale=None, outputs=y, sublayer_name="w2",
+                                top_k=1, tuning_config=json.dumps([[0, big, w2_cfg]]), **common)
+    return y
+
+
+def _humming_cfgs(layer):
+    import json
+
+    from humming.config import GemmType
+    from humming.layer import HummingMethod
+
+    out = {"compute": json.dumps({"use_f16_accum": False, "gemm_type": GemmType.INDEXED.value})}
+    for sub in ("w13", "w2"):
+        cfg = HummingMethod.get_default_tuning_configs(layer=layer, use_f16_accum=False, gemm_type=GemmType.INDEXED,
+                                                       sublayer_name=sub)
+        out[sub], out[sub + "_str"] = cfg, json.dumps(cfg)
+    return out
+
+
+def _marlin_outputs(x, local_ids, bank):
+    num_tokens, size_k = x.shape
+    size_n = bank["size_n"]
+    for block_size_m in BLOCK_SIZE_M_CANDIDATES:
+        if num_tokens * TOP_K / LOCAL_EXPERTS / block_size_m < 0.9:
+            break
+    sorted_ids, block_experts, n_padded = moe_align_block_size(local_ids, block_size_m, N_EXPERTS)
+    w = torch.ones(local_ids.shape, device=x.device, dtype=torch.float32)
+    common = dict(moe_block_size=block_size_m, mul_topk_weights=False, is_ep=True,
+                  b_q_type=scalar_types.float4_e2m1f, is_k_full=True, use_atomic_add=False,
+                  use_fp32_reduce=True, is_zp_float=False)
+    h = torch.empty((num_tokens * TOP_K, 2 * size_n), device=x.device, dtype=x.dtype)
+    h = moe_wna16_marlin_gemm(x, h, bank["w13"], None, bank["w13_s"], bank["w13_gs"], None, None, None,
+                              bank["workspace"], sorted_ids, block_experts, n_padded, w, top_k=TOP_K,
+                              size_m=num_tokens, size_n=2 * size_n, size_k=size_k, **common)
+    inter = torch.empty((num_tokens * TOP_K, size_n), device=x.device, dtype=x.dtype)
+    silu_and_mul(h, inter, expert_ids=local_ids.view(-1), expert_step=1)
+    y = torch.empty((num_tokens * TOP_K, size_k), device=x.device, dtype=x.dtype)
+    return moe_wna16_marlin_gemm(inter, y, bank["w2"], None, bank["w2_s"], bank["w2_gs"], None, None, None,
+                                 bank["workspace"], sorted_ids, block_experts, n_padded, w, top_k=1,
+                                 size_m=num_tokens * TOP_K, size_n=size_k, size_k=size_n, **common)
+
+
+def _time(fn, reps=5):
+    fn()
+    torch.cuda.synchronize()
+    start, end = torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True)
+    start.record()
+    for _ in range(reps):
+        fn()
+    end.record()
+    torch.cuda.synchronize()
+    return start.elapsed_time(end) * 1000 / reps
+
+
+def _humming_probe(state, weights):
+    import traceback
+
+    try:
+        layer = _humming_layer(weights)
+        cfgs = _humming_cfgs(layer)
+        print(f"[humming] w13 tuning {cfgs['w13_str'][:1500]}", flush=True)
+        device = weights["w13"].device
+        gen = torch.Generator(device=device).manual_seed(0)
+        for tokens in (753, 3012, 16384):
+            x = torch.randn((tokens, D_EXPERT), device=device, dtype=torch.bfloat16, generator=gen)
+            ids = torch.rand((tokens, N_EXPERTS), device=device, generator=gen).topk(TOP_K, dim=-1).indices
+            local_ids = state["bank"]["expert_map"][ids].to(torch.int32).contiguous()
+            valid = local_ids.view(-1) >= 0
+            ref = _marlin_outputs(x, local_ids, state["bank"])[valid].float()
+            t_ref = _time(lambda: _marlin_outputs(x, local_ids, state["bank"]))
+            for factor in (1.0, 1.6, 2.5):
+                out = _humming_outputs(x, local_ids, layer, cfgs, factor)[valid].float()
+                err = float((out - ref).norm() / ref.norm())
+                t = _time(lambda: _humming_outputs(x, local_ids, layer, cfgs, factor))
+                bm = _pick(cfgs["w13"], int(tokens * factor))["block_shape"]
+                print(f"[humming] T={tokens} factor={factor} block={bm} err_vs_marlin={err:.2e} "
+                      f"humming={t:.1f}us marlin={t_ref:.1f}us x{t_ref / t:.2f}", flush=True)
+        return layer
+    except Exception:  # noqa: BLE001
+        print("[humming] probe failed:\n" + traceback.format_exc()[-3000:], flush=True)
+        return None
+
+
 def prepare(weights):
     device = weights["qkv_gate"].device
     router = weights["router"]
@@ -407,6 +556,9 @@ def prepare(weights):
     del freqs
     torch.cuda.synchronize()
     _report_toolchain()
+    state["humming"] = _humming_probe(state, weights)
+    if state["humming"] is not None:
+        state["humming_cfgs"] = _humming_cfgs(state["humming"])
     return state
 
 
@@ -457,6 +609,12 @@ def _expert_outputs(x, local_ids, fp4, cfg):
 
 
 def _experts_fp4(x, topk_weights, topk_ids, state):
+    if state.get("humming") is not None:
+        local_ids = state["bank"]["expert_map"][topk_ids].contiguous()
+        y = _humming_outputs(x, local_ids, state["humming"], state["humming_cfgs"]).view(x.shape[0], TOP_K, D_EXPERT)
+        return fused_post_expert_norm_weighted_sum(
+            y, topk_weights.to(torch.float32).contiguous(), norm_weight=state["post_expert_w"], eps=POST_NORM_EPS,
+            weight_first=True, slot_expert_ids=local_ids)
     if x.shape[0] <= MARLIN_MAX_TOKENS:
         return _experts(x, topk_weights, topk_ids, state)
     local_ids = state["bank"]["expert_map"][topk_ids].contiguous()
