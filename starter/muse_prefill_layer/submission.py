@@ -36,9 +36,11 @@ Differs from SGLang:
 from typing import TypedDict
 
 import json
+import time
 
 import torch
 import torch.nn.functional as F
+from torch.utils.cpp_extension import load_inline
 from humming.config import GemmType
 from humming.layer import HummingInputSchema, HummingMethod
 from humming.schema import BaseWeightSchema
@@ -139,8 +141,241 @@ HUMMING_COMPUTE = json.dumps({"use_f16_accum": False, "gemm_type": GemmType.INDE
 # One humming tile for every prefill shape (best in-layer on H200 from 753 to 16K tokens). Block M
 # tiles one expert's rows, and the busiest GPU's experts are uneven, so stream-K stays on.
 HUMMING_BLOCK_M = 128
-HUMMING_TILE = json.dumps([[0, 1 << 30, {"block_shape": [HUMMING_BLOCK_M, 256, 64], "warp_shape": [HUMMING_BLOCK_M, 32, 64],
-                                         "use_stream_k": True, "use_f16_accum": False, "num_stages": 4}]])
+HUMMING_TILE = json.dumps([[0, 1 << 30, {
+    "block_shape": [HUMMING_BLOCK_M, 256, 64], "warp_shape": [HUMMING_BLOCK_M, 32, 64],
+    "use_stream_k": True, "use_f16_accum": False, "num_stages": 4}]])
+# moe_w4a16.cu's tiles, by cfg index: (warps, 16-row blocks per warp, 8-token groups); the block of
+# slots (moe_align's block size) is 8 * groups.
+CUDA_CFGS = ((8, 2, 4), (8, 2, 8), (8, 4, 4), (8, 4, 8), (4, 4, 8), (4, 2, 2))
+MOE_CU = r"""
+// NVFP4 W4A16 MoE GEMM for H200: C[slot, n] = sum_k X[row(slot), k] * W[e, n, k] over one expert's
+// moe_align block of slots. Weights are repacked (losslessly) so that one 32-bit word holds one lane's
+// eight E2M1 codes of an m16n8k16 A fragment; scales stay E4M3. Tensor cores see W as the A operand
+// (16 output features) and the tokens as B (8 per MMA), accumulating in FP32.
+#include <cuda_bf16.h>
+#include <cuda_fp8.h>
+#include <cuda_runtime.h>
+#include <stdint.h>
+
+#define KDIM 4096
+#define KCH (KDIM / 64)
+// Activation rows in shared memory: 64 bf16 of a K chunk plus 16 pad, so the 8-byte B-fragment
+// loads of a half warp (4 rows x 4 lanes) cover all 32 banks once.
+#define AS 80
+
+__device__ __forceinline__ void cp_async16(void* dst, const void* src, int bytes) {
+  unsigned s = (unsigned)__cvta_generic_to_shared(dst);
+  asm volatile("cp.async.cg.shared.global [%0], [%1], 16, %2;\n" ::"r"(s), "l"(src), "r"(bytes));
+}
+__device__ __forceinline__ void cp_async_commit() { asm volatile("cp.async.commit_group;\n" ::); }
+template <int N>
+__device__ __forceinline__ void cp_async_wait() { asm volatile("cp.async.wait_group %0;\n" ::"n"(N)); }
+
+__device__ __forceinline__ uint32_t bmul2(uint32_t a, uint32_t b) {
+  uint32_t d;
+  asm("fma.rn.bf16x2 %0, %1, %2, %3;\n" : "=r"(d) : "r"(a), "r"(b), "r"(0x80008000u));
+  return d;
+}
+
+// Two E4M3 scales (rows g, g+8) as bf16x2 equal to sf * 2^118 (exact: E4M3 fits FP16, all normal).
+__device__ __forceinline__ uint32_t scale_bf16x2(uint32_t s16) {
+  __half2_raw h = __nv_cvt_fp8x2_to_halfraw2((__nv_fp8x2_storage_t)s16, __NV_E4M3);
+  uint32_t v = (uint32_t)h.x | ((uint32_t)h.y << 16);
+  return ((v >> 3) & 0x0FFF0FFFu) + 0x73007300u;
+}
+
+// Pair j (nibbles at bits 4j and 16+4j) becomes a bf16x2 equal to the E2M1 values * 2^-126 (code 1,
+// 0.5, is a bf16 subnormal); times the scale that is value * sf * 2^-8, exact in bf16.
+__device__ __forceinline__ void decode(uint32_t w, uint32_t sb, uint32_t a[4]) {
+  const uint32_t M = 0x01C001C0u, S = 0x80008000u;
+  uint32_t slo = __byte_perm(sb, 0, 0x1010), shi = __byte_perm(sb, 0, 0x3232);
+  a[0] = bmul2(((w << 6) & M) | ((w << 12) & S), slo);
+  a[1] = bmul2(((w << 2) & M) | ((w << 8) & S), shi);
+  a[2] = bmul2(((w >> 2) & M) | ((w << 4) & S), slo);
+  a[3] = bmul2(((w >> 6) & M) | (w & S), shi);
+}
+
+__device__ __forceinline__ void mma(float c[4], const uint32_t a[4], uint32_t b0, uint32_t b1) {
+  asm volatile(
+      "mma.sync.aligned.m16n8k16.row.col.f32.bf16.bf16.f32 {%0,%1,%2,%3}, {%4,%5,%6,%7}, {%8,%9}, "
+      "{%0,%1,%2,%3};\n"
+      : "+f"(c[0]), "+f"(c[1]), "+f"(c[2]), "+f"(c[3])
+      : "r"(a[0]), "r"(a[1]), "r"(a[2]), "r"(a[3]), "r"(b0), "r"(b1));
+}
+
+template <int WARPS, int WM, int NT, int STAGES>
+struct Cfg {
+  static constexpr int BT = NT * 8, NCTA = WARPS * 16 * WM, THREADS = WARPS * 32;
+  static constexpr int ACT = BT * AS * 2, WB = WARPS * WM * 512, SB = WARPS * WM * 64;
+  static constexpr int STAGE = ACT + WB + SB, OS = NCTA + 8;
+  static constexpr int PIPE = STAGES * STAGE, EPI = BT * OS * 2;
+  static constexpr int SMEM = PIPE > EPI ? PIPE : EPI;
+};
+
+template <int WARPS, int WM, int NT, int STAGES>
+__global__ void __launch_bounds__(WARPS * 32) moe_w4a16_kernel(
+    const __nv_bfloat16* __restrict__ X, int row_div, const uint4* __restrict__ Wq,
+    const uint2* __restrict__ Sq, const float* __restrict__ gs, const int* __restrict__ sorted_ids,
+    const int* __restrict__ expert_ids, const int* __restrict__ n_padded, __nv_bfloat16* __restrict__ C,
+    int N, int numel) {
+  using P = Cfg<WARPS, WM, NT, STAGES>;
+  extern __shared__ __align__(16) unsigned char smem[];
+  __shared__ int s_slot[P::BT];
+  const int blk = blockIdx.x;
+  if (blk * P::BT >= *n_padded) return;
+  const int e = expert_ids[blk];
+  if (e < 0) return;
+  const int tid = threadIdx.x, warp = tid >> 5, lane = tid & 31, g = lane >> 2, t = lane & 3;
+  for (int r = tid; r < P::BT; r += P::THREADS) s_slot[r] = sorted_ids[blk * P::BT + r];
+  __syncthreads();
+  const int RB = N / 16;
+  const int rb0 = blockIdx.y * (P::NCTA / 16) + warp * WM;
+  const size_t wrow = (size_t)e * RB + rb0;
+
+  auto load_stage = [&](int kc, int st) {
+    unsigned char* base = smem + st * P::STAGE;
+    __nv_bfloat16* act = (__nv_bfloat16*)base;
+#pragma unroll
+    for (int p = tid; p < P::BT * 8; p += P::THREADS) {
+      int r = p >> 3, c = p & 7, slot = s_slot[r];
+      bool v = (unsigned)slot < (unsigned)numel;
+      const __nv_bfloat16* src = X + (size_t)(v ? slot / row_div : 0) * KDIM + kc * 64 + c * 8;
+      cp_async16(act + r * AS + c * 8, src, v ? 16 : 0);
+    }
+    uint4* w = (uint4*)(base + P::ACT) + warp * WM * 32;
+#pragma unroll
+    for (int m = 0; m < WM; ++m) cp_async16(w + m * 32 + lane, Wq + ((wrow + m) * KCH + kc) * 32 + lane, 16);
+    unsigned char* s = base + P::ACT + P::WB + warp * WM * 64;
+    if (lane < WM * 4) {
+      int m = lane >> 2, q = lane & 3;
+      cp_async16(s + m * 64 + q * 16, (const unsigned char*)(Sq + ((wrow + m) * KCH + kc) * 8) + q * 16, 16);
+    }
+  };
+
+  float acc[WM][NT][4];
+#pragma unroll
+  for (int m = 0; m < WM; ++m)
+#pragma unroll
+    for (int n = 0; n < NT; ++n)
+#pragma unroll
+      for (int i = 0; i < 4; ++i) acc[m][n][i] = 0.f;
+
+#pragma unroll
+  for (int st = 0; st < STAGES - 1; ++st) {
+    load_stage(st, st);
+    cp_async_commit();
+  }
+
+#pragma unroll 1
+  for (int kc = 0; kc < KCH; ++kc) {
+    cp_async_wait<STAGES - 2>();
+    __syncthreads();
+    int nk = kc + STAGES - 1;
+    if (nk < KCH) load_stage(nk, nk % STAGES);
+    cp_async_commit();
+    const unsigned char* base = smem + (kc % STAGES) * P::STAGE;
+    const __nv_bfloat16* act = (const __nv_bfloat16*)base;
+    const uint4* w = (const uint4*)(base + P::ACT) + warp * WM * 32;
+    const uint2* s = (const uint2*)(base + P::ACT + P::WB) + warp * WM * 8;
+    uint4 wr[WM];
+    uint2 sr[WM];
+#pragma unroll
+    for (int m = 0; m < WM; ++m) {
+      wr[m] = w[m * 32 + lane];
+      sr[m] = s[m * 8 + g];
+    }
+#pragma unroll
+    for (int ks = 0; ks < 4; ++ks) {
+      uint32_t b[NT][2];
+#pragma unroll
+      for (int n = 0; n < NT; ++n) {
+        uint2 v = *(const uint2*)(act + (n * 8 + g) * AS + ks * 16 + 4 * t);
+        b[n][0] = v.x;
+        b[n][1] = v.y;
+      }
+#pragma unroll
+      for (int m = 0; m < WM; ++m) {
+        uint32_t word = ks == 0 ? wr[m].x : ks == 1 ? wr[m].y : ks == 2 ? wr[m].z : wr[m].w;
+        uint32_t s16 = ((ks < 2 ? sr[m].x : sr[m].y) >> ((ks & 1) * 16)) & 0xFFFFu;
+        uint32_t a[4];
+        decode(word, scale_bf16x2(s16), a);
+#pragma unroll
+        for (int n = 0; n < NT; ++n) mma(acc[m][n], a, b[n][0], b[n][1]);
+      }
+    }
+  }
+
+  cp_async_wait<0>();
+  __syncthreads();
+  __nv_bfloat16* out = (__nv_bfloat16*)smem;
+  const float sc = gs[e] * 256.f;
+#pragma unroll
+  for (int m = 0; m < WM; ++m)
+#pragma unroll
+    for (int n = 0; n < NT; ++n) {
+      int row = (warp * WM + m) * 16 + g, tok = n * 8 + 2 * t;
+      out[tok * P::OS + row] = __float2bfloat16_rn(acc[m][n][0] * sc);
+      out[(tok + 1) * P::OS + row] = __float2bfloat16_rn(acc[m][n][1] * sc);
+      out[tok * P::OS + row + 8] = __float2bfloat16_rn(acc[m][n][2] * sc);
+      out[(tok + 1) * P::OS + row + 8] = __float2bfloat16_rn(acc[m][n][3] * sc);
+    }
+  __syncthreads();
+  constexpr int VPR = P::NCTA / 8;
+  for (int p = tid; p < P::BT * VPR; p += P::THREADS) {
+    int r = p / VPR, c = p % VPR, slot = s_slot[r];
+    if ((unsigned)slot < (unsigned)numel)
+      *(uint4*)(C + (size_t)slot * N + blockIdx.y * P::NCTA + c * 8) = *(const uint4*)(out + r * P::OS + c * 8);
+  }
+}
+
+template <int WARPS, int WM, int NT, int STAGES>
+static int launch(const void* X, int row_div, const void* W, const void* S, const float* gs, const int* sorted,
+                  const int* experts, const int* npad, void* C, int N, int numel, int nblocks, cudaStream_t stream) {
+  using P = Cfg<WARPS, WM, NT, STAGES>;
+  auto kern = moe_w4a16_kernel<WARPS, WM, NT, STAGES>;
+  static bool init = false;
+  if (!init) {
+    cudaError_t err = cudaFuncSetAttribute(kern, cudaFuncAttributeMaxDynamicSharedMemorySize, P::SMEM);
+    if (err != cudaSuccess) return (int)err;
+    init = true;
+  }
+  if (N % P::NCTA) return -1;
+  dim3 grid(nblocks, N / P::NCTA);
+  kern<<<grid, P::THREADS, P::SMEM, stream>>>((const __nv_bfloat16*)X, row_div, (const uint4*)W, (const uint2*)S,
+                                               gs, sorted, experts, npad, (__nv_bfloat16*)C, N, numel);
+  return (int)cudaGetLastError();
+}
+
+int64_t moe_gemm(int64_t x, int64_t row_div, int64_t w, int64_t s, int64_t gs_, int64_t sorted_, int64_t experts_,
+                 int64_t npad_, int64_t c, int64_t N, int64_t numel, int64_t nblocks, int64_t cfg, int64_t stream) {
+  const void *X = (const void*)x, *W = (const void*)w, *S = (const void*)s;
+  const float* gs = (const float*)gs_;
+  const int *sorted = (const int*)sorted_, *experts = (const int*)experts_, *npad = (const int*)npad_;
+  void* C = (void*)c;
+  cudaStream_t st = (cudaStream_t)stream;
+  int rd = (int)row_div, n = (int)N, m = (int)numel, nb = (int)nblocks;
+  switch (cfg) {
+    case 0: return launch<8, 2, 4, 4>(X, rd, W, S, gs, sorted, experts, npad, C, n, m, nb, st);
+    case 1: return launch<8, 2, 8, 4>(X, rd, W, S, gs, sorted, experts, npad, C, n, m, nb, st);
+    case 2: return launch<8, 4, 4, 4>(X, rd, W, S, gs, sorted, experts, npad, C, n, m, nb, st);
+    case 3: return launch<8, 4, 8, 3>(X, rd, W, S, gs, sorted, experts, npad, C, n, m, nb, st);
+    case 4: return launch<4, 4, 8, 4>(X, rd, W, S, gs, sorted, experts, npad, C, n, m, nb, st);
+    case 5: return launch<4, 2, 2, 6>(X, rd, W, S, gs, sorted, experts, npad, C, n, m, nb, st);
+  }
+  return -2;
+}
+"""
+MOE_CPP = """#include <cstdint>
+int64_t moe_gemm(int64_t x, int64_t row_div, int64_t w, int64_t s, int64_t gs, int64_t sorted_ids, int64_t expert_ids,
+                 int64_t n_padded, int64_t c, int64_t n, int64_t numel, int64_t nblocks, int64_t cfg, int64_t stream);
+"""
+try:
+    # At import, so the judge can build it ahead of the GPU run; on failure the experts stay on humming.
+    _MOE_LIB = load_inline(name="okc_moe_w4a16", cpp_sources=MOE_CPP, cuda_sources=MOE_CU, functions=["moe_gemm"],
+                           extra_cuda_cflags=["-O3", "-std=c++20", "-gencode=arch=compute_90a,code=sm_90a"])
+    _MOE_ERR = None
+except Exception as exc:  # noqa: BLE001
+    _MOE_LIB, _MOE_ERR = None, exc
 ROPE_POSITIONS = 1 << 21
 ROPE_THETA = 500_000.0
 
@@ -197,23 +432,156 @@ def _humming_layer(weights):
     return layer
 
 
+class _CudaMoE:
+    """The NVFP4 W4A16 GEMMs of MOE_CU (load_inline) on a lossless
+    repack of the ModelOpt tensors: per (expert, 16 rows, 64 k) one 32-bit word per lane holding its
+    eight E2M1 codes of an m16n8k16 A fragment, and the E4M3 scales of rows g, g+8 side by side."""
+
+    def __init__(self, lib, weights):
+        self.lib = lib
+        self.w, self.s, self.gs = {}, {}, {}
+        for sub in ("w13", "w2"):
+            w, sf = weights[sub], weights[f"{sub}_sf"]
+            sf_f = sf.float()
+            if not bool(torch.isfinite(sf_f).all()) or bool((sf_f < 0).any()):
+                raise ValueError(f"{sub}: negative or non-finite block scales")
+            zero = sf_f == 0
+            if bool(zero.any()):
+                nonzero = ((w.view(*sf.shape, 8) & 0x77) != 0).any(-1)
+                if bool((zero & nonzero).any()):
+                    raise ValueError(f"{sub}: zero block scale over nonzero codes")
+            self.w[sub], self.s[sub] = _pack_nvfp4(w, sf)
+            self.gs[sub] = weights[f"{sub}_gs"].float().contiguous()
+
+    def gemm(self, x, row_div, sub, sorted_ids, expert_ids, n_padded, out, cfg):
+        err = self.lib.moe_gemm(x.data_ptr(), row_div, self.w[sub].data_ptr(), self.s[sub].data_ptr(),
+                                self.gs[sub].data_ptr(), sorted_ids.data_ptr(), expert_ids.data_ptr(),
+                                n_padded.data_ptr(), out.data_ptr(), out.shape[1], out.shape[0], expert_ids.numel(),
+                                cfg, torch.cuda.current_stream().cuda_stream)
+        if err:
+            raise RuntimeError(f"moe_gemm cfg {cfg} failed: {err}")
+
+
+def _pack_nvfp4(w, sf):
+    experts, n, kh = w.shape
+    k = 2 * kh
+    words = torch.empty((experts, n // 16, k // 64, 32, 4), dtype=torch.int32, device=w.device)
+    scales = torch.empty((experts, n // 16, k // 64, 8, 8), dtype=torch.uint8, device=w.device)
+    for e in range(experts):
+        b = w[e]
+        codes = torch.stack((b & 15, b >> 4), dim=-1).view(n // 16, 2, 8, k // 64, 4, 4, 2, 2)
+        # (row block, g / g+8, g, k chunk, k step, t, k pair, k in pair) -> lane-major words whose
+        # nibble 4 * (k in pair) + 2 * (k pair) + (g / g+8) feeds A register (k pair, g / g+8).
+        codes = codes.permute(0, 3, 2, 5, 4, 7, 6, 1).reshape(-1, 2)
+        packed = (codes[:, 0] | (codes[:, 1] << 4)).view(n // 16, k // 64, 32, 4, 4)
+        words[e] = packed.view(torch.int32).view(n // 16, k // 64, 32, 4)
+        s = sf[e].view(torch.uint8).view(n // 16, 2, 8, k // 64, 4)
+        scales[e] = s.permute(0, 3, 2, 4, 1).reshape(n // 16, k // 64, 8, 8)
+    return words, scales
+
+
+def _tclass(tokens):
+    return 0 if tokens < 1500 else 1 if tokens < 8000 else 2
+
+
+def _cuda_time(fn, iters):
+    fn()
+    torch.cuda.synchronize()
+    start, end = torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True)
+    start.record()
+    for _ in range(iters):
+        fn()
+    end.record()
+    torch.cuda.synchronize()
+    return start.elapsed_time(end) * 1000 / iters
+
+
+def _tune_cuda(state, device):
+    """Checks every CUDA tile against humming and times both on skewed synthetic routing (this GPU's
+    experts drawn ~1.4x as often as the mean, unevenly), per token class; returns the class -> (w13
+    tile, w2 tile) choice, None for humming."""
+    cu, layer = state["cuda"], state["humming"]
+    gen = torch.Generator().manual_seed(0)
+    probs = torch.ones(N_EXPERTS)
+    probs[:LOCAL_EXPERTS] = 1.5 * (0.4 + 1.2 * torch.rand(LOCAL_EXPERTS, generator=gen))
+    dgen = torch.Generator(device=device).manual_seed(0)
+    choice = {}
+    for cls, tokens in enumerate((753, 3012, 16384)):
+        ids = torch.multinomial(probs.expand(tokens, -1), TOP_K, generator=gen).to(device)
+        local = torch.where(ids < LOCAL_EXPERTS, ids, -1).to(torch.int32)
+        valid = local.view(-1) >= 0
+        x = torch.randn((tokens, D_EXPERT), generator=dgen, device=device).to(torch.bfloat16)
+        inter = torch.randn((tokens * TOP_K, D_EXPERT), generator=dgen, device=device).to(torch.bfloat16)
+        sorted_ids, expert_ids, n_padded = moe_align_block_size(local, HUMMING_BLOCK_M, LOCAL_EXPERTS,
+                                                                ignore_invalid_expert=True)
+        common = dict(sorted_ids=sorted_ids, expert_ids=expert_ids, num_tokens_padded=n_padded,
+                      compute_config=HUMMING_COMPUTE, valid_shape_m=local.numel(), tuning_config=HUMMING_TILE)
+        refs, best = {}, {}
+        iters = 10 if tokens < 8000 else 4
+        for sub, inp, top_k, n in (("w13", x, TOP_K, 2 * D_EXPERT), ("w2", inter, 1, D_EXPERT)):
+            ref = torch.zeros((tokens * TOP_K, n), device=device, dtype=torch.bfloat16)
+            run = lambda: HummingMethod.forward_layer(layer=layer, inputs=inp, input_scale=None, outputs=ref,
+                                                      sublayer_name=sub, top_k=top_k, **common)
+            t_ref = _cuda_time(run, iters)
+            refs[sub] = ref
+            best[sub] = (t_ref * 0.98, None)
+            msg = [f"humming={t_ref:.0f}us"]
+            for cfg, (_, _, nt) in enumerate(CUDA_CFGS):
+                try:
+                    s_ids, e_ids, n_pad = moe_align_block_size(local, nt * 8, LOCAL_EXPERTS,
+                                                               ignore_invalid_expert=True)
+                    out = torch.zeros_like(ref)
+                    fn = lambda: cu.gemm(inp, TOP_K if sub == "w13" else 1, sub, s_ids, e_ids, n_pad, out, cfg)
+                    fn()
+                    torch.cuda.synchronize()
+                    r, o = ref[valid].float(), out[valid].float()
+                    err = ((o - r).abs().max() / r.abs().max().clamp_min(1e-30)).item()
+                    mean_err = ((o - r).abs().mean() / r.abs().mean().clamp_min(1e-30)).item()
+                    t = _cuda_time(fn, iters)
+                    ok = err < 1e-2 and mean_err < 2e-3
+                    msg.append(f"cfg{cfg}={t:.0f}us err={err:.1e}/{mean_err:.1e}{'' if ok else ' BAD'}")
+                    if ok and t < best[sub][0]:
+                        best[sub] = (t, cfg)
+                    del out
+                except Exception as exc:
+                    msg.append(f"cfg{cfg} failed {exc!r}")
+            print(f"[cuda] T={tokens} {sub} " + " ".join(msg), flush=True)
+        choice[cls] = (best["w13"][1], best["w2"][1])
+        print(f"[cuda] T={tokens} choice={choice[cls]}", flush=True)
+        del refs, x, inter
+    torch.cuda.empty_cache()
+    return choice
+
+
 def _experts(x, topk_weights, local_ids, state):
-    """The local experts (ids 0-31; -1 elsewhere) with humming's indexed W4A16 GEMMs, then
+    """The local experts (ids 0-31; -1 elsewhere) with W4A16 GEMMs on the NVFP4 weights (the CUDA
+    kernel where it measured faster in prepare, humming's indexed GEMM otherwise), then
     MuseSpark1xFp4Experts' post-expert-norm weighted sum."""
     num_tokens = x.shape[0]
-    sorted_ids, expert_ids, n_padded = moe_align_block_size(local_ids, HUMMING_BLOCK_M, LOCAL_EXPERTS,
-                                                            ignore_invalid_expert=True)
-    common = dict(sorted_ids=sorted_ids, expert_ids=expert_ids, num_tokens_padded=n_padded,
-                  compute_config=HUMMING_COMPUTE, valid_shape_m=local_ids.numel(), tuning_config=HUMMING_TILE)
-    layer = state["humming"]
+    tiles = state["cuda_choice"].get(_tclass(num_tokens), (None, None))
+    aligned = {}
+
+    def align(block):
+        if block not in aligned:
+            aligned[block] = moe_align_block_size(local_ids, block, LOCAL_EXPERTS, ignore_invalid_expert=True)
+        return aligned[block]
+
+    def gemm(sub, inp, top_k, out, cfg):
+        if cfg is None:
+            sorted_ids, expert_ids, n_padded = align(HUMMING_BLOCK_M)
+            HummingMethod.forward_layer(layer=state["humming"], inputs=inp, input_scale=None, outputs=out,
+                                        sublayer_name=sub, top_k=top_k, sorted_ids=sorted_ids, expert_ids=expert_ids,
+                                        num_tokens_padded=n_padded, compute_config=HUMMING_COMPUTE,
+                                        valid_shape_m=local_ids.numel(), tuning_config=HUMMING_TILE)
+        else:
+            state["cuda"].gemm(inp, top_k, sub, *align(CUDA_CFGS[cfg][2] * 8), out, cfg)
+
     h = torch.empty((num_tokens * TOP_K, 2 * D_EXPERT), device=x.device, dtype=x.dtype)
-    HummingMethod.forward_layer(layer=layer, inputs=x, input_scale=None, outputs=h, sublayer_name="w13", top_k=TOP_K,
-                                **common)
+    gemm("w13", x, TOP_K, h, tiles[0])
     inter = torch.empty((num_tokens * TOP_K, D_EXPERT), device=x.device, dtype=x.dtype)
     silu_and_mul(h, inter, expert_ids=local_ids.view(-1), expert_step=1)
     y = torch.empty((num_tokens * TOP_K, D_EXPERT), device=x.device, dtype=x.dtype)
-    HummingMethod.forward_layer(layer=layer, inputs=inter, input_scale=None, outputs=y, sublayer_name="w2", top_k=1,
-                                **common)
+    gemm("w2", inter, 1, y, tiles[1])
     return fused_post_expert_norm_weighted_sum(
         y.view(num_tokens, TOP_K, D_EXPERT), topk_weights.to(torch.float32).contiguous(),
         norm_weight=state["post_expert_w"], eps=POST_NORM_EPS, weight_first=True, slot_expert_ids=local_ids)
@@ -255,6 +623,17 @@ def prepare(weights):
         "_modules": (pre_ffn, next_pre_attn, post_attn, post_ffn, post_expert),
     }
     state["humming"] = _humming_layer(weights)
+    state["cuda_choice"] = {}
+    try:
+        start = time.time()
+        if _MOE_LIB is None:
+            raise RuntimeError(f"build failed: {str(_MOE_ERR)[-3000:]}")
+        state["cuda"] = _CudaMoE(_MOE_LIB, weights)
+        print(f"[cuda] packed in {time.time() - start:.0f}s", flush=True)
+        state["cuda_choice"] = _tune_cuda(state, device)
+        print(f"[cuda] tuned in {time.time() - start:.0f}s", flush=True)
+    except Exception as exc:
+        print(f"[cuda] disabled: {exc!r}"[:4000], flush=True)
     del freqs
     torch.cuda.synchronize()
     return state
